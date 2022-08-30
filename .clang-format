@@ -1,0 +1,17 @@
+﻿---
+BasedOnStyle: WebKit
+AccessModifierOffset: '-2'
+AlignEscapedNewlines: Left
+AlignTrailingComments: 'true'
+ColumnLimit: '80'
+IncludeBlocks: Regroup
+IndentWidth: '2'
+NamespaceIndentation: None
+PointerAlignment: Left
+ReflowComments: 'true'
+SortIncludes: 'true'
+TabWidth: '2'
+UseTab: Always
+BreakBeforeBraces: WebKit
+
+...

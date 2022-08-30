@@ -13,5 +13,6 @@ SortIncludes: 'true'
 TabWidth: '2'
 UseTab: Always
 BreakBeforeBraces: WebKit
+SpaceAfterCStyleCast: 'true'
 
 ...

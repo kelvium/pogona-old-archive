@@ -11,6 +11,7 @@ project(
 
 src_pogona = [
 	'src/pogona.c',
+	'src/vector.c',
 ]
 
 pch_pogona = [

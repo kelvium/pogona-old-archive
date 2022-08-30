@@ -29,7 +29,7 @@ if host_machine.system() != 'windows'
 	deps_pogona += cc.find_library('m')
 endif
 
-lib_engine = library(
+lib_pogona = library(
 	'pogona',
 	src_pogona,
 	dependencies: deps_pogona,
@@ -40,6 +40,6 @@ lib_engine = library(
 exe_example = executable(
 	'example',
 	['example/main.c'],
-	link_with: lib_engine,
+	link_with: lib_pogona,
 	include_directories: [include_directories('include')],
 )

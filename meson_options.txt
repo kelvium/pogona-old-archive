@@ -1,2 +1,4 @@
 option('wayland_support', type: 'feature', value: 'auto')
 option('xlib_support', type: 'feature', value: 'auto')
+
+option('vulkan_support', type: 'feature', value: 'enabled')

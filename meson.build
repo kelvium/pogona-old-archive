@@ -9,6 +9,8 @@ project(
 	],
 )
 
+cmake = import('cmake')
+
 little_endian = host_machine.endian() == 'little'
 big_endian = host_machine.endian() == 'big'
 
@@ -52,7 +54,16 @@ if dep_xlib.found()
 	config_data.set('POGONA_XLIB_SUPPORT', true)
 endif
 
-lib_pogona = library(
+if get_option('vulkan_support').enabled()
+	subproject_volk = cmake.subproject('volk')
+	dep_volk = subproject_volk.dependency('volk')
+	if dep_volk.found()
+		deps_pogona += dep_volk
+		config_data.set('POGONA_VULKAN_SUPPORT', true)
+	endif
+endif
+
+lib_pogona = static_library(
 	'pogona',
 	src_pogona,
 	dependencies: deps_pogona,

@@ -9,6 +9,8 @@ project(
 	],
 )
 
+cmake = import('cmake')
+
 little_endian = host_machine.endian() == 'little'
 big_endian = host_machine.endian() == 'big'
 
@@ -18,8 +20,6 @@ if little_endian
 elif big_endian
 	config_data.set('POGONA_BIG_ENDIAN', true)
 endif
-
-configure_file(output: 'config.h', configuration: config_data)
 
 src_pogona = [
 	'src/pogona.c',
@@ -42,7 +42,28 @@ if host_machine.system() != 'windows'
 	deps_pogona += cc.find_library('m')
 endif
 
-lib_pogona = library(
+dep_wayland_client = dependency('wayland-client', required: get_option('wayland_support'))
+if dep_wayland_client.found()
+	deps_pogona += dep_wayland_client
+	config_data.set('POGONA_WAYLAND_SUPPORT', true)
+endif
+
+dep_xlib = dependency('X11', required: get_option('xlib_support'))
+if dep_xlib.found()
+	deps_pogona += dep_xlib
+	config_data.set('POGONA_XLIB_SUPPORT', true)
+endif
+
+if get_option('vulkan_support').enabled()
+	subproject_volk = cmake.subproject('volk')
+	dep_volk = subproject_volk.dependency('volk')
+	if dep_volk.found()
+		deps_pogona += dep_volk
+		config_data.set('POGONA_VULKAN_SUPPORT', true)
+	endif
+endif
+
+lib_pogona = static_library(
 	'pogona',
 	src_pogona,
 	dependencies: deps_pogona,
@@ -56,5 +77,7 @@ exe_example = executable(
 	link_with: lib_pogona,
 	include_directories: [include_directories('include')],
 )
+
+configure_file(output: 'config.h', configuration: config_data)
 
 subdir('tests')

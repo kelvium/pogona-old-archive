@@ -19,8 +19,6 @@ elif big_endian
 	config_data.set('POGONA_BIG_ENDIAN', true)
 endif
 
-configure_file(output: 'config.h', configuration: config_data)
-
 src_pogona = [
 	'src/pogona.c',
 	'src/vector.c',
@@ -42,6 +40,18 @@ if host_machine.system() != 'windows'
 	deps_pogona += cc.find_library('m')
 endif
 
+dep_wayland_client = dependency('wayland-client', required: get_option('wayland_support'))
+if dep_wayland_client.found()
+	deps_pogona += dep_wayland_client
+	config_data.set('POGONA_WAYLAND_SUPPORT', true)
+endif
+
+dep_xlib = dependency('X11', required: get_option('xlib_support'))
+if dep_xlib.found()
+	deps_pogona += dep_xlib
+	config_data.set('POGONA_XLIB_SUPPORT', true)
+endif
+
 lib_pogona = library(
 	'pogona',
 	src_pogona,
@@ -56,5 +66,7 @@ exe_example = executable(
 	link_with: lib_pogona,
 	include_directories: [include_directories('include')],
 )
+
+configure_file(output: 'config.h', configuration: config_data)
 
 subdir('tests')

@@ -9,6 +9,18 @@ project(
 	],
 )
 
+little_endian = host_machine.endian() == 'little'
+big_endian = host_machine.endian() == 'big'
+
+config_data = configuration_data()
+if little_endian
+	config_data.set('POGONA_LITTLE_ENDIAN', true)
+elif big_endian
+	config_data.set('POGONA_BIG_ENDIAN', true)
+endif
+
+configure_file(output: 'config.h', configuration: config_data)
+
 src_pogona = [
 	'src/pogona.c',
 	'src/vector.c',

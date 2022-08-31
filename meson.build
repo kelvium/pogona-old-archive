@@ -11,6 +11,7 @@ project(
 
 src_pogona = [
 	'src/pogona.c',
+	'src/vector.c',
 ]
 
 pch_pogona = [
@@ -43,3 +44,5 @@ exe_example = executable(
 	link_with: lib_pogona,
 	include_directories: [include_directories('include')],
 )
+
+subdir('tests')

@@ -44,3 +44,5 @@ exe_example = executable(
 	link_with: lib_pogona,
 	include_directories: [include_directories('include')],
 )
+
+subdir('tests')

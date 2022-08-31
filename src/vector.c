@@ -38,7 +38,8 @@ VectorError vectorPushImpl(BaseVector* vector, void* data)
 
 VectorError vectorPopImpl(BaseVector* vector)
 {
-	// TODO: implement shrinking after a lot of pops so we don't lose precious memory
+	// TODO: implement shrinking after a lot of pops so we don't lose precious
+	// memory
 
 	VectorError error = VECTOR_OK;
 

@@ -24,6 +24,7 @@ endif
 src_pogona = [
 	'src/pogona.c',
 	'src/vector.c',
+	'src/logger.c',
 ]
 
 pch_pogona = [

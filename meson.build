@@ -54,7 +54,7 @@ if dep_wayland_client.found()
 
 	wayland = import('unstable-wayland')
 	protocol_xdg_shell = wayland.find_protocol('xdg-shell')
-	xdg_shell = wayland.scan_xml(protocol_xdg_shell, server: false)
+	xdg_shell = wayland.scan_xml(protocol_xdg_shell)
 
 	custom_targets_pogona += xdg_shell
 endif

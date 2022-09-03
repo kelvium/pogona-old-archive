@@ -13,6 +13,7 @@ typedef enum {
 
 #define LOGGER_DEFAULT_LEVEL LOGGER_INFO
 
+void loggerSetLevel(LoggerLevel level);
 void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine, const char* fmt, ...);
 
 #define LOGGER_TRACE(...) loggerLog(LOGGER_TRACE, __FILE__, __LINE__, __VA_ARGS__)

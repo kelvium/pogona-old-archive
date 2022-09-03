@@ -19,6 +19,10 @@ int main(void)
 		// does not matter at all
 		u64 value = 0xffff00ff;
 		CHECK(VECTOR_PUSH(&vector, &value));
+
+		// compare values
+		u64 valueGot = vector.data[i];
+		assert(value == valueGot);
 	}
 
 	CHECK(VECTOR_RESIZE(&vector, 12));

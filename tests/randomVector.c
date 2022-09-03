@@ -9,15 +9,6 @@
 		assert(error == VECTOR_OK); \
 	} while (0)
 
-i32 getRandom()
-{
-	i32 random = rand();
-	if (random == 0) {
-		return 1;
-	}
-	return random;
-}
-
 int main(void)
 {
 	srand(time(NULL));
@@ -26,21 +17,21 @@ int main(void)
 	CHECK(VECTOR_INIT(&vector));
 
 	// First pass: push a random amount of elements to the vector
-	usize elementsCount = getRandom() % 1024;
+	usize elementsCount = rand() % 1024;
 	for (usize i = 0; i < elementsCount; i++) {
-		i32 element = getRandom();
+		i32 element = rand();
 		CHECK(VECTOR_PUSH(&vector, &element));
 	}
 
 	// Second pass: pop a random amount of elements from the vector (less than `elementsCount`)
 	usize elementsRemoved = 0;
-	for (usize i = 0; i < getRandom() % elementsCount; i++) {
+	for (usize i = 0; i < rand() % elementsCount; i++) {
 		CHECK(VECTOR_POP(&vector));
 		++elementsRemoved;
 	}
 
 	// Third pass: resize the vector to a random size
-	usize newSize = getRandom() % 128;
+	usize newSize = rand() % 128;
 	CHECK(VECTOR_RESIZE(&vector, newSize));
 
 	CHECK(VECTOR_FREE(&vector));

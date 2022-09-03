@@ -41,3 +41,5 @@ void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine,
 
 	va_end(ap);
 }
+
+void loggerSetLevel(LoggerLevel level) { sLogger.level = level; }

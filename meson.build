@@ -25,6 +25,8 @@ src_pogona = [
 	'src/pogona.c',
 	'src/vector.c',
 	'src/logger.c',
+	'src/Window/Window.c',
+	'src/Window/WaylandWindowApi.c',
 ]
 
 pch_pogona = [
@@ -43,10 +45,18 @@ if host_machine.system() != 'windows'
 	deps_pogona += cc.find_library('m')
 endif
 
+custom_targets_pogona = []
+
 dep_wayland_client = dependency('wayland-client', required: get_option('wayland_support'))
 if dep_wayland_client.found()
 	deps_pogona += dep_wayland_client
 	config_data.set('POGONA_WAYLAND_SUPPORT', true)
+
+	wayland = import('unstable-wayland')
+	protocol_xdg_shell = wayland.find_protocol('xdg-shell')
+	xdg_shell = wayland.scan_xml(protocol_xdg_shell)
+
+	custom_targets_pogona += xdg_shell
 endif
 
 dep_xlib = dependency('X11', required: get_option('xlib_support'))
@@ -67,6 +77,7 @@ endif
 lib_pogona = static_library(
 	'pogona',
 	src_pogona,
+	custom_targets_pogona,
 	dependencies: deps_pogona,
 	c_pch: pch_pogona,
 	include_directories: inc_pogona,

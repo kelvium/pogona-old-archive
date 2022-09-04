@@ -24,7 +24,7 @@ static VulkanRendererApiError sVulkanCreateInstance(VulkanRendererApi* self)
 	if (apiVersion < requiredVersion) {
 		LOGGER_ERROR("required vulkan version is not supported: %d < %d\n",
 				apiVersion, requiredVersion);
-		return VULKAN_RENDERER_REQUIRED_VULKAN_VERSION_IS_NOT_SUPPORTED;
+		return VULKAN_RENDERER_API_REQUIRED_VULKAN_VERSION_IS_NOT_SUPPORTED;
 	}
 
 	char applicationNameBuffer[256] = { 0 };
@@ -52,7 +52,7 @@ static VulkanRendererApiError sVulkanCreateInstance(VulkanRendererApi* self)
 			&instanceCreateInfo, NULL, &self->vulkanGlobals->instance);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not create a vulkan instance: %d\n", result);
-		return VULKAN_RENDERER_COULD_NOT_CREATE_INSTANCE;
+		return VULKAN_RENDERER_API_COULD_NOT_CREATE_INSTANCE;
 	}
 	return VULKAN_RENDERER_API_OK;
 }
@@ -67,12 +67,12 @@ static VulkanRendererApiError sVulkanPickPhysicalDevice(VulkanRendererApi* self)
 			self->vulkanGlobals->instance, &physicalDeviceGroupsCount, NULL);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not enumerate physical device groups: %d\n", result);
-		return VULKAN_RENDERER_COULD_NOT_PICK_PHYSICAL_DEVICE;
+		return VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE;
 	}
 
 	if (physicalDeviceGroupsCount == 0) {
 		LOGGER_ERROR("no physical devices groups\n");
-		return VULKAN_RENDERER_NO_PHYSICAL_DEVICE_GROUPS;
+		return VULKAN_RENDERER_API_NO_PHYSICAL_DEVICE_GROUPS;
 	}
 
 	// get physical device group properties
@@ -82,7 +82,7 @@ static VulkanRendererApiError sVulkanPickPhysicalDevice(VulkanRendererApi* self)
 			&physicalDeviceGroupsCount, physicalDeviceGroupsProperties);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not enumerate physical device groups: %d\n", result);
-		return VULKAN_RENDERER_COULD_NOT_PICK_PHYSICAL_DEVICE;
+		return VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE;
 	}
 
 	VkPhysicalDevice fallbackPhysicalDevice = NULL;
@@ -140,7 +140,7 @@ static VulkanRendererApiError sVulkanPickQueueFamilyPropertiesIndex(
 
 	if (queueFamilyPropertyCount == 0) {
 		LOGGER_ERROR("no queue family properties\n");
-		return VULKAN_RENDERER_NO_QUEUE_FAMILY_PROPERTIES;
+		return VULKAN_RENDERER_API_NO_QUEUE_FAMILY_PROPERTIES;
 	}
 
 	// get queue family properties
@@ -170,7 +170,7 @@ static VulkanRendererApiError sVulkanPickQueueFamilyPropertiesIndex(
 
 	free(queueFamilyPropertiesArray);
 	if (!picked)
-		return VULKAN_RENDERER_NO_QUEUE_WITH_GRAPHICS_BIT;
+		return VULKAN_RENDERER_API_NO_QUEUE_WITH_GRAPHICS_BIT;
 	LOGGER_TRACE("picked queue family properties index %d\n",
 			*pickedQueueFamilyPropertiesIndex);
 	return VULKAN_RENDERER_API_OK;
@@ -212,7 +212,7 @@ static VulkanRendererApiError sVulkanCreateDevice(VulkanRendererApi* self)
 			&deviceCreateInfo, NULL, &self->vulkanGlobals->device);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not create device: %d\n", result);
-		return VULKAN_RENDERER_COULD_NOT_CREATE_DEVICE;
+		return VULKAN_RENDERER_API_COULD_NOT_CREATE_DEVICE;
 	}
 	LOGGER_TRACE("created a device\n");
 	return VULKAN_RENDERER_API_OK;

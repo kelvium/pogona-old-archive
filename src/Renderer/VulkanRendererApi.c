@@ -9,6 +9,7 @@
 typedef struct VulkanGlobals {
 	VkInstance instance;
 	VkPhysicalDevice physicalDevice;
+	VkDevice device;
 } VulkanGlobals;
 
 static VulkanRendererApiError sVulkanCreateInstance(VulkanRendererApi* self)
@@ -107,12 +108,15 @@ static VulkanRendererApiError sVulkanPickPhysicalDevice(VulkanRendererApi* self)
 					VK_API_VERSION_MINOR(physicalDeviceProperties.apiVersion),
 					VK_VERSION_PATCH(physicalDeviceProperties.apiVersion));
 
-			if (physicalDeviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+			if (physicalDeviceProperties.deviceType
+					== VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
 				self->vulkanGlobals->physicalDevice = physicalDevice;
-				LOGGER_INFO("picked a discrete gpu: %s\n", physicalDeviceProperties.deviceName);
+				LOGGER_INFO(
+						"picked a discrete gpu: %s\n", physicalDeviceProperties.deviceName);
 			} else if (!fallbackPhysicalDevice) {
 				fallbackPhysicalDevice = physicalDevice;
-				LOGGER_INFO("picked %s as the fallback physical device\n", physicalDeviceProperties.deviceName);
+				LOGGER_INFO("picked %s as the fallback physical device\n",
+						physicalDeviceProperties.deviceName);
 			}
 		}
 	}
@@ -123,6 +127,94 @@ static VulkanRendererApiError sVulkanPickPhysicalDevice(VulkanRendererApi* self)
 	}
 
 	free(physicalDeviceGroupsProperties);
+	return VULKAN_RENDERER_API_OK;
+}
+
+static VulkanRendererApiError sVulkanPickQueueFamilyPropertiesIndex(
+		VulkanRendererApi* self, u32* pickedQueueFamilyPropertiesIndex)
+{
+	// get queue family property count
+	u32 queueFamilyPropertyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(
+			self->vulkanGlobals->physicalDevice, &queueFamilyPropertyCount, NULL);
+
+	if (queueFamilyPropertyCount == 0) {
+		LOGGER_ERROR("no queue family properties\n");
+		return VULKAN_RENDERER_NO_QUEUE_FAMILY_PROPERTIES;
+	}
+
+	// get queue family properties
+	VkQueueFamilyProperties* queueFamilyPropertiesArray
+			= calloc(queueFamilyPropertyCount, sizeof(VkQueueFamilyProperties));
+	vkGetPhysicalDeviceQueueFamilyProperties(self->vulkanGlobals->physicalDevice,
+			&queueFamilyPropertyCount, queueFamilyPropertiesArray);
+
+	bool picked = false;
+	for (u32 i = 0; i < queueFamilyPropertyCount; i++) {
+		VkQueueFamilyProperties queueFamilyProperties
+				= queueFamilyPropertiesArray[i];
+
+		bool supportsGraphics
+				= queueFamilyProperties.queueFlags & VK_QUEUE_GRAPHICS_BIT;
+
+		LOGGER_TRACE("queue family properties %d:\n", i);
+		LOGGER_TRACE(" queue count: %d\n", queueFamilyProperties.queueCount);
+		LOGGER_TRACE(
+				" supports graphics: %s\n", supportsGraphics ? "true" : "false");
+
+		if (supportsGraphics) {
+			*pickedQueueFamilyPropertiesIndex = i;
+			picked = true;
+		}
+	}
+
+	free(queueFamilyPropertiesArray);
+	if (!picked)
+		return VULKAN_RENDERER_NO_QUEUE_WITH_GRAPHICS_BIT;
+	LOGGER_TRACE("picked queue family properties index %d\n",
+			*pickedQueueFamilyPropertiesIndex);
+	return VULKAN_RENDERER_API_OK;
+}
+
+static VulkanRendererApiError sVulkanCreateDevice(VulkanRendererApi* self)
+{
+	VulkanRendererApiError error;
+
+	u32 pickedQueueFamilyPropertiesIndex;
+	error = sVulkanPickQueueFamilyPropertiesIndex(
+			self, &pickedQueueFamilyPropertiesIndex);
+	if (error != VULKAN_RENDERER_API_OK) {
+		LOGGER_ERROR("could not pick queue family properties: %d\n", error);
+		return error;
+	}
+
+	float queuePriorities[] = { 1.0 };
+	VkDeviceQueueCreateInfo deviceQueueCreateInfo = {
+		.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+		.queueCount = 1,
+		.queueFamilyIndex = pickedQueueFamilyPropertiesIndex,
+		.pQueuePriorities = queuePriorities,
+	};
+
+	VkDeviceCreateInfo deviceCreateInfo = {
+		.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+		.pQueueCreateInfos = &deviceQueueCreateInfo,
+		.queueCreateInfoCount = 1,
+		.enabledExtensionCount = 0,
+		.ppEnabledExtensionNames = NULL,
+		.enabledLayerCount = 0,
+		.ppEnabledLayerNames = NULL,
+		.pEnabledFeatures = NULL,
+	};
+
+	VkResult result;
+	result = vkCreateDevice(self->vulkanGlobals->physicalDevice,
+			&deviceCreateInfo, NULL, &self->vulkanGlobals->device);
+	if (result != VK_SUCCESS) {
+		LOGGER_ERROR("could not create device: %d\n", result);
+		return VULKAN_RENDERER_COULD_NOT_CREATE_DEVICE;
+	}
+	LOGGER_TRACE("created a device\n");
 	return VULKAN_RENDERER_API_OK;
 }
 
@@ -147,12 +239,22 @@ VulkanRendererApiError vulkanRendererApiCreate(
 		LOGGER_ERROR("could not pick a physical device: %d\n", error);
 		return error;
 	}
+
+	error = sVulkanCreateDevice(self);
+	if (error != VULKAN_RENDERER_API_OK) {
+		LOGGER_ERROR("could not create a device: %d\n", error);
+		return error;
+	}
 	return VULKAN_RENDERER_API_OK;
 }
 
 VulkanRendererApiError vulkanRendererApiDestroy(VulkanRendererApi* self)
 {
+	vkDestroyDevice(self->vulkanGlobals->device, NULL);
+	LOGGER_TRACE("destroyed the device\n");
+
 	vkDestroyInstance(self->vulkanGlobals->instance, NULL);
+	LOGGER_TRACE("destroyed the instance\n");
 
 	free(self->vulkanGlobals);
 	return VULKAN_RENDERER_API_OK;

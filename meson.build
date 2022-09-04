@@ -59,12 +59,6 @@ if dep_wayland_client.found()
 	custom_targets_pogona += xdg_shell
 endif
 
-dep_xlib = dependency('X11', required: get_option('xlib_support'))
-if dep_xlib.found()
-	deps_pogona += dep_xlib
-	config_data.set('POGONA_XLIB_SUPPORT', true)
-endif
-
 if get_option('vulkan_support').enabled()
 	subproject_volk = cmake.subproject('volk')
 	dep_volk = subproject_volk.dependency('volk')

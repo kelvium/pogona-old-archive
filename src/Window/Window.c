@@ -19,10 +19,14 @@ WindowError windowCreate(Window* self, WindowApiType apiType, usize width,
 	switch (self->apiType) {
 	case WINDOW_API_TYPE_WAYLAND: {
 #ifdef POGONA_WAYLAND_SUPPORT
+		self->api = calloc(1, sizeof(WaylandWindowApi));
+
 		WaylandWindowApiError error = waylandWindowApiCreate(
 				(WaylandWindowApi*) self->api, width, height, title);
 		if (error != WAYLAND_WINDOW_API_OK)
 			return WINDOW_COULD_NOT_CREATE_API;
+
+		break;
 #endif
 	}
 	default:
@@ -87,6 +91,9 @@ WindowError windowDestroy(Window* self)
 				= waylandWindowApiDestroy((WaylandWindowApi*) self->api);
 		if (error != WAYLAND_WINDOW_API_OK)
 			return WINDOW_COULD_NOT_DESTROY_API;
+
+		free(self->api);
+		break;
 #endif
 	}
 	default:

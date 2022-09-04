@@ -18,7 +18,7 @@ int main(void)
 
 	RendererError rendererError;
 	Renderer renderer;
-	rendererError = rendererCreate(&renderer, RENDERER_API_TYPE_VULKAN, &window);
+	rendererError = rendererCreate(&renderer, RENDERER_API_TYPE_ANY, &window);
 	if (rendererError != RENDERER_OK) {
 		LOGGER_FATAL("could not create renderer: %d\n", rendererError);
 		return 1;

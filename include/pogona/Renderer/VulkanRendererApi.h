@@ -4,14 +4,8 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
+#include <pogona/Renderer/Vulkan/vulkan.h>
 #include <pogona/Window/Window.h>
-
-#ifdef POGONA_WAYLAND_SUPPORT
-#define VK_USE_PLATFORM_WAYLAND_KHR
-#endif
-#include <volk.h>
-
-typedef struct VulkanGlobals VulkanGlobals;
 
 typedef struct {
 	Window* window;

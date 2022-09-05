@@ -36,6 +36,7 @@ VulkanRendererApiError vulkanRendererApiCreate(
 		LOGGER_ERROR("could not create a device: %d\n", error);
 		return error;
 	}
+	volkLoadDevice(self->vulkanGlobals->device);
 	return VULKAN_RENDERER_API_OK;
 }
 

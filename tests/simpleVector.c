@@ -35,6 +35,11 @@ int main(void)
 	VectorError error = VECTOR_POP(&vector);
 	assert(error == VECTOR_TOO_SMALL);
 
+	usize previousCapacity = vector.capacity;
+	VECTOR_SHRINK_TO_FIT(&vector);
+	assert(vector.capacity != previousCapacity);
+	assert(vector.capacity == 0);
+
 	assert(vector.size == 0);
 	CHECK(VECTOR_FREE(&vector));
 	return 0;

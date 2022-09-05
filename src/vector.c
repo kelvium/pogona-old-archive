@@ -66,6 +66,24 @@ VectorError vectorResizeImpl(BaseVector* vector, usize newSize)
 	return VECTOR_OK;
 }
 
+VectorError vectorShrinkToFitImpl(BaseVector *vector)
+{
+	usize requiredCapacity = vector->size * vector->typeSize;
+	if (requiredCapacity == vector->capacity) return VECTOR_OK;
+
+	void* reallocated = realloc(vector->data, requiredCapacity);
+	if (!reallocated)
+		return VECTOR_REALLOC_FAILED;
+
+	vector->capacity = requiredCapacity;
+	if (requiredCapacity == 0) /* avoid division by zero */
+		vector->size = requiredCapacity / vector->typeSize;
+	else
+		vector->size = 0;
+	vector->data = reallocated;
+	return VECTOR_OK;
+}
+
 VectorError vectorFreeImpl(BaseVector* vector)
 {
 	free(vector->data);

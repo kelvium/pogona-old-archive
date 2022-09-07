@@ -51,3 +51,5 @@ typedef VECTOR(f64) F64Vector;
 
 typedef VECTOR(usize) USizeVector;
 typedef VECTOR(isize) ISizeVector;
+
+typedef VECTOR(void*) VoidVector;

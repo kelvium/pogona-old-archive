@@ -33,7 +33,7 @@ void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine, cons
 
 	char buffer[16] = { 0 };
 	buffer[strftime(buffer, sizeof(buffer), "%H:%M:%S", sLogger.time)] = 0;
-	printf("%s %s%-5s\x1b[0m \x1b[90m%s:%zu:\x1b[0m ", buffer, sLevelColours[level], sLevelStrings[level], sourceFile,
+	printf("%s %s%-7s\x1b[0m \x1b[90m%s:%zu:\x1b[0m ", buffer, sLevelColours[level], sLevelStrings[level], sourceFile,
 			sourceLine);
 	vprintf(fmt, ap);
 

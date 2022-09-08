@@ -22,6 +22,7 @@ VectorError vectorInitImpl(BaseVector* vector, usize typeSize);
 VectorError vectorPushImpl(BaseVector* vector, void* data);
 VectorError vectorPopImpl(BaseVector* vector);
 VectorError vectorResizeImpl(BaseVector* vector, usize newSize);
+VectorError vectorShrinkToFitImpl(BaseVector* vector);
 VectorError vectorFreeImpl(BaseVector* vector);
 
 #define VECTOR_INIT(vector) \
@@ -31,6 +32,8 @@ VectorError vectorFreeImpl(BaseVector* vector);
 #define VECTOR_POP(vector) (vectorPopImpl((BaseVector*) vector))
 #define VECTOR_RESIZE(vector, newSize) \
 	(vectorResizeImpl((BaseVector*) vector, newSize))
+#define VECTOR_SHRINK_TO_FIT(vector) \
+	(vectorShrinkToFitImpl((BaseVector*) vector))
 #define VECTOR_FREE(vector) (vectorFreeImpl((BaseVector*) vector))
 
 typedef VECTOR(u8) U8Vector;
@@ -48,3 +51,5 @@ typedef VECTOR(f64) F64Vector;
 
 typedef VECTOR(usize) USizeVector;
 typedef VECTOR(isize) ISizeVector;
+
+typedef VECTOR(void*) VoidVector;

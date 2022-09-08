@@ -29,6 +29,9 @@ src_pogona = [
 	'src/Window/WaylandWindowApi.c',
 	'src/Renderer/Renderer.c',
 	'src/Renderer/VulkanRendererApi.c',
+	'src/Renderer/Vulkan/instance.c',
+	'src/Renderer/Vulkan/physicalDevice.c',
+	'src/Renderer/Vulkan/device.c',
 ]
 
 pch_pogona = [

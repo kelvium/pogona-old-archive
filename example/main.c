@@ -9,7 +9,8 @@ int main(void)
 
 	WindowError windowError;
 	Window window;
-	windowError = windowCreate(&window, WINDOW_API_TYPE_ANY, 800, 600, "Window");
+	windowError
+			= windowCreate(&window, WINDOW_API_TYPE_ANY, 800, 600, "Window");
 	if (windowError != WINDOW_OK) {
 		LOGGER_FATAL("could not create window: %d\n", windowError);
 		return 1;

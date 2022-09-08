@@ -7,7 +7,6 @@
 #include <pogona/Renderer/VulkanRendererApi.h>
 
 VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self);
-VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(
-		VulkanRendererApi* self, u32* pickedQueueFamilyProperties);
+VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(VulkanRendererApi* self, u32* pickedQueueFamilyProperties);
 
 #endif

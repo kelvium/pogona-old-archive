@@ -11,11 +11,9 @@ static struct {
 	.time = NULL,
 };
 
-static const char* sLevelStrings[]
-		= { "TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL" };
+static const char* sLevelStrings[] = { "TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL" };
 
-static const char* sLevelColours[]
-		= { "\x1b[94m", "\x1b[36m", "\x1b[32m", "\x1b[33m", "\x1b[31m", "\x1b[35m" };
+static const char* sLevelColours[] = { "\x1b[94m", "\x1b[36m", "\x1b[32m", "\x1b[33m", "\x1b[31m", "\x1b[35m" };
 
 void loggerInit()
 {
@@ -25,8 +23,7 @@ void loggerInit()
 	}
 }
 
-void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine,
-		const char* fmt, ...)
+void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine, const char* fmt, ...)
 {
 	if (level < sLogger.level)
 		return;
@@ -36,8 +33,8 @@ void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine,
 
 	char buffer[16] = { 0 };
 	buffer[strftime(buffer, sizeof(buffer), "%H:%M:%S", sLogger.time)] = 0;
-	printf("%s %s%-5s\x1b[0m \x1b[90m%s:%zu:\x1b[0m ", buffer,
-			sLevelColours[level], sLevelStrings[level], sourceFile, sourceLine);
+	printf("%s %s%-5s\x1b[0m \x1b[90m%s:%zu:\x1b[0m ", buffer, sLevelColours[level], sLevelStrings[level], sourceFile,
+			sourceLine);
 	vprintf(fmt, ap);
 
 	va_end(ap);

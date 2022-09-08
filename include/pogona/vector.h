@@ -25,15 +25,11 @@ VectorError vectorResizeImpl(BaseVector* vector, usize newSize);
 VectorError vectorShrinkToFitImpl(BaseVector* vector);
 VectorError vectorFreeImpl(BaseVector* vector);
 
-#define VECTOR_INIT(vector) \
-	(vectorInitImpl((BaseVector*) vector, sizeof(**vector.data)))
-#define VECTOR_PUSH(vector, ...) \
-	(vectorPushImpl((BaseVector*) vector, __VA_ARGS__))
+#define VECTOR_INIT(vector) (vectorInitImpl((BaseVector*) vector, sizeof(**vector.data)))
+#define VECTOR_PUSH(vector, ...) (vectorPushImpl((BaseVector*) vector, __VA_ARGS__))
 #define VECTOR_POP(vector) (vectorPopImpl((BaseVector*) vector))
-#define VECTOR_RESIZE(vector, newSize) \
-	(vectorResizeImpl((BaseVector*) vector, newSize))
-#define VECTOR_SHRINK_TO_FIT(vector) \
-	(vectorShrinkToFitImpl((BaseVector*) vector))
+#define VECTOR_RESIZE(vector, newSize) (vectorResizeImpl((BaseVector*) vector, newSize))
+#define VECTOR_SHRINK_TO_FIT(vector) (vectorShrinkToFitImpl((BaseVector*) vector))
 #define VECTOR_FREE(vector) (vectorFreeImpl((BaseVector*) vector))
 
 typedef VECTOR(u8) U8Vector;

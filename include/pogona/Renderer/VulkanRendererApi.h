@@ -23,8 +23,7 @@ typedef enum {
 	VULKAN_RENDERER_API_COULD_NOT_CREATE_DEVICE,
 } VulkanRendererApiError;
 
-VulkanRendererApiError vulkanRendererApiCreate(
-		VulkanRendererApi* self, Window* window);
+VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* window);
 VulkanRendererApiError vulkanRendererApiDestroy(VulkanRendererApi* self);
 
 #endif

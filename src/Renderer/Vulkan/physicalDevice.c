@@ -12,8 +12,7 @@ VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self)
 
 	// get physical device group count
 	u32 physicalDeviceGroupsCount = 0;
-	result = vkEnumeratePhysicalDeviceGroups(
-			self->vulkanGlobals->instance, &physicalDeviceGroupsCount, NULL);
+	result = vkEnumeratePhysicalDeviceGroups(self->vulkanGlobals->instance, &physicalDeviceGroupsCount, NULL);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not enumerate physical device groups: %d\n", result);
 		return VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE;
@@ -25,10 +24,10 @@ VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self)
 	}
 
 	// get physical device group properties
-	VkPhysicalDeviceGroupProperties* physicalDeviceGroupsProperties = calloc(
-			physicalDeviceGroupsCount, sizeof(VkPhysicalDeviceGroupProperties));
-	result = vkEnumeratePhysicalDeviceGroups(self->vulkanGlobals->instance,
-			&physicalDeviceGroupsCount, physicalDeviceGroupsProperties);
+	VkPhysicalDeviceGroupProperties* physicalDeviceGroupsProperties
+			= calloc(physicalDeviceGroupsCount, sizeof(VkPhysicalDeviceGroupProperties));
+	result = vkEnumeratePhysicalDeviceGroups(
+			self->vulkanGlobals->instance, &physicalDeviceGroupsCount, physicalDeviceGroupsProperties);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not enumerate physical device groups: %d\n", result);
 		return VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE;
@@ -36,36 +35,28 @@ VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self)
 
 	VkPhysicalDevice fallbackPhysicalDevice = NULL;
 	for (u32 i = 0; i < physicalDeviceGroupsCount; i++) {
-		VkPhysicalDeviceGroupProperties physicalDeviceGroupProperties
-				= physicalDeviceGroupsProperties[i];
+		VkPhysicalDeviceGroupProperties physicalDeviceGroupProperties = physicalDeviceGroupsProperties[i];
 
 		LOGGER_TRACE("physical device group properties %d:\n", i);
-		LOGGER_TRACE(" physical devices count: %d\n",
-				physicalDeviceGroupProperties.physicalDeviceCount);
-		for (u32 j = 0; j < physicalDeviceGroupProperties.physicalDeviceCount;
-				 j++) {
-			VkPhysicalDevice physicalDevice
-					= physicalDeviceGroupProperties.physicalDevices[j];
+		LOGGER_TRACE(" physical devices count: %d\n", physicalDeviceGroupProperties.physicalDeviceCount);
+		for (u32 j = 0; j < physicalDeviceGroupProperties.physicalDeviceCount; j++) {
+			VkPhysicalDevice physicalDevice = physicalDeviceGroupProperties.physicalDevices[j];
 
 			VkPhysicalDeviceProperties physicalDeviceProperties;
 			vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
 
 			LOGGER_TRACE(" physical device %d:\n", j);
 			LOGGER_TRACE("   deviceName: %s\n", physicalDeviceProperties.deviceName);
-			LOGGER_TRACE("   api version: %d.%d.%d\n",
-					VK_API_VERSION_MAJOR(physicalDeviceProperties.apiVersion),
+			LOGGER_TRACE("   api version: %d.%d.%d\n", VK_API_VERSION_MAJOR(physicalDeviceProperties.apiVersion),
 					VK_API_VERSION_MINOR(physicalDeviceProperties.apiVersion),
 					VK_VERSION_PATCH(physicalDeviceProperties.apiVersion));
 
-			if (physicalDeviceProperties.deviceType
-					== VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+			if (physicalDeviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
 				self->vulkanGlobals->physicalDevice = physicalDevice;
-				LOGGER_INFO(
-						"picked a discrete gpu: %s\n", physicalDeviceProperties.deviceName);
+				LOGGER_INFO("picked a discrete gpu: %s\n", physicalDeviceProperties.deviceName);
 			} else if (!fallbackPhysicalDevice) {
 				fallbackPhysicalDevice = physicalDevice;
-				LOGGER_INFO("picked %s as the fallback physical device\n",
-						physicalDeviceProperties.deviceName);
+				LOGGER_INFO("picked %s as the fallback physical device\n", physicalDeviceProperties.deviceName);
 			}
 		}
 	}
@@ -84,8 +75,7 @@ VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(
 {
 	// get queue family property count
 	u32 queueFamilyPropertyCount = 0;
-	vkGetPhysicalDeviceQueueFamilyProperties(
-			self->vulkanGlobals->physicalDevice, &queueFamilyPropertyCount, NULL);
+	vkGetPhysicalDeviceQueueFamilyProperties(self->vulkanGlobals->physicalDevice, &queueFamilyPropertyCount, NULL);
 
 	if (queueFamilyPropertyCount == 0) {
 		LOGGER_ERROR("no queue family properties\n");
@@ -95,21 +85,18 @@ VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(
 	// get queue family properties
 	VkQueueFamilyProperties* queueFamilyPropertiesArray
 			= calloc(queueFamilyPropertyCount, sizeof(VkQueueFamilyProperties));
-	vkGetPhysicalDeviceQueueFamilyProperties(self->vulkanGlobals->physicalDevice,
-			&queueFamilyPropertyCount, queueFamilyPropertiesArray);
+	vkGetPhysicalDeviceQueueFamilyProperties(
+			self->vulkanGlobals->physicalDevice, &queueFamilyPropertyCount, queueFamilyPropertiesArray);
 
 	bool picked = false;
 	for (u32 i = 0; i < queueFamilyPropertyCount; i++) {
-		VkQueueFamilyProperties queueFamilyProperties
-				= queueFamilyPropertiesArray[i];
+		VkQueueFamilyProperties queueFamilyProperties = queueFamilyPropertiesArray[i];
 
-		bool supportsGraphics
-				= queueFamilyProperties.queueFlags & VK_QUEUE_GRAPHICS_BIT;
+		bool supportsGraphics = queueFamilyProperties.queueFlags & VK_QUEUE_GRAPHICS_BIT;
 
 		LOGGER_TRACE("queue family properties %d:\n", i);
 		LOGGER_TRACE(" queue count: %d\n", queueFamilyProperties.queueCount);
-		LOGGER_TRACE(
-				" supports graphics: %s\n", supportsGraphics ? "true" : "false");
+		LOGGER_TRACE(" supports graphics: %s\n", supportsGraphics ? "true" : "false");
 
 		if (supportsGraphics) {
 			*pickedQueueFamilyPropertiesIndex = i;
@@ -120,8 +107,7 @@ VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(
 	free(queueFamilyPropertiesArray);
 	if (!picked)
 		return VULKAN_RENDERER_API_NO_QUEUE_WITH_GRAPHICS_BIT;
-	LOGGER_TRACE("picked queue family properties index %d\n",
-			*pickedQueueFamilyPropertiesIndex);
+	LOGGER_TRACE("picked queue family properties index %d\n", *pickedQueueFamilyPropertiesIndex);
 	return VULKAN_RENDERER_API_OK;
 }
 

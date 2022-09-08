@@ -27,8 +27,7 @@ typedef enum {
 	WINDOW_COULD_NOT_SET_TITLE,
 } WindowError;
 
-WindowError windowCreate(Window* self, WindowApiType apiType, usize width,
-		usize height, const char* title);
+WindowError windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title);
 WindowError windowGetApiType(Window* window, WindowApiType* apiType);
 WindowError windowGetTitle(Window* window, char* title, usize titleSize);
 WindowError windowSetTitle(Window* window, const char* title);

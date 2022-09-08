@@ -10,8 +10,7 @@ VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self)
 	VulkanRendererApiError error;
 
 	u32 pickedQueueFamilyPropertiesIndex;
-	error = vulkanPickQueueFamilyPropertiesIndex(
-			self, &pickedQueueFamilyPropertiesIndex);
+	error = vulkanPickQueueFamilyPropertiesIndex(self, &pickedQueueFamilyPropertiesIndex);
 	if (error != VULKAN_RENDERER_API_OK) {
 		LOGGER_ERROR("could not pick queue family properties: %d\n", error);
 		return error;
@@ -37,8 +36,7 @@ VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self)
 	};
 
 	VkResult result;
-	result = vkCreateDevice(self->vulkanGlobals->physicalDevice,
-			&deviceCreateInfo, NULL, &self->vulkanGlobals->device);
+	result = vkCreateDevice(self->vulkanGlobals->physicalDevice, &deviceCreateInfo, NULL, &self->vulkanGlobals->device);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not create device: %d\n", result);
 		return VULKAN_RENDERER_API_COULD_NOT_CREATE_DEVICE;

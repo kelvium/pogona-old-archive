@@ -1,9 +1,9 @@
-﻿---
+---
 BasedOnStyle: WebKit
 AccessModifierOffset: '-2'
 AlignEscapedNewlines: Left
 AlignTrailingComments: 'true'
-ColumnLimit: '80'
+ColumnLimit: '120'
 IncludeBlocks: Regroup
 IndentWidth: '2'
 NamespaceIndentation: None

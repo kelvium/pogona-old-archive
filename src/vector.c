@@ -30,8 +30,7 @@ VectorError vectorPushImpl(BaseVector* vector, void* data)
 			return error;
 	}
 
-	memcpy(
-			vector->data + (vector->size * vector->typeSize), data, vector->typeSize);
+	memcpy(vector->data + (vector->size * vector->typeSize), data, vector->typeSize);
 	++vector->size;
 	return error;
 }
@@ -66,10 +65,11 @@ VectorError vectorResizeImpl(BaseVector* vector, usize newSize)
 	return VECTOR_OK;
 }
 
-VectorError vectorShrinkToFitImpl(BaseVector *vector)
+VectorError vectorShrinkToFitImpl(BaseVector* vector)
 {
 	usize requiredCapacity = vector->size * vector->typeSize;
-	if (requiredCapacity == vector->capacity) return VECTOR_OK;
+	if (requiredCapacity == vector->capacity)
+		return VECTOR_OK;
 
 	void* reallocated = realloc(vector->data, requiredCapacity);
 	if (!reallocated)

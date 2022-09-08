@@ -10,20 +10,17 @@ VulkanRendererApiError vulkanCreateInstance(VulkanRendererApi* self)
 {
 	u32 apiVersion;
 	vkEnumerateInstanceVersion(&apiVersion);
-	LOGGER_INFO("supported vulkan version: %d.%d.%d\n",
-			VK_API_VERSION_MAJOR(apiVersion), VK_API_VERSION_MINOR(apiVersion),
-			VK_API_VERSION_PATCH(apiVersion));
+	LOGGER_INFO("supported vulkan version: %d.%d.%d\n", VK_API_VERSION_MAJOR(apiVersion),
+			VK_API_VERSION_MINOR(apiVersion), VK_API_VERSION_PATCH(apiVersion));
 
 	u32 requiredVersion = VK_API_VERSION_1_1;
 	if (apiVersion < requiredVersion) {
-		LOGGER_ERROR("required vulkan version is not supported: %d < %d\n",
-				apiVersion, requiredVersion);
+		LOGGER_ERROR("required vulkan version is not supported: %d < %d\n", apiVersion, requiredVersion);
 		return VULKAN_RENDERER_API_REQUIRED_VULKAN_VERSION_IS_NOT_SUPPORTED;
 	}
 
 	char applicationNameBuffer[256] = { 0 };
-	windowGetTitle(
-			self->window, applicationNameBuffer, sizeof(applicationNameBuffer));
+	windowGetTitle(self->window, applicationNameBuffer, sizeof(applicationNameBuffer));
 
 	const VkApplicationInfo applicationInfo = {
 		.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
@@ -42,8 +39,7 @@ VulkanRendererApiError vulkanCreateInstance(VulkanRendererApi* self)
 		.ppEnabledLayerNames = NULL,
 	};
 
-	VkResult result = vkCreateInstance(
-			&instanceCreateInfo, NULL, &self->vulkanGlobals->instance);
+	VkResult result = vkCreateInstance(&instanceCreateInfo, NULL, &self->vulkanGlobals->instance);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not create a vulkan instance: %d\n", result);
 		return VULKAN_RENDERER_API_COULD_NOT_CREATE_INSTANCE;

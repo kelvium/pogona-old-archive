@@ -27,6 +27,11 @@ src_pogona = [
 	'src/logger.c',
 	'src/Window/Window.c',
 	'src/Window/WaylandWindowApi.c',
+	'src/Renderer/Renderer.c',
+	'src/Renderer/VulkanRendererApi.c',
+	'src/Renderer/Vulkan/instance.c',
+	'src/Renderer/Vulkan/physicalDevice.c',
+	'src/Renderer/Vulkan/device.c',
 ]
 
 pch_pogona = [
@@ -81,6 +86,7 @@ exe_example = executable(
 	'example',
 	['example/main.c'],
 	link_with: lib_pogona,
+	dependencies: dep_volk,
 	include_directories: [include_directories('include')],
 )
 

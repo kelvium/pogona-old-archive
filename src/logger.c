@@ -14,10 +14,8 @@ static struct {
 static const char* sLevelStrings[]
 		= { "TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL" };
 
-// clang-format off
 static const char* sLevelColours[]
 		= { "\x1b[94m", "\x1b[36m", "\x1b[32m", "\x1b[33m", "\x1b[31m", "\x1b[35m" };
-// clang-format on
 
 void loggerInit()
 {

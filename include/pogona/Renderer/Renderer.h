@@ -26,6 +26,5 @@ typedef enum {
 	RENDERER_COULD_NOT_DESTROY_API,
 } RendererError;
 
-RendererError rendererCreate(
-		Renderer* self, RendererApiType apiType, Window* window);
+RendererError rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
 RendererError rendererDestroy(Renderer* self);

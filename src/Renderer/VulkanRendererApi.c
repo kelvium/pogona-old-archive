@@ -9,8 +9,7 @@
 #include <pogona/Renderer/VulkanRendererApi.h>
 #include <pogona/logger.h>
 
-VulkanRendererApiError vulkanRendererApiCreate(
-		VulkanRendererApi* self, Window* window)
+VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 {
 	self->window = window;
 	self->vulkanGlobals = calloc(1, sizeof(VulkanGlobals));

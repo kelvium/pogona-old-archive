@@ -18,34 +18,29 @@ typedef struct WaylandGlobals {
 	struct xdg_toplevel* xdgToplevel;
 } WaylandGlobals;
 
-static void sRegistryGlobal(void* data, struct wl_registry* registry, u32 name,
-		const char* interface, u32 version)
+static void sRegistryGlobal(void* data, struct wl_registry* registry, u32 name, const char* interface, u32 version)
 {
 	WaylandGlobals* globals = (WaylandGlobals*) data;
 
 	if (strcmp(interface, wl_compositor_interface.name) == 0) {
-		globals->compositor
-				= wl_registry_bind(registry, name, &wl_compositor_interface, version);
+		globals->compositor = wl_registry_bind(registry, name, &wl_compositor_interface, version);
 		LOGGER_TRACE("got wl_compositor\n");
 		return;
 	}
 	if (strcmp(interface, xdg_wm_base_interface.name) == 0) {
-		globals->xdgWmBase
-				= wl_registry_bind(registry, name, &xdg_wm_base_interface, version);
+		globals->xdgWmBase = wl_registry_bind(registry, name, &xdg_wm_base_interface, version);
 		LOGGER_TRACE("got xdg_wm_base\n");
 		return;
 	}
 }
 
-static void sXdgWmBasePing(
-		void* data, struct xdg_wm_base* xdgWmBase, u32 serial)
+static void sXdgWmBasePing(void* data, struct xdg_wm_base* xdgWmBase, u32 serial)
 {
 	(void) data;
 	xdg_wm_base_pong(xdgWmBase, serial);
 }
 
-WaylandWindowApiError waylandWindowApiCreate(
-		WaylandWindowApi* self, usize width, usize height, const char* title)
+WaylandWindowApiError waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title)
 {
 	self->width = width;
 	self->height = height;
@@ -65,21 +60,18 @@ WaylandWindowApiError waylandWindowApiCreate(
 		.global = sRegistryGlobal,
 		.global_remove = NULL,
 	};
-	self->waylandGlobals->registry
-			= wl_display_get_registry(self->waylandGlobals->display);
+	self->waylandGlobals->registry = wl_display_get_registry(self->waylandGlobals->display);
 	if (!self->waylandGlobals->registry) {
 		LOGGER_ERROR("could not get registry\n");
 		return WAYLAND_WINDOW_API_COULD_NOT_GET_REGISTRY;
 	}
 	LOGGER_TRACE("got registry\n");
-	wl_registry_add_listener(self->waylandGlobals->registry, &sRegistryListener,
-			(void*) self->waylandGlobals);
+	wl_registry_add_listener(self->waylandGlobals->registry, &sRegistryListener, (void*) self->waylandGlobals);
 	wl_display_dispatch(self->waylandGlobals->display);
 	wl_display_roundtrip(self->waylandGlobals->display);
 
 	// create a surface
-	self->waylandGlobals->surface
-			= wl_compositor_create_surface(self->waylandGlobals->compositor);
+	self->waylandGlobals->surface = wl_compositor_create_surface(self->waylandGlobals->compositor);
 	if (!self->waylandGlobals->surface) {
 		LOGGER_ERROR("could not create a surface\n");
 		return WAYLAND_WINDOW_API_COULD_NOT_CREATE_SURFACE;
@@ -90,12 +82,11 @@ WaylandWindowApiError waylandWindowApiCreate(
 	static const struct xdg_wm_base_listener sXdgWmBaseListener = {
 		.ping = sXdgWmBasePing,
 	};
-	xdg_wm_base_add_listener(self->waylandGlobals->xdgWmBase, &sXdgWmBaseListener,
-			(void*) self->waylandGlobals);
+	xdg_wm_base_add_listener(self->waylandGlobals->xdgWmBase, &sXdgWmBaseListener, (void*) self->waylandGlobals);
 
 	// create an xdg_surface from the surface
-	self->waylandGlobals->xdgSurface = xdg_wm_base_get_xdg_surface(
-			self->waylandGlobals->xdgWmBase, self->waylandGlobals->surface);
+	self->waylandGlobals->xdgSurface
+			= xdg_wm_base_get_xdg_surface(self->waylandGlobals->xdgWmBase, self->waylandGlobals->surface);
 	if (!self->waylandGlobals->xdgSurface) {
 		LOGGER_ERROR("could not get an xdg_surface\n");
 		return WAYLAND_WINDOW_API_COULD_NOT_GET_XDG_SURFACE;
@@ -103,8 +94,7 @@ WaylandWindowApiError waylandWindowApiCreate(
 	LOGGER_TRACE("got an xdg_surface\n");
 
 	// get an xdg_toplevel from the xdg_surface
-	self->waylandGlobals->xdgToplevel
-			= xdg_surface_get_toplevel(self->waylandGlobals->xdgSurface);
+	self->waylandGlobals->xdgToplevel = xdg_surface_get_toplevel(self->waylandGlobals->xdgSurface);
 	if (!self->waylandGlobals->xdgToplevel) {
 		LOGGER_ERROR("could not get an xdg_toplevel\n");
 		return WAYLAND_WINDOW_API_COULD_NOT_GET_XDG_TOPLEVEL;
@@ -112,31 +102,26 @@ WaylandWindowApiError waylandWindowApiCreate(
 	LOGGER_TRACE("got an xdg_toplevel\n");
 
 	// set xdg_toplevel properties
-	xdg_toplevel_set_min_size(
-			self->waylandGlobals->xdgToplevel, self->width, self->height);
-	xdg_toplevel_set_max_size(
-			self->waylandGlobals->xdgToplevel, self->width, self->height);
+	xdg_toplevel_set_min_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
+	xdg_toplevel_set_max_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiGetTitle(
-		WaylandWindowApi* self, char* title, usize titleSize)
+WaylandWindowApiError waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize)
 {
 	strncpy(title, self->title, titleSize);
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiSetTitle(
-		WaylandWindowApi* self, const char* title)
+WaylandWindowApiError waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title)
 {
 	strncpy(self->title, title, WAYLAND_WINDOW_API_TITLE_LENGTH);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiGetSurface(
-		WaylandWindowApi* self, struct wl_surface** surface)
+WaylandWindowApiError waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface)
 {
 	*surface = self->waylandGlobals->surface;
 	return WAYLAND_WINDOW_API_OK;

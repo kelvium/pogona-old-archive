@@ -4,7 +4,7 @@
 
 #ifdef POGONA_WAYLAND_SUPPORT
 
-#include <pogona/Window/Window.h>
+#include <pogona/window/window.h>
 #include <pogona/types.h>
 #include <wayland-client.h>
 

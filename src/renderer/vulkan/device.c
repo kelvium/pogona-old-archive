@@ -2,7 +2,7 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include <pogona/Renderer/Vulkan/device.h>
+#include <pogona/renderer/vulkan/device.h>
 #include <pogona/logger.h>
 
 VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self)
@@ -41,7 +41,7 @@ VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self)
 		LOGGER_ERROR("could not create device: %d\n", result);
 		return VULKAN_RENDERER_API_COULD_NOT_CREATE_DEVICE;
 	}
-	LOGGER_TRACE("created a device\n");
+	LOGGER_DEBUG("created a device\n");
 	return VULKAN_RENDERER_API_OK;
 }
 

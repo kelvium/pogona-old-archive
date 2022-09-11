@@ -3,7 +3,7 @@
 #ifdef POGONA_VULKAN_SUPPORT
 
 #include <pch.h>
-#include <pogona/Renderer/Vulkan/instance.h>
+#include <pogona/renderer/vulkan/instance.h>
 #include <pogona/logger.h>
 
 VulkanRendererApiError vulkanCreateInstance(VulkanRendererApi* self)

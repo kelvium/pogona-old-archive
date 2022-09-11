@@ -25,13 +25,13 @@ src_pogona = [
 	'src/pogona.c',
 	'src/vector.c',
 	'src/logger.c',
-	'src/Window/Window.c',
-	'src/Window/WaylandWindowApi.c',
-	'src/Renderer/Renderer.c',
-	'src/Renderer/VulkanRendererApi.c',
-	'src/Renderer/Vulkan/instance.c',
-	'src/Renderer/Vulkan/physicalDevice.c',
-	'src/Renderer/Vulkan/device.c',
+	'src/window/window.c',
+	'src/window/wayland_window_api.c',
+	'src/renderer/renderer.c',
+	'src/renderer/vulkan_renderer_api.c',
+	'src/renderer/vulkan/instance.c',
+	'src/renderer/vulkan/physical_device.c',
+	'src/renderer/vulkan/device.c',
 ]
 
 pch_pogona = [

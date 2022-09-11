@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pogona/Window/Window.h>
+#include <pogona/window/window.h>
 #include <pogona/types.h>
 
 typedef void* RendererApi;
@@ -8,7 +8,9 @@ typedef void* RendererApi;
 typedef enum {
 	RENDERER_API_TYPE_NONE,
 
+#ifdef POGONA_VULKAN_SUPPORT
 	RENDERER_API_TYPE_VULKAN,
+#endif
 
 	RENDERER_API_TYPE_ANY,
 } RendererApiType;

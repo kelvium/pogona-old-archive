@@ -3,10 +3,10 @@
 #ifdef POGONA_VULKAN_SUPPORT
 
 #include <pch.h>
-#include <pogona/Renderer/Vulkan/device.h>
-#include <pogona/Renderer/Vulkan/instance.h>
-#include <pogona/Renderer/Vulkan/physicalDevice.h>
-#include <pogona/Renderer/VulkanRendererApi.h>
+#include <pogona/renderer/vulkan/device.h>
+#include <pogona/renderer/vulkan/instance.h>
+#include <pogona/renderer/vulkan/physical_device.h>
+#include <pogona/renderer/vulkan_renderer_api.h>
 #include <pogona/logger.h>
 
 VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
@@ -42,10 +42,10 @@ VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* 
 VulkanRendererApiError vulkanRendererApiDestroy(VulkanRendererApi* self)
 {
 	vkDestroyDevice(self->vulkanGlobals->device, NULL);
-	LOGGER_TRACE("destroyed the device\n");
+	LOGGER_DEBUG("destroyed the device\n");
 
 	vkDestroyInstance(self->vulkanGlobals->instance, NULL);
-	LOGGER_TRACE("destroyed the instance\n");
+	LOGGER_DEBUG("destroyed the instance\n");
 
 	free(self->vulkanGlobals);
 	return VULKAN_RENDERER_API_OK;

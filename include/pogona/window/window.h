@@ -8,7 +8,9 @@ typedef void* WindowApi;
 typedef enum {
 	WINDOW_API_TYPE_ANY,
 
+#ifdef POGONA_WAYLAND_SUPPORT
 	WINDOW_API_TYPE_WAYLAND,
+#endif
 
 	WINDOW_API_TYPE_NONE,
 } WindowApiType;

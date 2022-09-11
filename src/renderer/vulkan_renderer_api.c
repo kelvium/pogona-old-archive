@@ -2,11 +2,12 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
+#include "vulkan/device.h"
+#include "vulkan/instance.h"
+#include "vulkan/physical_device.h"
+#include "vulkan_renderer_api.h"
+
 #include <pch.h>
-#include <pogona/renderer/vulkan/device.h>
-#include <pogona/renderer/vulkan/instance.h>
-#include <pogona/renderer/vulkan/physical_device.h>
-#include <pogona/renderer/vulkan_renderer_api.h>
 #include <pogona/logger.h>
 
 VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)

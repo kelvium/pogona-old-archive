@@ -6,7 +6,7 @@
 
 #include "vulkan/vulkan.h"
 
-#include <pogona/window/window.h>
+#include <pogona/window.h>
 
 typedef struct {
 	Window* window;

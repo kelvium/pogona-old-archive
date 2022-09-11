@@ -4,8 +4,8 @@
 
 #ifdef POGONA_WAYLAND_SUPPORT
 
-#include <pogona/window/window.h>
 #include <pogona/types.h>
+#include <pogona/window.h>
 #include <wayland-client.h>
 
 #define WAYLAND_WINDOW_API_TITLE_LENGTH 256

@@ -6,4 +6,4 @@
 #include <pogona/renderer.h>
 #include <pogona/types.h>
 #include <pogona/vector.h>
-#include <pogona/window/window.h>
+#include <pogona/window.h>

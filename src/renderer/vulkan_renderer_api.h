@@ -4,8 +4,9 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include <pogona/renderer/vulkan/vulkan.h>
-#include <pogona/window/window.h>
+#include "vulkan/vulkan.h"
+
+#include <pogona/window.h>
 
 typedef struct {
 	Window* window;

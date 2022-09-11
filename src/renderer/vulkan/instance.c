@@ -2,8 +2,9 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
+#include "instance.h"
+
 #include <pch.h>
-#include <pogona/renderer/vulkan/instance.h>
 #include <pogona/logger.h>
 
 VulkanRendererApiError vulkanCreateInstance(VulkanRendererApi* self)

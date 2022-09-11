@@ -2,7 +2,8 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include <pogona/renderer/vulkan/device.h>
+#include "device.h"
+
 #include <pogona/logger.h>
 
 VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self)

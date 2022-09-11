@@ -1,10 +1,10 @@
 #include <config.h>
 #include <pch.h>
-#include <pogona/renderer/renderer.h>
+#include <pogona/renderer.h>
 #include <pogona/logger.h>
 
 #ifdef POGONA_VULKAN_SUPPORT
-#include <pogona/renderer/vulkan_renderer_api.h>
+#include "vulkan_renderer_api.h"
 #endif
 
 static RendererApiType sRendererChooseApiType()

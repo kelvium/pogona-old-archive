@@ -39,7 +39,7 @@ RendererError rendererCreate(Renderer* self, RendererApiType apiType, Window* wi
 		return RENDERER_NO_API_AVAILABLE;
 	}
 	}
-	LOGGER_TRACE("created an api\n");
+	LOGGER_DEBUG("created an api\n");
 	return RENDERER_OK;
 }
 
@@ -62,6 +62,6 @@ RendererError rendererDestroy(Renderer* self)
 	}
 	}
 	free(self->api);
-	LOGGER_TRACE("destroyed the api\n");
+	LOGGER_DEBUG("destroyed the api\n");
 	return RENDERER_OK;
 }

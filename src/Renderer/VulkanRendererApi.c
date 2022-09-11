@@ -42,10 +42,10 @@ VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* 
 VulkanRendererApiError vulkanRendererApiDestroy(VulkanRendererApi* self)
 {
 	vkDestroyDevice(self->vulkanGlobals->device, NULL);
-	LOGGER_TRACE("destroyed the device\n");
+	LOGGER_DEBUG("destroyed the device\n");
 
 	vkDestroyInstance(self->vulkanGlobals->instance, NULL);
-	LOGGER_TRACE("destroyed the instance\n");
+	LOGGER_DEBUG("destroyed the instance\n");
 
 	free(self->vulkanGlobals);
 	return VULKAN_RENDERER_API_OK;

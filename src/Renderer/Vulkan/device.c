@@ -41,7 +41,7 @@ VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self)
 		LOGGER_ERROR("could not create device: %d\n", result);
 		return VULKAN_RENDERER_API_COULD_NOT_CREATE_DEVICE;
 	}
-	LOGGER_TRACE("created a device\n");
+	LOGGER_DEBUG("created a device\n");
 	return VULKAN_RENDERER_API_OK;
 }
 

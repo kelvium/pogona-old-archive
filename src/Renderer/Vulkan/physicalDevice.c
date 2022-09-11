@@ -37,17 +37,17 @@ VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self)
 	for (u32 i = 0; i < physicalDeviceGroupsCount; i++) {
 		VkPhysicalDeviceGroupProperties physicalDeviceGroupProperties = physicalDeviceGroupsProperties[i];
 
-		LOGGER_TRACE("physical device group properties %d:\n", i);
-		LOGGER_TRACE(" physical devices count: %d\n", physicalDeviceGroupProperties.physicalDeviceCount);
+		LOGGER_DEBUG("physical device group properties %d:\n", i);
+		LOGGER_DEBUG(" physical devices count: %d\n", physicalDeviceGroupProperties.physicalDeviceCount);
 		for (u32 j = 0; j < physicalDeviceGroupProperties.physicalDeviceCount; j++) {
 			VkPhysicalDevice physicalDevice = physicalDeviceGroupProperties.physicalDevices[j];
 
 			VkPhysicalDeviceProperties physicalDeviceProperties;
 			vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
 
-			LOGGER_TRACE(" physical device %d:\n", j);
-			LOGGER_TRACE("   deviceName: %s\n", physicalDeviceProperties.deviceName);
-			LOGGER_TRACE("   api version: %d.%d.%d\n", VK_API_VERSION_MAJOR(physicalDeviceProperties.apiVersion),
+			LOGGER_DEBUG(" physical device %d:\n", j);
+			LOGGER_DEBUG("   deviceName: %s\n", physicalDeviceProperties.deviceName);
+			LOGGER_DEBUG("   api version: %d.%d.%d\n", VK_API_VERSION_MAJOR(physicalDeviceProperties.apiVersion),
 					VK_API_VERSION_MINOR(physicalDeviceProperties.apiVersion),
 					VK_VERSION_PATCH(physicalDeviceProperties.apiVersion));
 
@@ -94,9 +94,9 @@ VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(
 
 		bool supportsGraphics = queueFamilyProperties.queueFlags & VK_QUEUE_GRAPHICS_BIT;
 
-		LOGGER_TRACE("queue family properties %d:\n", i);
-		LOGGER_TRACE(" queue count: %d\n", queueFamilyProperties.queueCount);
-		LOGGER_TRACE(" supports graphics: %s\n", supportsGraphics ? "true" : "false");
+		LOGGER_DEBUG("queue family properties %d:\n", i);
+		LOGGER_DEBUG(" queue count: %d\n", queueFamilyProperties.queueCount);
+		LOGGER_DEBUG(" supports graphics: %s\n", supportsGraphics ? "true" : "false");
 
 		if (supportsGraphics) {
 			*pickedQueueFamilyPropertiesIndex = i;
@@ -107,7 +107,7 @@ VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(
 	free(queueFamilyPropertiesArray);
 	if (!picked)
 		return VULKAN_RENDERER_API_NO_QUEUE_WITH_GRAPHICS_BIT;
-	LOGGER_TRACE("picked queue family properties index %d\n", *pickedQueueFamilyPropertiesIndex);
+	LOGGER_DEBUG("picked queue family properties index %d\n", *pickedQueueFamilyPropertiesIndex);
 	return VULKAN_RENDERER_API_OK;
 }
 

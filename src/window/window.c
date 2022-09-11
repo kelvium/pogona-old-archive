@@ -1,6 +1,6 @@
 #include <pch.h>
-#include <pogona/Window/WaylandWindowApi.h>
-#include <pogona/Window/Window.h>
+#include <pogona/window/wayland_window_api.h>
+#include <pogona/window/window.h>
 
 static WindowApiType sDetermineApiType()
 {

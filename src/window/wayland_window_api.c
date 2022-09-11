@@ -3,7 +3,7 @@
 #ifdef POGONA_WAYLAND_SUPPORT
 
 #include <pch.h>
-#include <pogona/Window/WaylandWindowApi.h>
+#include <pogona/window/wayland_window_api.h>
 #include <pogona/logger.h>
 #include <wayland-client.h>
 #include <xdg-shell-client-protocol.h>

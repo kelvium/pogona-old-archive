@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pogona/Window/Window.h>
+#include <pogona/window/window.h>
 #include <pogona/types.h>
 
 typedef void* RendererApi;

@@ -1,4 +1,4 @@
-#include "pogona/Renderer/Renderer.h"
+#include "pogona/renderer/renderer.h"
 
 #include <pogona/pogona.h>
 

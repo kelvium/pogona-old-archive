@@ -1,9 +1,9 @@
 #pragma once
 
-#include <pogona/Renderer/Renderer.h>
-#include <pogona/Renderer/VulkanRendererApi.h>
-#include <pogona/Window/WaylandWindowApi.h>
-#include <pogona/Window/Window.h>
+#include <pogona/renderer/renderer.h>
+#include <pogona/renderer/vulkan_renderer_api.h>
+#include <pogona/window/wayland_window_api.h>
+#include <pogona/window/window.h>
 #include <pogona/logger.h>
 #include <pogona/types.h>
 #include <pogona/vector.h>

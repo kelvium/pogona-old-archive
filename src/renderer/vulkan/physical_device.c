@@ -3,7 +3,7 @@
 #ifdef POGONA_VULKAN_SUPPORT
 
 #include <pch.h>
-#include <pogona/Renderer/Vulkan/physicalDevice.h>
+#include <pogona/renderer/vulkan/physical_device.h>
 #include <pogona/logger.h>
 
 VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self)

@@ -1,5 +1,3 @@
-#include "pogona/renderer/renderer.h"
-
 #include <pogona/pogona.h>
 
 int main(void)

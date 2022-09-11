@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022, Nikita Romanyuk <kelvium@yahoo.com>
+ *
+ * SPDX-License-Identifier: BSD-2-Clause
+ */
+
 #include <pogona/pogona.h>
 
 int main(void)

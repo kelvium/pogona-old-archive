@@ -37,8 +37,8 @@ typedef enum {
 } WindowError;
 
 WindowError windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title);
-WindowError windowGetApiType(Window* window, WindowApiType* apiType);
-WindowError windowGetTitle(Window* window, char* title, usize titleSize);
-WindowError windowSetTitle(Window* window, const char* title);
+WindowError windowGetApiType(Window* self, WindowApiType* apiType);
+WindowError windowGetTitle(Window* self, char* title, usize titleSize);
+WindowError windowSetTitle(Window* self, const char* title);
 WindowError windowIsClosed(Window* self, bool* flag);
-WindowError windowDestroy(Window* window);
+WindowError windowDestroy(Window* self);

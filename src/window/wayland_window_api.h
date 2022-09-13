@@ -37,6 +37,7 @@ typedef enum {
 WaylandWindowApiError waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title);
 WaylandWindowApiError waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize);
 WaylandWindowApiError waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title);
+WaylandWindowApiError waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag);
 WaylandWindowApiError waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface);
 WaylandWindowApiError waylandWindowApiDestroy(WaylandWindowApi* self);
 

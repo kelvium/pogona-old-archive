@@ -29,6 +29,11 @@ int main(void)
 	}
 	LOGGER_DEBUG("created a renderer\n");
 
+	bool isClosed = false;
+	while (!(isClosed = windowIsClosed(&window, &isClosed))) {
+		LOGGER_DEBUG("FRAME\n");
+	}
+
 	rendererError = rendererDestroy(&renderer);
 	if (rendererError != RENDERER_OK) {
 		LOGGER_FATAL("could not destroy renderer: %d\n", rendererError);

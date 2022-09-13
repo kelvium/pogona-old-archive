@@ -87,6 +87,23 @@ WindowError windowSetTitle(Window* self, const char* title)
 	return WINDOW_OK;
 }
 
+WindowError windowIsClosed(Window* self, bool* flag)
+{
+	switch (self->apiType) {
+#ifdef POGONA_WAYLAND_SUPPORT
+	case WINDOW_API_TYPE_WAYLAND: {
+		WaylandWindowApiError error = waylandWindowApiIsClosed((WaylandWindowApi*) self->api, flag);
+		if (error != WAYLAND_WINDOW_API_OK)
+			return WINDOW_COULD_NOT_GET_IS_CLOSED;
+		break;
+	}
+#endif
+	default:
+		return WINDOW_NO_API_AVAILABLE;
+	}
+	return WINDOW_OK;
+}
+
 WindowError windowDestroy(Window* self)
 {
 	switch (self->apiType) {

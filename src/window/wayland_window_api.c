@@ -128,6 +128,12 @@ WaylandWindowApiError waylandWindowApiSetTitle(WaylandWindowApi* self, const cha
 	return WAYLAND_WINDOW_API_OK;
 }
 
+WaylandWindowApiError waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
+{
+	*flag = wl_display_dispatch(self->waylandGlobals->display) != -1;
+	return WAYLAND_WINDOW_API_OK;
+}
+
 WaylandWindowApiError waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface)
 {
 	*surface = self->waylandGlobals->surface;

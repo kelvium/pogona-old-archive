@@ -6,12 +6,44 @@
 
 #include <config.h>
 #include <pch.h>
-#include <pogona/renderer.h>
 #include <pogona/logger.h>
+#include <pogona/renderer.h>
 
 #ifdef POGONA_VULKAN_SUPPORT
 #include "vulkan_renderer_api.h"
 #endif
+
+const char* rendererApiTypeToString(RendererApiType apiType)
+{
+	switch (apiType) {
+	case RENDERER_API_TYPE_ANY:
+		return "Any";
+#ifdef POGONA_VULKAN_SUPPORT
+	case RENDERER_API_TYPE_VULKAN:
+		return "Vulkan";
+#endif
+	case RENDERER_API_TYPE_NONE:
+		return "None";
+	default:
+		return "(invalid)";
+	}
+}
+
+const char* rendererErrorToString(RendererError error)
+{
+	switch (error) {
+	case RENDERER_OK:
+		return "Ok";
+	case RENDERER_NO_API_AVAILABLE:
+		return "No API available";
+	case RENDERER_COULD_NOT_CREATE_API:
+		return "Could not create API";
+	case RENDERER_COULD_NOT_DESTROY_API:
+		return "Could not destroy API";
+	default:
+		return "(invalid)";
+	}
+}
 
 static RendererApiType sRendererChooseApiType()
 {
@@ -24,7 +56,7 @@ RendererError rendererCreate(Renderer* self, RendererApiType apiType, Window* wi
 	self->apiType = apiType;
 	if (self->apiType == RENDERER_API_TYPE_ANY) {
 		self->apiType = sRendererChooseApiType();
-		LOGGER_WARN("renderer api type was not specified, chose %d\n", self->apiType);
+		LOGGER_WARN("renderer api type was not specified, chose %s\n", rendererApiTypeToString(self->apiType));
 	}
 	self->window = window;
 

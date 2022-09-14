@@ -9,6 +9,44 @@
 #include <pch.h>
 #include <pogona/window.h>
 
+const char* windowApiTypeToString(WindowApiType apiType)
+{
+	switch (apiType) {
+	case WINDOW_API_TYPE_ANY:
+		return "Any";
+#ifdef POGONA_WAYLAND_SUPPORT
+	case WINDOW_API_TYPE_WAYLAND:
+		return "Wayland";
+#endif
+	case WINDOW_API_TYPE_NONE:
+		return "None";
+	default:
+		return "(invalid)";
+	}
+}
+
+const char* windowErrorToString(WindowError error)
+{
+	switch (error) {
+	case WINDOW_OK:
+		return "Ok";
+	case WINDOW_NO_API_AVAILABLE:
+		return "No API available";
+	case WINDOW_COULD_NOT_CREATE_API:
+		return "Could not create API";
+	case WINDOW_COULD_NOT_DESTROY_API:
+		return "Could not destroy API";
+	case WINDOW_COULD_NOT_GET_TITLE:
+		return "Could not get title";
+	case WINDOW_COULD_NOT_SET_TITLE:
+		return "Could not set title";
+	case WINDOW_COULD_NOT_GET_IS_CLOSED:
+		return "Could not get isClosed()";
+	default:
+		return "(invalid)";
+	}
+}
+
 static WindowApiType sDetermineApiType()
 {
 	// TODO: implement

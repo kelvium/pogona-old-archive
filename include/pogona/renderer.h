@@ -21,6 +21,8 @@ typedef enum {
 	RENDERER_API_TYPE_ANY,
 } RendererApiType;
 
+const char* rendererApiTypeToString(RendererApiType apiType);
+
 typedef struct {
 	Window* window;
 	RendererApi api;
@@ -33,6 +35,8 @@ typedef enum {
 	RENDERER_COULD_NOT_CREATE_API,
 	RENDERER_COULD_NOT_DESTROY_API,
 } RendererError;
+
+const char* rendererErrorToString(RendererError error);
 
 RendererError rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
 RendererError rendererDestroy(Renderer* self);

@@ -15,7 +15,7 @@ int main(void)
 	Window window;
 	windowError = windowCreate(&window, WINDOW_API_TYPE_ANY, 800, 600, "Window");
 	if (windowError != WINDOW_OK) {
-		LOGGER_FATAL("could not create window: %d\n", windowError);
+		LOGGER_FATAL("could not create window: %s\n", windowErrorToString(windowError));
 		return 1;
 	}
 	LOGGER_DEBUG("created a window\n");
@@ -43,7 +43,7 @@ int main(void)
 
 	windowError = windowDestroy(&window);
 	if (windowError != WINDOW_OK) {
-		LOGGER_FATAL("could not destroy window: %d\n", windowError);
+		LOGGER_FATAL("could not destroy window: %s\n", windowErrorToString(windowError));
 		return 1;
 	}
 	LOGGER_DEBUG("destroyed the window\n");

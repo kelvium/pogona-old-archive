@@ -21,6 +21,8 @@ typedef enum {
 	WINDOW_API_TYPE_NONE,
 } WindowApiType;
 
+const char* windowApiTypeToString(WindowApiType apiType);
+
 typedef struct {
 	WindowApi api;
 	WindowApiType apiType;
@@ -35,6 +37,8 @@ typedef enum {
 	WINDOW_COULD_NOT_SET_TITLE,
 	WINDOW_COULD_NOT_GET_IS_CLOSED,
 } WindowError;
+
+const char* windowErrorToString(WindowError error);
 
 WindowError windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title);
 WindowError windowGetApiType(Window* self, WindowApiType* apiType);

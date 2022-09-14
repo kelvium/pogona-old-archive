@@ -11,7 +11,7 @@
 
 #define CHECK(x)                \
 	do {                          \
-		VectorError error = (x);    \
+		i32 error = (x);    \
 		assert(error == VECTOR_OK); \
 	} while (0)
 

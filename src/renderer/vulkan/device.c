@@ -12,9 +12,9 @@
 
 #include <pogona/logger.h>
 
-VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self)
+i32 vulkanCreateDevice(VulkanRendererApi* self)
 {
-	VulkanRendererApiError error;
+	i32 error;
 
 	u32 pickedQueueFamilyPropertiesIndex;
 	error = vulkanPickQueueFamilyPropertiesIndex(self, &pickedQueueFamilyPropertiesIndex);

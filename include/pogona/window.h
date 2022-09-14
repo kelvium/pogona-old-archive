@@ -40,9 +40,9 @@ typedef enum {
 
 const char* windowErrorToString(WindowError error);
 
-WindowError windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title);
-WindowError windowGetApiType(Window* self, WindowApiType* apiType);
-WindowError windowGetTitle(Window* self, char* title, usize titleSize);
-WindowError windowSetTitle(Window* self, const char* title);
-WindowError windowIsClosed(Window* self, bool* flag);
-WindowError windowDestroy(Window* self);
+i32 windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title);
+i32 windowGetApiType(Window* self, WindowApiType* apiType);
+i32 windowGetTitle(Window* self, char* title, usize titleSize);
+i32 windowSetTitle(Window* self, const char* title);
+i32 windowIsClosed(Window* self, bool* flag);
+i32 windowDestroy(Window* self);

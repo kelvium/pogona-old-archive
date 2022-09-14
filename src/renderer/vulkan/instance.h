@@ -12,6 +12,6 @@
 
 #include "../vulkan_renderer_api.h"
 
-VulkanRendererApiError vulkanCreateInstance(VulkanRendererApi* self);
+i32 vulkanCreateInstance(VulkanRendererApi* self);
 
 #endif

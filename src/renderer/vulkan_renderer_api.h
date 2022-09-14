@@ -32,7 +32,7 @@ typedef enum {
 
 const char* vulkanRendererApiErrorToString(VulkanRendererApiError error);
 
-VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* window);
-VulkanRendererApiError vulkanRendererApiDestroy(VulkanRendererApi* self);
+i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window);
+i32 vulkanRendererApiDestroy(VulkanRendererApi* self);
 
 #endif

@@ -34,11 +34,11 @@ typedef enum {
 	WAYLAND_WINDOW_API_COULD_NOT_GET_XDG_TOPLEVEL = -5,
 } WaylandWindowApiError;
 
-WaylandWindowApiError waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title);
-WaylandWindowApiError waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize);
-WaylandWindowApiError waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title);
-WaylandWindowApiError waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag);
-WaylandWindowApiError waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface);
-WaylandWindowApiError waylandWindowApiDestroy(WaylandWindowApi* self);
+i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title);
+i32 waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize);
+i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title);
+i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag);
+i32 waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface);
+i32 waylandWindowApiDestroy(WaylandWindowApi* self);
 
 #endif

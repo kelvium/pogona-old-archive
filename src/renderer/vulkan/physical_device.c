@@ -13,7 +13,7 @@
 #include <pch.h>
 #include <pogona/logger.h>
 
-VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self)
+i32 vulkanPickPhysicalDevice(VulkanRendererApi* self)
 {
 	VkResult result;
 
@@ -77,7 +77,7 @@ VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self)
 	return VULKAN_RENDERER_API_OK;
 }
 
-VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(
+i32 vulkanPickQueueFamilyPropertiesIndex(
 		VulkanRendererApi* self, u32* pickedQueueFamilyPropertiesIndex)
 {
 	// get queue family property count

@@ -38,5 +38,5 @@ typedef enum {
 
 const char* rendererErrorToString(RendererError error);
 
-RendererError rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
-RendererError rendererDestroy(Renderer* self);
+i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
+i32 rendererDestroy(Renderer* self);

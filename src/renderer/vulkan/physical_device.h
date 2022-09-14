@@ -12,7 +12,7 @@
 
 #include "../vulkan_renderer_api.h"
 
-VulkanRendererApiError vulkanPickPhysicalDevice(VulkanRendererApi* self);
-VulkanRendererApiError vulkanPickQueueFamilyPropertiesIndex(VulkanRendererApi* self, u32* pickedQueueFamilyProperties);
+i32 vulkanPickPhysicalDevice(VulkanRendererApi* self);
+i32 vulkanPickQueueFamilyPropertiesIndex(VulkanRendererApi* self, u32* pickedQueueFamilyProperties);
 
 #endif

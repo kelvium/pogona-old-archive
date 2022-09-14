@@ -13,6 +13,6 @@
 #include "../vulkan_renderer_api.h"
 #include "physical_device.h"
 
-VulkanRendererApiError vulkanCreateDevice(VulkanRendererApi* self);
+i32 vulkanCreateDevice(VulkanRendererApi* self);
 
 #endif

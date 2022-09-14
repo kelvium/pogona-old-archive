@@ -16,7 +16,7 @@
 #include <pch.h>
 #include <pogona/logger.h>
 
-const char* vulkanRendererApiErrorToString(VulkanRendererApiError error)
+const char* vulkanRendererApiErrorToString(i32 error)
 {
 	switch (error) {
 	case VULKAN_RENDERER_API_OK:
@@ -40,14 +40,14 @@ const char* vulkanRendererApiErrorToString(VulkanRendererApiError error)
 	}
 }
 
-VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
+i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 {
 	self->window = window;
 	self->vulkanGlobals = calloc(1, sizeof(VulkanGlobals));
 
 	volkInitialize();
 
-	VulkanRendererApiError error;
+	i32 error;
 	error = vulkanCreateInstance(self);
 	if (error != VULKAN_RENDERER_API_OK) {
 		LOGGER_ERROR("could not create an instance: %s\n", vulkanRendererApiErrorToString(error));
@@ -70,7 +70,7 @@ VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* 
 	return VULKAN_RENDERER_API_OK;
 }
 
-VulkanRendererApiError vulkanRendererApiDestroy(VulkanRendererApi* self)
+i32 vulkanRendererApiDestroy(VulkanRendererApi* self)
 {
 	vkDestroyDevice(self->vulkanGlobals->device, NULL);
 	LOGGER_DEBUG("destroyed the device\n");

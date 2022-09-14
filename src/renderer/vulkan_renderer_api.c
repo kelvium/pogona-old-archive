@@ -16,6 +16,30 @@
 #include <pch.h>
 #include <pogona/logger.h>
 
+const char* vulkanRendererApiErrorToString(VulkanRendererApiError error)
+{
+	switch (error) {
+	case VULKAN_RENDERER_API_OK:
+		return "Ok";
+	case VULKAN_RENDERER_API_REQUIRED_VULKAN_VERSION_IS_NOT_SUPPORTED:
+		return "Required Vulkan version is not supported";
+	case VULKAN_RENDERER_API_COULD_NOT_CREATE_INSTANCE:
+		return "Could not create instance";
+	case VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE:
+		return "Could not pick physical device";
+	case VULKAN_RENDERER_API_NO_PHYSICAL_DEVICE_GROUPS:
+		return "No physical device groups";
+	case VULKAN_RENDERER_API_NO_QUEUE_FAMILY_PROPERTIES:
+		return "No queue family properties";
+	case VULKAN_RENDERER_API_NO_QUEUE_WITH_GRAPHICS_BIT:
+		return "No queue with graphics bit";
+	case VULKAN_RENDERER_API_COULD_NOT_CREATE_DEVICE:
+		return "Could not create device";
+	default:
+		return "(invalid)";
+	}
+}
+
 VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 {
 	self->window = window;
@@ -26,20 +50,20 @@ VulkanRendererApiError vulkanRendererApiCreate(VulkanRendererApi* self, Window* 
 	VulkanRendererApiError error;
 	error = vulkanCreateInstance(self);
 	if (error != VULKAN_RENDERER_API_OK) {
-		LOGGER_ERROR("could not create an instance: %d\n", error);
+		LOGGER_ERROR("could not create an instance: %s\n", vulkanRendererApiErrorToString(error));
 		return error;
 	}
 	volkLoadInstance(self->vulkanGlobals->instance);
 
 	error = vulkanPickPhysicalDevice(self);
 	if (error != VULKAN_RENDERER_API_OK) {
-		LOGGER_ERROR("could not pick a physical device: %d\n", error);
+		LOGGER_ERROR("could not pick a physical device: %s\n", vulkanRendererApiErrorToString(error));
 		return error;
 	}
 
 	error = vulkanCreateDevice(self);
 	if (error != VULKAN_RENDERER_API_OK) {
-		LOGGER_ERROR("could not create a device: %d\n", error);
+		LOGGER_ERROR("could not create a device: %s\n", vulkanRendererApiErrorToString(error));
 		return error;
 	}
 	volkLoadDevice(self->vulkanGlobals->device);

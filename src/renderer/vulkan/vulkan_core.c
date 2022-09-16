@@ -180,6 +180,28 @@ static i32 sCreateDevice(void)
 	return 0;
 }
 
+static i32 sCreateCommandPool(void)
+{
+	VkCommandPoolCreateInfo commandPoolCreateInfo = {
+		.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+		.queueFamilyIndex = gVulkanCore.physicalDevice.queueFamilyIndex,
+		.flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT | VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
+	};
+	PVK_VERIFY(vkCreateCommandPool(gVulkanCore.device, &commandPoolCreateInfo, NULL, &gVulkanCore.commandPool));
+
+	VkCommandBuffer commandBuffers[1] = { 0 };
+	VkCommandBufferAllocateInfo commandBufferAllocateInfo = {
+		.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+		.commandBufferCount = 1,
+		.commandPool = gVulkanCore.commandPool,
+		.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+	};
+	PVK_VERIFY(vkAllocateCommandBuffers(gVulkanCore.device, &commandBufferAllocateInfo, commandBuffers));
+
+	gVulkanCore.commandBuffer = commandBuffers[0];
+	return 0;
+}
+
 i32 vulkanInit()
 {
 	if (sCreateInstance() < 0) {
@@ -196,11 +218,17 @@ i32 vulkanInit()
 		LOGGER_ERROR("could not create a device\n");
 		return -1;
 	}
+
+	if (sCreateCommandPool < 0) {
+		LOGGER_ERROR("could not create a command pool\n");
+		return -1;
+	}
 	return 0;
 }
 
 i32 vulkanFini()
 {
+	vkDestroyCommandPool(gVulkanCore.device, gVulkanCore.commandPool, NULL);
 	vkDestroyDevice(gVulkanCore.device, NULL);
 	vkDestroyDebugUtilsMessengerEXT(gVulkanCore.instance, gVulkanCore.debugUtilsMessenger, NULL);
 	vkDestroyInstance(gVulkanCore.instance, NULL);

@@ -13,7 +13,7 @@
 #include <pch.h>
 #include <pogona/logger.h>
 
-VulkanRendererApiError vulkanCreateInstance(VulkanRendererApi* self)
+i32 vulkanCreateInstance(VulkanRendererApi* self)
 {
 	u32 apiVersion;
 	vkEnumerateInstanceVersion(&apiVersion);

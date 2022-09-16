@@ -47,7 +47,7 @@ static void sXdgWmBasePing(void* data, struct xdg_wm_base* xdgWmBase, u32 serial
 	xdg_wm_base_pong(xdgWmBase, serial);
 }
 
-WaylandWindowApiError waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title)
+i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title)
 {
 	self->width = width;
 	self->height = height;
@@ -115,32 +115,32 @@ WaylandWindowApiError waylandWindowApiCreate(WaylandWindowApi* self, usize width
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize)
+i32 waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize)
 {
 	strncpy(title, self->title, titleSize);
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title)
+i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title)
 {
 	strncpy(self->title, title, WAYLAND_WINDOW_API_TITLE_LENGTH);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
+i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
 {
 	*flag = wl_display_dispatch(self->waylandGlobals->display) != -1;
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface)
+i32 waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface)
 {
 	*surface = self->waylandGlobals->surface;
 	return WAYLAND_WINDOW_API_OK;
 }
 
-WaylandWindowApiError waylandWindowApiDestroy(WaylandWindowApi* self)
+i32 waylandWindowApiDestroy(WaylandWindowApi* self)
 {
 	xdg_toplevel_destroy(self->waylandGlobals->xdgToplevel);
 	LOGGER_DEBUG("destroyed xdg_toplevel\n");

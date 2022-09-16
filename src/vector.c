@@ -17,7 +17,7 @@ typedef struct BaseVector {
 	usize typeSize;
 } BaseVector;
 
-VectorError vectorInitImpl(BaseVector* vector, usize typeSize)
+i32 vectorInitImpl(BaseVector* vector, usize typeSize)
 {
 	vector->capacity = VECTOR_START_CAPACITY;
 	vector->size = 0;
@@ -26,9 +26,9 @@ VectorError vectorInitImpl(BaseVector* vector, usize typeSize)
 	return VECTOR_OK;
 }
 
-VectorError vectorPushImpl(BaseVector* vector, void* data)
+i32 vectorPushImpl(BaseVector* vector, void* data)
 {
-	VectorError error = VECTOR_OK;
+	i32 error = VECTOR_OK;
 
 	if (vector->size >= vector->capacity) {
 		error = VECTOR_RESIZE(vector, vector->capacity + VECTOR_RESIZE_BY);
@@ -41,12 +41,12 @@ VectorError vectorPushImpl(BaseVector* vector, void* data)
 	return error;
 }
 
-VectorError vectorPopImpl(BaseVector* vector)
+i32 vectorPopImpl(BaseVector* vector)
 {
 	// TODO: implement shrinking after a lot of pops so we don't lose precious
 	// memory
 
-	VectorError error = VECTOR_OK;
+	i32 error = VECTOR_OK;
 
 	if (vector->size < 1) {
 		error = VECTOR_TOO_SMALL;
@@ -58,7 +58,7 @@ VectorError vectorPopImpl(BaseVector* vector)
 	return error;
 }
 
-VectorError vectorResizeImpl(BaseVector* vector, usize newSize)
+i32 vectorResizeImpl(BaseVector* vector, usize newSize)
 {
 	void* reallocated = realloc(vector->data, newSize * vector->typeSize);
 	if (!reallocated)
@@ -71,7 +71,7 @@ VectorError vectorResizeImpl(BaseVector* vector, usize newSize)
 	return VECTOR_OK;
 }
 
-VectorError vectorShrinkToFitImpl(BaseVector* vector)
+i32 vectorShrinkToFitImpl(BaseVector* vector)
 {
 	usize requiredCapacity = vector->size * vector->typeSize;
 	if (requiredCapacity == vector->capacity)
@@ -90,7 +90,7 @@ VectorError vectorShrinkToFitImpl(BaseVector* vector)
 	return VECTOR_OK;
 }
 
-VectorError vectorFreeImpl(BaseVector* vector)
+i32 vectorFreeImpl(BaseVector* vector)
 {
 	free(vector->data);
 	return VECTOR_OK;

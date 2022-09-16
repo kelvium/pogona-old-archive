@@ -10,7 +10,7 @@
 
 #define CHECK(x)                \
 	do {                          \
-		VectorError error = (x);    \
+		i32 error = (x);    \
 		assert(error == VECTOR_OK); \
 	} while (0)
 
@@ -38,7 +38,7 @@ int main(void)
 	}
 
 	// check that it cannot pop again!
-	VectorError error = VECTOR_POP(&vector);
+	i32 error = VECTOR_POP(&vector);
 	assert(error == VECTOR_TOO_SMALL);
 
 	usize previousCapacity = vector.capacity;

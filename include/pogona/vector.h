@@ -19,17 +19,17 @@
 typedef struct BaseVector BaseVector;
 
 typedef enum {
-	VECTOR_OK,
-	VECTOR_TOO_SMALL,
-	VECTOR_REALLOC_FAILED,
+	VECTOR_OK = 0,
+	VECTOR_TOO_SMALL = -1,
+	VECTOR_REALLOC_FAILED = -2,
 } VectorError;
 
-VectorError vectorInitImpl(BaseVector* vector, usize typeSize);
-VectorError vectorPushImpl(BaseVector* vector, void* data);
-VectorError vectorPopImpl(BaseVector* vector);
-VectorError vectorResizeImpl(BaseVector* vector, usize newSize);
-VectorError vectorShrinkToFitImpl(BaseVector* vector);
-VectorError vectorFreeImpl(BaseVector* vector);
+i32 vectorInitImpl(BaseVector* vector, usize typeSize);
+i32 vectorPushImpl(BaseVector* vector, void* data);
+i32 vectorPopImpl(BaseVector* vector);
+i32 vectorResizeImpl(BaseVector* vector, usize newSize);
+i32 vectorShrinkToFitImpl(BaseVector* vector);
+i32 vectorFreeImpl(BaseVector* vector);
 
 #define VECTOR_INIT(vector) (vectorInitImpl((BaseVector*) vector, sizeof(**vector.data)))
 #define VECTOR_PUSH(vector, ...) (vectorPushImpl((BaseVector*) vector, __VA_ARGS__))

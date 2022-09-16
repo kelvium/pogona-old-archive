@@ -25,6 +25,7 @@ static VkBool32 VKAPI_PTR sDebugCallback(VkDebugUtilsMessageSeverityFlagsEXT sev
 	// Until https://github.com/KhronosGroup/Vulkan-ValidationLayers/issues/4526 is fixed:
 	case 0x3e33626b:
 	case 0x3a56b425:
+	case 0x92b01222:
 		return VK_FALSE;
 	}
 
@@ -154,6 +155,31 @@ static i32 sEnumeratePhysicalDevices(void)
 	return 0;
 }
 
+static i32 sCreateDevice(void)
+{
+	const float queuePriorities[] = { 1.f };
+	VkDeviceQueueCreateInfo deviceQueueCreateInfo = {
+		.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
+		.pQueuePriorities = queuePriorities,
+		.queueCount = 1,
+		.queueFamilyIndex = gVulkanCore.physicalDevice.queueFamilyIndex,
+	};
+
+	VkDeviceCreateInfo deviceCreateInfo = {
+		.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+		.queueCreateInfoCount = 1,
+		.pQueueCreateInfos = &deviceQueueCreateInfo,
+		.enabledLayerCount = 0,
+		.enabledExtensionCount = 0,
+		.ppEnabledLayerNames = NULL,
+		.ppEnabledExtensionNames = NULL,
+		.pEnabledFeatures = NULL,
+	};
+
+	PVK_VERIFY(vkCreateDevice(gVulkanCore.physicalDevice.physicalDevice, &deviceCreateInfo, NULL, &gVulkanCore.device));
+	return 0;
+}
+
 i32 vulkanInit()
 {
 	if (sCreateInstance() < 0) {
@@ -165,11 +191,17 @@ i32 vulkanInit()
 		LOGGER_ERROR("could not enumerate physical devices\n");
 		return -1;
 	}
+
+	if (sCreateDevice() < 0) {
+		LOGGER_ERROR("could not create a device\n");
+		return -1;
+	}
 	return 0;
 }
 
 i32 vulkanFini()
 {
+	vkDestroyDevice(gVulkanCore.device, NULL);
 	vkDestroyDebugUtilsMessengerEXT(gVulkanCore.instance, gVulkanCore.debugUtilsMessenger, NULL);
 	vkDestroyInstance(gVulkanCore.instance, NULL);
 	return 0;

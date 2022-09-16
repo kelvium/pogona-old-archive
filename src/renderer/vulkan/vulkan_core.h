@@ -14,6 +14,7 @@
 
 typedef struct {
 	VkInstance instance;
+	VkDebugUtilsMessengerEXT debugUtilsMessenger;
 } VulkanCore;
 
 extern VulkanCore gVulkanCore;

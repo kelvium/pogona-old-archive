@@ -29,22 +29,6 @@ const char* rendererApiTypeToString(RendererApiType apiType)
 	}
 }
 
-const char* rendererErrorToString(i32 error)
-{
-	switch (error) {
-	case RENDERER_OK:
-		return "Ok";
-	case RENDERER_NO_API_AVAILABLE:
-		return "No API available";
-	case RENDERER_COULD_NOT_CREATE_API:
-		return "Could not create API";
-	case RENDERER_COULD_NOT_DESTROY_API:
-		return "Could not destroy API";
-	default:
-		return "(invalid)";
-	}
-}
-
 static RendererApiType sRendererChooseApiType()
 {
 	// TODO: implement
@@ -65,19 +49,19 @@ i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window)
 	case RENDERER_API_TYPE_VULKAN: {
 		self->api = calloc(1, sizeof(VulkanRendererApi));
 		i32 error = vulkanRendererApiCreate(self->api, self->window);
-		if (error != VULKAN_RENDERER_API_OK) {
+		if (error < 0) {
 			LOGGER_ERROR("could not create a renderer api\n");
-			return RENDERER_COULD_NOT_CREATE_API;
+			return -1;
 		}
 		break;
 	}
 #endif
 	default: {
 		LOGGER_ERROR("no api available\n");
-		return RENDERER_NO_API_AVAILABLE;
+		return -1;
 	}
 	}
-	return RENDERER_OK;
+	return 0;
 }
 
 i32 rendererDestroy(Renderer* self)
@@ -86,18 +70,18 @@ i32 rendererDestroy(Renderer* self)
 #ifdef POGONA_VULKAN_SUPPORT
 	case RENDERER_API_TYPE_VULKAN: {
 		i32 error = vulkanRendererApiDestroy((VulkanRendererApi*) self->api);
-		if (error != VULKAN_RENDERER_API_OK) {
+		if (error < 0) {
 			LOGGER_ERROR("could not destroy renderer api\n");
-			return RENDERER_COULD_NOT_DESTROY_API;
+			return -1;
 		}
 		break;
 	}
 #endif
 	default: {
 		LOGGER_ERROR("no api available\n");
-		return RENDERER_NO_API_AVAILABLE;
+		return -1;
 	}
 	}
 	free(self->api);
-	return RENDERER_OK;
+	return 0;
 }

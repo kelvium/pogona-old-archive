@@ -19,19 +19,6 @@ typedef struct {
 	VulkanGlobals* vulkanGlobals;
 } VulkanRendererApi;
 
-typedef enum {
-	VULKAN_RENDERER_API_OK = 0,
-	VULKAN_RENDERER_API_REQUIRED_VULKAN_VERSION_IS_NOT_SUPPORTED = -1,
-	VULKAN_RENDERER_API_COULD_NOT_CREATE_INSTANCE = -2,
-	VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE = -3,
-	VULKAN_RENDERER_API_NO_PHYSICAL_DEVICE_GROUPS = -4,
-	VULKAN_RENDERER_API_NO_QUEUE_FAMILY_PROPERTIES = -5,
-	VULKAN_RENDERER_API_NO_QUEUE_WITH_GRAPHICS_BIT = -6,
-	VULKAN_RENDERER_API_COULD_NOT_CREATE_DEVICE = -7,
-} VulkanRendererApiError;
-
-const char* vulkanRendererApiErrorToString(VulkanRendererApiError error);
-
 i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window);
 i32 vulkanRendererApiDestroy(VulkanRendererApi* self);
 

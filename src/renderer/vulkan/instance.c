@@ -23,7 +23,7 @@ i32 vulkanCreateInstance(VulkanRendererApi* self)
 	u32 requiredVersion = VK_API_VERSION_1_1;
 	if (apiVersion < requiredVersion) {
 		LOGGER_ERROR("required vulkan version is not supported: %d < %d\n", apiVersion, requiredVersion);
-		return VULKAN_RENDERER_API_REQUIRED_VULKAN_VERSION_IS_NOT_SUPPORTED;
+		return -1;
 	}
 
 	char applicationNameBuffer[256] = { 0 };
@@ -49,9 +49,9 @@ i32 vulkanCreateInstance(VulkanRendererApi* self)
 	VkResult result = vkCreateInstance(&instanceCreateInfo, NULL, &self->vulkanGlobals->instance);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not create a vulkan instance: %d\n", result);
-		return VULKAN_RENDERER_API_COULD_NOT_CREATE_INSTANCE;
+		return -1;
 	}
-	return VULKAN_RENDERER_API_OK;
+	return 0;
 }
 
 #endif

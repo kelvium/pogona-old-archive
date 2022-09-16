@@ -14,15 +14,15 @@ int main(void)
 
 	Window window;
 	error = windowCreate(&window, WINDOW_API_TYPE_ANY, 800, 600, "Window");
-	if (error != WINDOW_OK) {
-		LOGGER_FATAL("could not create window: %s\n", windowErrorToString(error));
+	if (error < 0) {
+		LOGGER_FATAL("could not create window\n");
 		return 1;
 	}
 
 	Renderer renderer;
 	error = rendererCreate(&renderer, RENDERER_API_TYPE_ANY, &window);
-	if (error != RENDERER_OK) {
-		LOGGER_FATAL("could not create renderer: %d\n", rendererErrorToString(error));
+	if (error < 0) {
+		LOGGER_FATAL("could not create renderer\n");
 		return 1;
 	}
 
@@ -32,14 +32,14 @@ int main(void)
 	}
 
 	error = rendererDestroy(&renderer);
-	if (error != RENDERER_OK) {
-		LOGGER_FATAL("could not destroy renderer: %d\n", rendererErrorToString(error));
+	if (error < 0) {
+		LOGGER_FATAL("could not destroy renderer\n");
 		return 1;
 	}
 
 	error = windowDestroy(&window);
-	if (error != WINDOW_OK) {
-		LOGGER_FATAL("could not destroy window: %s\n", windowErrorToString(error));
+	if (error < 0) {
+		LOGGER_FATAL("could not destroy window\n");
 		return 1;
 	}
 	return 0;

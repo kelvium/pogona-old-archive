@@ -22,12 +22,12 @@ i32 vulkanPickPhysicalDevice(VulkanRendererApi* self)
 	result = vkEnumeratePhysicalDeviceGroups(self->vulkanGlobals->instance, &physicalDeviceGroupsCount, NULL);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not enumerate physical device groups: %d\n", result);
-		return VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE;
+		return -1;
 	}
 
 	if (physicalDeviceGroupsCount == 0) {
 		LOGGER_ERROR("no physical devices groups\n");
-		return VULKAN_RENDERER_API_NO_PHYSICAL_DEVICE_GROUPS;
+		return -1;
 	}
 
 	// get physical device group properties
@@ -37,7 +37,7 @@ i32 vulkanPickPhysicalDevice(VulkanRendererApi* self)
 			self->vulkanGlobals->instance, &physicalDeviceGroupsCount, physicalDeviceGroupsProperties);
 	if (result != VK_SUCCESS) {
 		LOGGER_ERROR("could not enumerate physical device groups: %d\n", result);
-		return VULKAN_RENDERER_API_COULD_NOT_PICK_PHYSICAL_DEVICE;
+		return -1;
 	}
 
 	VkPhysicalDevice fallbackPhysicalDevice = NULL;
@@ -74,7 +74,7 @@ i32 vulkanPickPhysicalDevice(VulkanRendererApi* self)
 	}
 
 	free(physicalDeviceGroupsProperties);
-	return VULKAN_RENDERER_API_OK;
+	return 0;
 }
 
 i32 vulkanPickQueueFamilyPropertiesIndex(
@@ -86,7 +86,7 @@ i32 vulkanPickQueueFamilyPropertiesIndex(
 
 	if (queueFamilyPropertyCount == 0) {
 		LOGGER_ERROR("no queue family properties\n");
-		return VULKAN_RENDERER_API_NO_QUEUE_FAMILY_PROPERTIES;
+		return -1;
 	}
 
 	// get queue family properties
@@ -113,9 +113,9 @@ i32 vulkanPickQueueFamilyPropertiesIndex(
 
 	free(queueFamilyPropertiesArray);
 	if (!picked)
-		return VULKAN_RENDERER_API_NO_QUEUE_WITH_GRAPHICS_BIT;
+		return -1;
 	LOGGER_DEBUG("picked queue family properties index %d\n", *pickedQueueFamilyPropertiesIndex);
-	return VULKAN_RENDERER_API_OK;
+	return 0;
 }
 
 #endif

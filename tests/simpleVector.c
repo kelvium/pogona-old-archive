@@ -11,7 +11,7 @@
 #define CHECK(x)                \
 	do {                          \
 		i32 error = (x);    \
-		assert(error == VECTOR_OK); \
+		assert(error == 0); \
 	} while (0)
 
 int main(void)
@@ -39,7 +39,7 @@ int main(void)
 
 	// check that it cannot pop again!
 	i32 error = VECTOR_POP(&vector);
-	assert(error == VECTOR_TOO_SMALL);
+	assert(error < 0);
 
 	usize previousCapacity = vector.capacity;
 	VECTOR_SHRINK_TO_FIT(&vector);

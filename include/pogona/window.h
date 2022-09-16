@@ -28,18 +28,6 @@ typedef struct {
 	WindowApiType apiType;
 } Window;
 
-typedef enum {
-	WINDOW_OK = 0,
-	WINDOW_NO_API_AVAILABLE = -1,
-	WINDOW_COULD_NOT_CREATE_API = -2,
-	WINDOW_COULD_NOT_DESTROY_API = -3,
-	WINDOW_COULD_NOT_GET_TITLE = -4,
-	WINDOW_COULD_NOT_SET_TITLE = -5,
-	WINDOW_COULD_NOT_GET_IS_CLOSED = -6,
-} WindowError;
-
-const char* windowErrorToString(WindowError error);
-
 i32 windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title);
 i32 windowGetApiType(Window* self, WindowApiType* apiType);
 i32 windowGetTitle(Window* self, char* title, usize titleSize);

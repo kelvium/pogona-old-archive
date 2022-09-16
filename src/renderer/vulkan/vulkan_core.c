@@ -35,6 +35,13 @@ static VkBool32 VKAPI_PTR sDebugCallback(VkDebugUtilsMessageSeverityFlagsEXT sev
 
 static i32 sCreateInstance(void)
 {
+	u32 supportedVersion = 0;
+	vkEnumerateInstanceVersion(&supportedVersion);
+	if (supportedVersion < VK_API_VERSION_1_1) {
+		LOGGER_ERROR("vulkan 1.1 is not supported\n");
+		return -1;
+	}
+
 	// FIXME: remove these hacks
 #ifndef NDEBUG
 	const char* layers[] = { "VK_LAYER_KHRONOS_validation" };

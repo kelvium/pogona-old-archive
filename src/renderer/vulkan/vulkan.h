@@ -13,6 +13,18 @@
 #ifdef POGONA_WAYLAND_SUPPORT
 #define VK_USE_PLATFORM_WAYLAND_KHR
 #endif
+
+#include <pogona/logger.h>
+#include <pogona/types.h>
 #include <volk.h>
+
+#define PVK_VERIFY(x)                               \
+	do {                                              \
+		i32 error = x;                                  \
+		if (error < 0) {                                \
+			LOGGER_ERROR("`%s` failed: %i\n", #x, error); \
+			return 1;                                     \
+		}                                               \
+	} while (false)
 
 #endif

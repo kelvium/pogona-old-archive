@@ -29,6 +29,7 @@ src_pogona = [
 	'src/window/wayland_window_api.c',
 	'src/renderer/renderer.c',
 	'src/renderer/vulkan_renderer_api.c',
+	'src/renderer/vulkan/vulkan_core.c',
 ]
 
 pch_pogona = [

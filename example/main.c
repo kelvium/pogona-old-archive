@@ -18,7 +18,6 @@ int main(void)
 		LOGGER_FATAL("could not create window: %s\n", windowErrorToString(error));
 		return 1;
 	}
-	LOGGER_DEBUG("created a window\n");
 
 	Renderer renderer;
 	error = rendererCreate(&renderer, RENDERER_API_TYPE_ANY, &window);
@@ -26,7 +25,6 @@ int main(void)
 		LOGGER_FATAL("could not create renderer: %d\n", rendererErrorToString(error));
 		return 1;
 	}
-	LOGGER_DEBUG("created a renderer\n");
 
 	bool isClosed = false;
 	while (!(isClosed = windowIsClosed(&window, &isClosed))) {
@@ -38,13 +36,11 @@ int main(void)
 		LOGGER_FATAL("could not destroy renderer: %d\n", rendererErrorToString(error));
 		return 1;
 	}
-	LOGGER_DEBUG("destroyed the renderer\n");
 
 	error = windowDestroy(&window);
 	if (error != WINDOW_OK) {
 		LOGGER_FATAL("could not destroy window: %s\n", windowErrorToString(error));
 		return 1;
 	}
-	LOGGER_DEBUG("destroyed the window\n");
 	return 0;
 }

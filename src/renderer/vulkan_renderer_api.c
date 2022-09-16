@@ -73,11 +73,7 @@ i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 i32 vulkanRendererApiDestroy(VulkanRendererApi* self)
 {
 	vkDestroyDevice(self->vulkanGlobals->device, NULL);
-	LOGGER_DEBUG("destroyed the device\n");
-
 	vkDestroyInstance(self->vulkanGlobals->instance, NULL);
-	LOGGER_DEBUG("destroyed the instance\n");
-
 	free(self->vulkanGlobals);
 	return VULKAN_RENDERER_API_OK;
 }

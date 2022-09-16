@@ -77,7 +77,6 @@ i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window)
 		return RENDERER_NO_API_AVAILABLE;
 	}
 	}
-	LOGGER_DEBUG("created an api\n");
 	return RENDERER_OK;
 }
 
@@ -100,6 +99,5 @@ i32 rendererDestroy(Renderer* self)
 	}
 	}
 	free(self->api);
-	LOGGER_DEBUG("destroyed the api\n");
 	return RENDERER_OK;
 }

@@ -13,8 +13,14 @@
 #include "vulkan.h"
 
 typedef struct {
+	VkPhysicalDevice physicalDevice;
+	u32 queueFamilyIndex;
+} PhysicalDevice;
+
+typedef struct {
 	VkInstance instance;
 	VkDebugUtilsMessengerEXT debugUtilsMessenger;
+	PhysicalDevice physicalDevice;
 } VulkanCore;
 
 extern VulkanCore gVulkanCore;

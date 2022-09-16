@@ -15,10 +15,4 @@
 #endif
 #include <volk.h>
 
-typedef struct {
-	VkInstance instance;
-	VkPhysicalDevice physicalDevice;
-	VkDevice device;
-} VulkanGlobals;
-
 #endif

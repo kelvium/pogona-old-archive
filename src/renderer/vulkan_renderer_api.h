@@ -16,7 +16,6 @@
 
 typedef struct {
 	Window* window;
-	VulkanGlobals* vulkanGlobals;
 } VulkanRendererApi;
 
 i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window);

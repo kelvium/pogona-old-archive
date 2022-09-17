@@ -18,7 +18,26 @@ static struct {
 
 	VkSwapchainKHR swapchain;
 	VkFormat imageFormat;
+
+	u32 imagesCount;
+	VkImage* images;
 } sSwapchain = { 0 };
+
+static VkFormat sPickImageFormat()
+{
+	u32 formatsCount = gVulkanCore.surface.surfaceFormatsCount;
+	VkSurfaceFormatKHR* formats = gVulkanCore.surface.surfaceFormats;
+
+	if (formatsCount == 1 && formats[0].format == VK_FORMAT_UNDEFINED)
+		return VK_FORMAT_R8G8B8A8_SRGB;
+
+	for (u32 i = 0; i < formatsCount; ++i) {
+		if (formats[i].format == VK_FORMAT_R8G8B8A8_SRGB || formats[i].format == VK_FORMAT_B8G8R8A8_SRGB)
+			return formats[i].format;
+	}
+
+	return formats[0].format;
+}
 
 static i32 sRecreateSwapchain(bool force)
 {
@@ -57,18 +76,24 @@ static i32 sRecreateSwapchain(bool force)
 		.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
 	};
 	PVK_VERIFY(vkCreateSwapchainKHR(gVulkanCore.device, &swapchainCreateInfo, NULL, &sSwapchain.swapchain));
+
+	PVK_VERIFY(vkGetSwapchainImagesKHR(gVulkanCore.device, sSwapchain.swapchain, &sSwapchain.imagesCount, NULL));
+	sSwapchain.images = calloc(sSwapchain.imagesCount, sizeof(VkImage));
+	PVK_VERIFY(
+			vkGetSwapchainImagesKHR(gVulkanCore.device, sSwapchain.swapchain, &sSwapchain.imagesCount, sSwapchain.images));
 	return 0;
 }
 
 i32 vulkanCreateSwapchain(void)
 {
-	sSwapchain.imageFormat = VK_FORMAT_R8G8B8A8_SRGB;
+	sSwapchain.imageFormat = sPickImageFormat();
 	return sRecreateSwapchain(true);
 }
 
 i32 vulkanDestroySwapchain(void)
 {
 	vkDestroySwapchainKHR(gVulkanCore.device, sSwapchain.swapchain, NULL);
+	free(sSwapchain.images);
 	return 0;
 }
 

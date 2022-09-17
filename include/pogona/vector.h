@@ -55,3 +55,4 @@ typedef VECTOR(usize) USizeVector;
 typedef VECTOR(isize) ISizeVector;
 
 typedef VECTOR(void*) VoidVector;
+typedef VECTOR(const char*) StringVector;

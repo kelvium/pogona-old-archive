@@ -8,8 +8,8 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include "vulkan_renderer_api.h"
 #include "vulkan/vulkan_core.h"
+#include "vulkan_renderer_api.h"
 
 #include <pch.h>
 #include <pogona/logger.h>
@@ -23,6 +23,12 @@ i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 		LOGGER_ERROR("failed to initialize vulkan\n");
 		return -1;
 	}
+	return 0;
+}
+
+i32 vulkanRendererApiDraw(VulkanRendererApi* self)
+{
+	// TODO:
 	return 0;
 }
 

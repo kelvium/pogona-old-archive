@@ -19,6 +19,7 @@ typedef struct {
 } VulkanRendererApi;
 
 i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window);
+i32 vulkanRendererApiDraw(VulkanRendererApi* self);
 i32 vulkanRendererApiDestroy(VulkanRendererApi* self);
 
 #endif

@@ -64,6 +64,25 @@ i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window)
 	return 0;
 }
 
+i32 rendererDraw(Renderer* self)
+{
+	switch (self->apiType) {
+#ifdef POGONA_VULKAN_SUPPORT
+	case RENDERER_API_TYPE_VULKAN: {
+		i32 error = vulkanRendererApiDraw(self->api);
+		if (error < 0) {
+			LOGGER_ERROR("could not draw with vulkan\n");
+			return -1;
+		}
+		break;
+	}
+#endif
+	default:
+		return -1;
+	}
+	return 0;
+}
+
 i32 rendererDestroy(Renderer* self)
 {
 	switch (self->apiType) {

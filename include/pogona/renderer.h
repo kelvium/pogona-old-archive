@@ -30,4 +30,5 @@ typedef struct {
 } Renderer;
 
 i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
+i32 rendererDraw(Renderer* self);
 i32 rendererDestroy(Renderer* self);

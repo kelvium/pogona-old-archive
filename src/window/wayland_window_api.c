@@ -171,8 +171,7 @@ i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
 i32 waylandWindowApiPollEvents(WaylandWindowApi* self)
 {
 	// is this right?...
-	while (wl_display_dispatch(self->waylandGlobals->display) != -1) { };
-	return 0;
+	return wl_display_dispatch(self->waylandGlobals->display) != -1;
 }
 
 i32 waylandWindowApiGetDisplay(WaylandWindowApi* self, struct wl_display** display)

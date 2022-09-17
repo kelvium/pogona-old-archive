@@ -12,6 +12,8 @@
 
 #include "vulkan.h"
 
+#include <pogona/window.h>
+
 typedef struct {
 	VkPhysicalDevice physicalDevice;
 	u32 queueFamilyIndex;
@@ -24,11 +26,12 @@ typedef struct {
 	VkDevice device;
 	VkCommandPool commandPool;
 	VkCommandBuffer commandBuffer;
+	VkSurfaceKHR surface;
 } VulkanCore;
 
 extern VulkanCore gVulkanCore;
 
-i32 vulkanInit(void);
+i32 vulkanInit(Window* window);
 i32 vulkanFini(void);
 
 #endif

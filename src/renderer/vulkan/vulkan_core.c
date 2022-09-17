@@ -9,6 +9,7 @@
 #ifdef POGONA_VULKAN_SUPPORT
 
 #include "vulkan_core.h"
+#include "vulkan_surface.h"
 
 #include <pch.h>
 #include <pogona/vector.h>
@@ -224,7 +225,7 @@ static i32 sCreateCommandPool(void)
 	return 0;
 }
 
-i32 vulkanInit()
+i32 vulkanInit(Window* window)
 {
 	if (sCreateInstance() < 0) {
 		LOGGER_ERROR("could not create an instance\n");
@@ -243,6 +244,11 @@ i32 vulkanInit()
 
 	if (sCreateCommandPool() < 0) {
 		LOGGER_ERROR("could not create a command pool\n");
+		return -1;
+	}
+
+	if (vulkanCreateSurface(window, &gVulkanCore.surface) < 0) {
+		LOGGER_ERROR("could not create a surface\n");
 		return -1;
 	}
 	return 0;

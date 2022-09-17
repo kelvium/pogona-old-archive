@@ -19,7 +19,7 @@ i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 	self->window = window;
 
 	volkInitialize();
-	if (vulkanInit() < 0) {
+	if (vulkanInit(window) < 0) {
 		LOGGER_ERROR("failed to initialize vulkan\n");
 		return -1;
 	}

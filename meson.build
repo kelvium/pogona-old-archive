@@ -30,6 +30,7 @@ src_pogona = [
 	'src/renderer/renderer.c',
 	'src/renderer/vulkan_renderer_api.c',
 	'src/renderer/vulkan/vulkan_core.c',
+	'src/renderer/vulkan/vulkan_surface.c',
 ]
 
 pch_pogona = [

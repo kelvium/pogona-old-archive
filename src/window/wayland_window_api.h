@@ -25,19 +25,11 @@ typedef struct {
 	WaylandGlobals* waylandGlobals;
 } WaylandWindowApi;
 
-typedef enum {
-	WAYLAND_WINDOW_API_OK = 0,
-	WAYLAND_WINDOW_API_COULD_NOT_CONNECT_TO_DISPLAY = -1,
-	WAYLAND_WINDOW_API_COULD_NOT_GET_REGISTRY = -2,
-	WAYLAND_WINDOW_API_COULD_NOT_CREATE_SURFACE = -3,
-	WAYLAND_WINDOW_API_COULD_NOT_GET_XDG_SURFACE = -4,
-	WAYLAND_WINDOW_API_COULD_NOT_GET_XDG_TOPLEVEL = -5,
-} WaylandWindowApiError;
-
 i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title);
 i32 waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize);
 i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title);
 i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag);
+i32 waylandWindowApiGetDisplay(WaylandWindowApi* self, struct wl_display** display);
 i32 waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface);
 i32 waylandWindowApiDestroy(WaylandWindowApi* self);
 

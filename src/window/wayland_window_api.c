@@ -56,7 +56,7 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 	self->waylandGlobals->display = wl_display_connect(NULL);
 	if (!self->waylandGlobals->display) {
 		LOGGER_ERROR("could not connect to display\n");
-		return WAYLAND_WINDOW_API_COULD_NOT_CONNECT_TO_DISPLAY;
+		return -1;
 	}
 
 	// get a registry && get required protocols from it
@@ -67,7 +67,7 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 	self->waylandGlobals->registry = wl_display_get_registry(self->waylandGlobals->display);
 	if (!self->waylandGlobals->registry) {
 		LOGGER_ERROR("could not get registry\n");
-		return WAYLAND_WINDOW_API_COULD_NOT_GET_REGISTRY;
+		return -1;
 	}
 	wl_registry_add_listener(self->waylandGlobals->registry, &sRegistryListener, (void*) self->waylandGlobals);
 	wl_display_dispatch(self->waylandGlobals->display);
@@ -77,7 +77,7 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 	self->waylandGlobals->surface = wl_compositor_create_surface(self->waylandGlobals->compositor);
 	if (!self->waylandGlobals->surface) {
 		LOGGER_ERROR("could not create a surface\n");
-		return WAYLAND_WINDOW_API_COULD_NOT_CREATE_SURFACE;
+		return -1;
 	}
 
 	// add a ping-pong listener to xdg_wm_base
@@ -91,46 +91,52 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 			= xdg_wm_base_get_xdg_surface(self->waylandGlobals->xdgWmBase, self->waylandGlobals->surface);
 	if (!self->waylandGlobals->xdgSurface) {
 		LOGGER_ERROR("could not get an xdg_surface\n");
-		return WAYLAND_WINDOW_API_COULD_NOT_GET_XDG_SURFACE;
+		return -1;
 	}
 
 	// get an xdg_toplevel from the xdg_surface
 	self->waylandGlobals->xdgToplevel = xdg_surface_get_toplevel(self->waylandGlobals->xdgSurface);
 	if (!self->waylandGlobals->xdgToplevel) {
 		LOGGER_ERROR("could not get an xdg_toplevel\n");
-		return WAYLAND_WINDOW_API_COULD_NOT_GET_XDG_TOPLEVEL;
+		return -1;
 	}
 
 	// set xdg_toplevel properties
 	xdg_toplevel_set_min_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
 	xdg_toplevel_set_max_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
-	return WAYLAND_WINDOW_API_OK;
+	return 0;
 }
 
 i32 waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize)
 {
 	strncpy(title, self->title, titleSize);
-	return WAYLAND_WINDOW_API_OK;
+	return 0;
 }
 
 i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title)
 {
 	strncpy(self->title, title, WAYLAND_WINDOW_API_TITLE_LENGTH);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
-	return WAYLAND_WINDOW_API_OK;
+	return 0;
 }
 
 i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
 {
 	*flag = wl_display_dispatch(self->waylandGlobals->display) != -1;
-	return WAYLAND_WINDOW_API_OK;
+	return 0;
+}
+
+i32 waylandWindowApiGetDisplay(WaylandWindowApi *self, struct wl_display **display)
+{
+	*display = self->waylandGlobals->display;
+	return 0;
 }
 
 i32 waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface)
 {
 	*surface = self->waylandGlobals->surface;
-	return WAYLAND_WINDOW_API_OK;
+	return 0;
 }
 
 i32 waylandWindowApiDestroy(WaylandWindowApi* self)
@@ -143,7 +149,7 @@ i32 waylandWindowApiDestroy(WaylandWindowApi* self)
 	wl_compositor_destroy(self->waylandGlobals->compositor);
 	wl_display_disconnect(self->waylandGlobals->display);
 	free(self->waylandGlobals);
-	return WAYLAND_WINDOW_API_OK;
+	return 0;
 }
 
 #endif

@@ -22,6 +22,7 @@ static struct {
 
 	u32 imagesCount;
 	VkImage* images;
+	VkImageView* imageViews;
 } sSwapchain = { 0 };
 
 static VkFormat sPickImageFormat()
@@ -83,7 +84,7 @@ static i32 sRecreateSwapchain(bool force)
 		//.imageExtent = surfaceCapabilities.currentExtent,
 		.minImageCount = surfaceCapabilities.minImageCount + 1,
 		.imageArrayLayers = 1,
-		.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
+		.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
 		.queueFamilyIndexCount = 1,
 		.pQueueFamilyIndices = &gVulkanCore.physicalDevice.queueFamilyIndex,
 		.preTransform = surfaceCapabilities.currentTransform,
@@ -95,6 +96,22 @@ static i32 sRecreateSwapchain(bool force)
 	sSwapchain.images = calloc(sSwapchain.imagesCount, sizeof(VkImage));
 	PVK_VERIFY(
 			vkGetSwapchainImagesKHR(gVulkanCore.device, sSwapchain.swapchain, &sSwapchain.imagesCount, sSwapchain.images));
+
+	sSwapchain.imageViews = calloc(sSwapchain.imagesCount, sizeof(VkImageView));
+	for (u32 i = 0; i < sSwapchain.imagesCount; ++i) {
+		VkImageViewCreateInfo imageViewCreateInfo = {
+			.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+			.viewType = VK_IMAGE_VIEW_TYPE_2D,
+			.format = sSwapchain.imageFormat,
+			.image = sSwapchain.images[i],
+			.subresourceRange = {
+				.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+				.levelCount = 1,
+				.layerCount = 1,
+			},
+		};
+		PVK_VERIFY(vkCreateImageView(gVulkanCore.device, &imageViewCreateInfo, NULL, sSwapchain.imageViews + i));
+	}
 	return 0;
 }
 
@@ -105,8 +122,19 @@ i32 vulkanCreateSwapchain(void)
 	return sRecreateSwapchain(true);
 }
 
+i32 vulkanAcquireNextImage(VkImage* image, VkSemaphore semaphore)
+{
+	u32 index = 0;
+	PVK_VERIFY(vkAcquireNextImageKHR(gVulkanCore.device, sSwapchain.swapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &index));
+	*image = sSwapchain.images[index];
+	return 0;
+}
+
 i32 vulkanDestroySwapchain(void)
 {
+	for (u32 i = 0; i < sSwapchain.imagesCount; ++i) {
+		vkDestroyImageView(gVulkanCore.device, sSwapchain.imageViews[i], NULL);
+	}
 	vkDestroySwapchainKHR(gVulkanCore.device, sSwapchain.swapchain, NULL);
 	free(sSwapchain.images);
 	return 0;

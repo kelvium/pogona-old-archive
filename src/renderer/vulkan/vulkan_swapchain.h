@@ -15,6 +15,7 @@
 #include <pch.h>
 
 i32 vulkanCreateSwapchain(void);
+i32 vulkanAcquireNextImage(VkImage* image, VkSemaphore semaphore);
 i32 vulkanDestroySwapchain(void);
 
 #endif

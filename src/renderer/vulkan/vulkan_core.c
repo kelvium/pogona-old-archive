@@ -241,7 +241,7 @@ i32 vulkanInit()
 		return -1;
 	}
 
-	if (sCreateCommandPool < 0) {
+	if (sCreateCommandPool() < 0) {
 		LOGGER_ERROR("could not create a command pool\n");
 		return -1;
 	}

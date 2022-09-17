@@ -45,6 +45,14 @@ static void sXdgWmBasePing(void* data, struct xdg_wm_base* xdgWmBase, u32 serial
 	xdg_wm_base_pong(xdgWmBase, serial);
 }
 
+static void sXdgSurfaceConfigure(void* data, struct xdg_surface* xdgSurface, u32 serial)
+{
+	WaylandGlobals* globals = (WaylandGlobals*) data;
+
+	xdg_surface_ack_configure(xdgSurface, serial);
+	wl_surface_commit(globals->surface);
+}
+
 i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title)
 {
 	self->width = width;
@@ -93,6 +101,10 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 		LOGGER_ERROR("could not get an xdg_surface\n");
 		return -1;
 	}
+	static const struct xdg_surface_listener sXdgSurfaceListener = {
+		.configure = sXdgSurfaceConfigure,
+	};
+	xdg_surface_add_listener(self->waylandGlobals->xdgSurface, &sXdgSurfaceListener, (void*) self->waylandGlobals);
 
 	// get an xdg_toplevel from the xdg_surface
 	self->waylandGlobals->xdgToplevel = xdg_surface_get_toplevel(self->waylandGlobals->xdgSurface);
@@ -100,6 +112,10 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 		LOGGER_ERROR("could not get an xdg_toplevel\n");
 		return -1;
 	}
+
+	// roundtrip again
+	wl_surface_commit(self->waylandGlobals->surface);
+	wl_display_roundtrip(self->waylandGlobals->display);
 
 	// set xdg_toplevel properties
 	xdg_toplevel_set_min_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
@@ -127,7 +143,7 @@ i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
 	return 0;
 }
 
-i32 waylandWindowApiGetDisplay(WaylandWindowApi *self, struct wl_display **display)
+i32 waylandWindowApiGetDisplay(WaylandWindowApi* self, struct wl_display** display)
 {
 	*display = self->waylandGlobals->display;
 	return 0;

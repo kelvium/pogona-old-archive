@@ -256,6 +256,7 @@ i32 vulkanInit(Window* window)
 
 i32 vulkanFini()
 {
+	vkDestroySurfaceKHR(gVulkanCore.instance, gVulkanCore.surface, NULL);
 	vkDestroyCommandPool(gVulkanCore.device, gVulkanCore.commandPool, NULL);
 	vkDestroyDevice(gVulkanCore.device, NULL);
 	vkDestroyDebugUtilsMessengerEXT(gVulkanCore.instance, gVulkanCore.debugUtilsMessenger, NULL);

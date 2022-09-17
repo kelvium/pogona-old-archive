@@ -64,7 +64,13 @@ if dep_wayland_client.found()
 endif
 
 if get_option('vulkan_support').enabled()
-	subproject_volk = cmake.subproject('volk')
+	options = cmake.subproject_options()
+	# FIXME: this is not cross-platform!!! (even with if uncommented)
+	#if get_option('wayland_support').enabled()
+		options.add_cmake_defines({'VOLK_STATIC_DEFINES': 'VK_USE_PLATFORM_WAYLAND_KHR'})
+	#endif
+
+	subproject_volk = cmake.subproject('volk', options: options)
 	dep_volk = subproject_volk.dependency('volk')
 	if dep_volk.found()
 		deps_pogona += dep_volk

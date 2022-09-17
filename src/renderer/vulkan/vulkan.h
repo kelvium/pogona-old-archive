@@ -10,10 +10,6 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#ifdef POGONA_WAYLAND_SUPPORT
-#define VK_USE_PLATFORM_WAYLAND_KHR
-#endif
-
 #include <pogona/logger.h>
 #include <pogona/types.h>
 #include <volk.h>

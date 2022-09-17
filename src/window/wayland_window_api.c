@@ -23,6 +23,8 @@ typedef struct WaylandGlobals {
 	struct xdg_wm_base* xdgWmBase;
 	struct xdg_surface* xdgSurface;
 	struct xdg_toplevel* xdgToplevel;
+
+	bool running;
 } WaylandGlobals;
 
 static void sRegistryGlobal(void* data, struct wl_registry* registry, u32 name, const char* interface, u32 version)
@@ -51,6 +53,22 @@ static void sXdgSurfaceConfigure(void* data, struct xdg_surface* xdgSurface, u32
 
 	xdg_surface_ack_configure(xdgSurface, serial);
 	wl_surface_commit(globals->surface);
+}
+
+static void sXdgToplevelConfigure(
+		void* data, struct xdg_toplevel* xdgToplevel, i32 width, i32 height, struct wl_array* states)
+{
+	(void) data;
+	(void) xdgToplevel;
+	(void) width;
+	(void) height;
+	(void) states;
+}
+
+static void sXdgToplevelClose(void* data, struct xdg_toplevel* xdgToplevel)
+{
+	(void) xdgToplevel;
+	((WaylandGlobals*) data)->running = false;
 }
 
 i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title)
@@ -112,6 +130,11 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 		LOGGER_ERROR("could not get an xdg_toplevel\n");
 		return -1;
 	}
+	static const struct xdg_toplevel_listener sXdgToplevelListener = {
+		.configure = sXdgToplevelConfigure,
+		.close = sXdgToplevelClose,
+	};
+	xdg_toplevel_add_listener(self->waylandGlobals->xdgToplevel, &sXdgToplevelListener, (void*) self->waylandGlobals);
 
 	// roundtrip again
 	wl_surface_commit(self->waylandGlobals->surface);
@@ -121,6 +144,8 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 	xdg_toplevel_set_min_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
 	xdg_toplevel_set_max_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
+
+	self->waylandGlobals->running = true;
 	return 0;
 }
 
@@ -139,7 +164,14 @@ i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title)
 
 i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
 {
-	*flag = wl_display_dispatch(self->waylandGlobals->display) != -1;
+	*flag = self->waylandGlobals->running;
+	return 0;
+}
+
+i32 waylandWindowApiPollEvents(WaylandWindowApi* self)
+{
+	// is this right?...
+	while (wl_display_dispatch(self->waylandGlobals->display) != -1) { };
 	return 0;
 }
 

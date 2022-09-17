@@ -28,9 +28,9 @@ int main(void)
 
 	bool isClosed = false;
 	while (!isClosed) {
-		rendererDraw(&renderer);
 		windowPollEvents(&window);
-		isClosed = windowIsClosed(&window, &isClosed);
+		rendererDraw(&renderer);
+		windowIsClosed(&window, &isClosed);
 	}
 
 	error = rendererDestroy(&renderer);

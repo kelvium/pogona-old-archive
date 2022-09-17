@@ -173,6 +173,11 @@ static i32 sEnumeratePhysicalDevices(void)
 
 static i32 sCreateDevice(void)
 {
+	/* we don't need a debug extension or something, so we can use a simple array */
+	const char* extensions[] = {
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+	};
+
 	const float queuePriorities[] = { 1.f };
 	VkDeviceQueueCreateInfo deviceQueueCreateInfo = {
 		.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
@@ -186,9 +191,9 @@ static i32 sCreateDevice(void)
 		.queueCreateInfoCount = 1,
 		.pQueueCreateInfos = &deviceQueueCreateInfo,
 		.enabledLayerCount = 0,
-		.enabledExtensionCount = 0,
+		.enabledExtensionCount = sizeof(extensions) / sizeof(extensions[0]),
 		.ppEnabledLayerNames = NULL,
-		.ppEnabledExtensionNames = NULL,
+		.ppEnabledExtensionNames = extensions,
 		.pEnabledFeatures = NULL,
 	};
 

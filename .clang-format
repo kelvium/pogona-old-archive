@@ -11,7 +11,7 @@ PointerAlignment: Left
 ReflowComments: 'true'
 SortIncludes: 'true'
 TabWidth: '2'
-UseTab: Always
+UseTab: AlignWithSpaces
 BreakBeforeBraces: WebKit
 SpaceAfterCStyleCast: 'true'
 

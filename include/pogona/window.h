@@ -33,4 +33,5 @@ i32 windowGetApiType(Window* self, WindowApiType* apiType);
 i32 windowGetTitle(Window* self, char* title, usize titleSize);
 i32 windowSetTitle(Window* self, const char* title);
 i32 windowIsClosed(Window* self, bool* flag);
+i32 windowPollEvents(Window* self);
 i32 windowDestroy(Window* self);

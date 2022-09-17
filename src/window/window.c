@@ -119,6 +119,23 @@ i32 windowIsClosed(Window* self, bool* flag)
 	return -1;
 }
 
+i32 windowPollEvents(Window* self)
+{
+	switch (self->apiType) {
+#ifdef POGONA_WAYLAND_SUPPORT
+	case WINDOW_API_TYPE_WAYLAND: {
+		i32 error = waylandWindowApiPollEvents((WaylandWindowApi*) self->api);
+		if (error < 0)
+			return -1;
+		break;
+	}
+#endif
+	default:
+		return -1;
+	}
+	return -1;
+}
+
 i32 windowDestroy(Window* self)
 {
 	switch (self->apiType) {

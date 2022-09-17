@@ -33,6 +33,20 @@ static i32 sCreateWaylandSurface(WaylandWindowApi* api, VkSurfaceKHR* surface)
 		.surface = waylandSurface,
 	};
 	PVK_VERIFY(vkCreateWaylandSurfaceKHR(gVulkanCore.instance, &waylandSurfaceCreateInfo, NULL, surface));
+
+	// get surface formats
+	PVK_VERIFY(vkGetPhysicalDeviceSurfaceFormatsKHR(gVulkanCore.physicalDevice.physicalDevice,
+			gVulkanCore.surface.surface, &gVulkanCore.surface.surfaceFormatsCount, NULL));
+	gVulkanCore.surface.surfaceFormats = calloc(gVulkanCore.surface.surfaceFormatsCount, sizeof(VkSurfaceFormatKHR));
+	PVK_VERIFY(vkGetPhysicalDeviceSurfaceFormatsKHR(gVulkanCore.physicalDevice.physicalDevice,
+			gVulkanCore.surface.surface, &gVulkanCore.surface.surfaceFormatsCount, gVulkanCore.surface.surfaceFormats));
+
+	// get present modes
+	PVK_VERIFY(vkGetPhysicalDeviceSurfacePresentModesKHR(gVulkanCore.physicalDevice.physicalDevice,
+			gVulkanCore.surface.surface, &gVulkanCore.surface.presentModesCount, NULL));
+	gVulkanCore.surface.presentModes = calloc(gVulkanCore.surface.surfaceFormatsCount, sizeof(VkPresentModeKHR));
+	PVK_VERIFY(vkGetPhysicalDeviceSurfacePresentModesKHR(gVulkanCore.physicalDevice.physicalDevice,
+			gVulkanCore.surface.surface, &gVulkanCore.surface.presentModesCount, gVulkanCore.surface.presentModes));
 	return 0;
 }
 #endif
@@ -54,6 +68,14 @@ i32 vulkanCreateSurface(Window* window, VkSurfaceKHR* surface)
 		LOGGER_ERROR("window api is not supported with vulkan\n");
 		return -1;
 	}
+	return 0;
+}
+
+i32 vulkanDestroySurface()
+{
+	vkDestroySurfaceKHR(gVulkanCore.instance, gVulkanCore.surface.surface, NULL);
+	free(gVulkanCore.surface.surfaceFormats);
+	free(gVulkanCore.surface.presentModes);
 	return 0;
 }
 

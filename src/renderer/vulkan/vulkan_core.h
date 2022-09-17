@@ -26,7 +26,14 @@ typedef struct {
 	VkDevice device;
 	VkCommandPool commandPool;
 	VkCommandBuffer commandBuffer;
-	VkSurfaceKHR surface;
+	struct {
+		VkSurfaceKHR surface;
+
+		u32 surfaceFormatsCount;
+		VkSurfaceFormatKHR* surfaceFormats;
+		u32 presentModesCount;
+		VkPresentModeKHR* presentModes;
+	} surface;
 } VulkanCore;
 
 extern VulkanCore gVulkanCore;

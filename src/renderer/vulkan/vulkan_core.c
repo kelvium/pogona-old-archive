@@ -28,6 +28,9 @@ static VkBool32 VKAPI_PTR sDebugCallback(VkDebugUtilsMessageSeverityFlagsEXT sev
 	case 0x3e33626b:
 	case 0x3a56b425:
 	case 0x92b01222:
+	case 0x3b896d80:
+	case 0x36944ae0:
+	case 0x1c7693fb:
 		return VK_FALSE;
 	}
 
@@ -247,7 +250,7 @@ i32 vulkanInit(Window* window)
 		return -1;
 	}
 
-	if (vulkanCreateSurface(window, &gVulkanCore.surface) < 0) {
+	if (vulkanCreateSurface(window, &gVulkanCore.surface.surface) < 0) {
 		LOGGER_ERROR("could not create a surface\n");
 		return -1;
 	}
@@ -256,7 +259,7 @@ i32 vulkanInit(Window* window)
 
 i32 vulkanFini()
 {
-	vkDestroySurfaceKHR(gVulkanCore.instance, gVulkanCore.surface, NULL);
+	vulkanDestroySurface();
 	vkDestroyCommandPool(gVulkanCore.device, gVulkanCore.commandPool, NULL);
 	vkDestroyDevice(gVulkanCore.device, NULL);
 	vkDestroyDebugUtilsMessengerEXT(gVulkanCore.instance, gVulkanCore.debugUtilsMessenger, NULL);

@@ -15,5 +15,6 @@
 #include <pogona/window.h>
 
 i32 vulkanCreateSurface(Window* window, VkSurfaceKHR* surface);
+i32 vulkanDestroySurface(void);
 
 #endif

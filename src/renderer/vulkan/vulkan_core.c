@@ -184,6 +184,7 @@ static i32 sCreateDevice(void)
 	};
 
 	PVK_VERIFY(vkCreateDevice(gVulkanCore.physicalDevice.physicalDevice, &deviceCreateInfo, NULL, &gVulkanCore.device));
+	volkLoadDevice(gVulkanCore.device);
 	return 0;
 }
 

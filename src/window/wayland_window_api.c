@@ -164,7 +164,7 @@ i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title)
 
 i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
 {
-	*flag = self->waylandGlobals->running;
+	*flag = !self->waylandGlobals->running;
 	return 0;
 }
 

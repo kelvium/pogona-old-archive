@@ -11,6 +11,7 @@
 #include "vulkan_core.h"
 
 #include <pch.h>
+#include <pogona/vector.h>
 
 VulkanCore gVulkanCore = { 0 };
 
@@ -42,19 +43,24 @@ static i32 sCreateInstance(void)
 		return -1;
 	}
 
-	// FIXME: remove these hacks
+	StringVector extensions;
+	StringVector layers;
+	VECTOR_INIT(&extensions);
+	VECTOR_INIT(&layers);
+
+	/* this variable is required because our vector implementation takes a pointer :-p */
+	const char* dataToPush = VK_KHR_SURFACE_EXTENSION_NAME;
+	VECTOR_PUSH(&extensions, &dataToPush);
+#ifdef POGONA_WAYLAND_SUPPORT
+	dataToPush = VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME;
+	VECTOR_PUSH(&extensions, &dataToPush);
+#endif
+
 #ifndef NDEBUG
-	const char* layers[] = { "VK_LAYER_KHRONOS_validation" };
-	const u32 layersCount = 1;
-
-	const char* extensions[] = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME };
-	const u32 extensionsCount = 1;
-#else
-	const char* layers[] = {};
-	const u32 layersCount = 0;
-
-	const char* extensions[] = {};
-	const u32 extensionsCount = 0;
+	dataToPush = VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
+	VECTOR_PUSH(&extensions, &dataToPush);
+	dataToPush = "VK_LAYER_KHRONOS_validation";
+	VECTOR_PUSH(&layers, &dataToPush);
 #endif
 
 	VkApplicationInfo applicationInfo = {
@@ -68,10 +74,10 @@ static i32 sCreateInstance(void)
 	VkInstanceCreateInfo instanceCreateInfo = {
 		.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
 		.pApplicationInfo = &applicationInfo,
-		.enabledLayerCount = layersCount,
-		.enabledExtensionCount = extensionsCount,
-		.ppEnabledLayerNames = layers,
-		.ppEnabledExtensionNames = extensions,
+		.enabledLayerCount = layers.size,
+		.enabledExtensionCount = extensions.size,
+		.ppEnabledLayerNames = layers.data,
+		.ppEnabledExtensionNames = extensions.data,
 	};
 
 #ifndef NDEBUG
@@ -92,6 +98,9 @@ static i32 sCreateInstance(void)
 	PVK_VERIFY(vkCreateDebugUtilsMessengerEXT(
 			gVulkanCore.instance, &debugUtilsMessengerCreateInfo, NULL, &gVulkanCore.debugUtilsMessenger));
 #endif
+
+	VECTOR_FREE(&extensions);
+	VECTOR_FREE(&layers);
 	return 0;
 }
 

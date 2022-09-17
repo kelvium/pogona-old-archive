@@ -18,6 +18,7 @@ static struct {
 
 	VkSwapchainKHR swapchain;
 	VkFormat imageFormat;
+	VkColorSpaceKHR colorSpace;
 
 	u32 imagesCount;
 	VkImage* images;
@@ -39,6 +40,19 @@ static VkFormat sPickImageFormat()
 	return formats[0].format;
 }
 
+static VkColorSpaceKHR sPickColorSpace()
+{
+	u32 formatsCount = gVulkanCore.surface.surfaceFormatsCount;
+	VkSurfaceFormatKHR* formats = gVulkanCore.surface.surfaceFormats;
+
+	for (u32 i = 0; i < formatsCount; ++i) {
+		if (formats[i].colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+			return formats[i].colorSpace;
+	}
+
+	return formats[0].colorSpace;
+}
+
 static i32 sRecreateSwapchain(bool force)
 {
 	VkSurfaceCapabilitiesKHR surfaceCapabilities;
@@ -58,7 +72,7 @@ static i32 sRecreateSwapchain(bool force)
 		.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
 		.surface = gVulkanCore.surface.surface,
 		.imageFormat = sSwapchain.imageFormat,
-		.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR,
+		.imageColorSpace = sSwapchain.colorSpace,
 		.presentMode = VK_PRESENT_MODE_FIFO_KHR,
 		.oldSwapchain = sSwapchain.swapchain,
 		.imageExtent = {
@@ -87,6 +101,7 @@ static i32 sRecreateSwapchain(bool force)
 i32 vulkanCreateSwapchain(void)
 {
 	sSwapchain.imageFormat = sPickImageFormat();
+	sSwapchain.colorSpace = sPickColorSpace();
 	return sRecreateSwapchain(true);
 }
 

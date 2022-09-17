@@ -24,6 +24,7 @@ typedef struct {
 	VkDebugUtilsMessengerEXT debugUtilsMessenger;
 	PhysicalDevice physicalDevice;
 	VkDevice device;
+	VkQueue queue;
 	VkCommandPool commandPool;
 	VkCommandBuffer commandBuffer;
 	struct {

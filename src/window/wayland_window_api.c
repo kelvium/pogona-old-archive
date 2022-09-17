@@ -136,14 +136,14 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 	};
 	xdg_toplevel_add_listener(self->waylandGlobals->xdgToplevel, &sXdgToplevelListener, (void*) self->waylandGlobals);
 
-	// roundtrip again
-	wl_surface_commit(self->waylandGlobals->surface);
-	wl_display_roundtrip(self->waylandGlobals->display);
-
 	// set xdg_toplevel properties
 	xdg_toplevel_set_min_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
 	xdg_toplevel_set_max_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
+
+	// roundtrip again
+	wl_surface_commit(self->waylandGlobals->surface);
+	wl_display_roundtrip(self->waylandGlobals->display);
 
 	self->waylandGlobals->running = true;
 	return 0;

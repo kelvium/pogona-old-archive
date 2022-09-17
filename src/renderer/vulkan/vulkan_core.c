@@ -269,7 +269,9 @@ i32 vulkanFini()
 	vulkanDestroySurface();
 	vkDestroyCommandPool(gVulkanCore.device, gVulkanCore.commandPool, NULL);
 	vkDestroyDevice(gVulkanCore.device, NULL);
+#ifndef NDEBUG
 	vkDestroyDebugUtilsMessengerEXT(gVulkanCore.instance, gVulkanCore.debugUtilsMessenger, NULL);
+#endif
 	vkDestroyInstance(gVulkanCore.instance, NULL);
 	return 0;
 }

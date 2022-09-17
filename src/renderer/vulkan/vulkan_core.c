@@ -181,6 +181,7 @@ static i32 sCreateDevice(void)
 	/* we don't need a debug extension or something, so we can use a simple array */
 	const char* extensions[] = {
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+		VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME,
 	};
 
 	const float queuePriorities[] = { 1.f };

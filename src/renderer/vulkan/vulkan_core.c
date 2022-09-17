@@ -10,6 +10,7 @@
 
 #include "vulkan_core.h"
 #include "vulkan_surface.h"
+#include "vulkan_swapchain.h"
 
 #include <pch.h>
 #include <pogona/vector.h>
@@ -254,11 +255,17 @@ i32 vulkanInit(Window* window)
 		LOGGER_ERROR("could not create a surface\n");
 		return -1;
 	}
+
+	if (vulkanCreateSwapchain() < 0) {
+		LOGGER_ERROR("could not create a swapchain\n");
+		return -1;
+	}
 	return 0;
 }
 
 i32 vulkanFini()
 {
+	vulkanDestroySwapchain();
 	vulkanDestroySurface();
 	vkDestroyCommandPool(gVulkanCore.device, gVulkanCore.commandPool, NULL);
 	vkDestroyDevice(gVulkanCore.device, NULL);

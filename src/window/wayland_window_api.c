@@ -134,6 +134,12 @@ i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag)
 	return WAYLAND_WINDOW_API_OK;
 }
 
+i32 waylandWindowApiGetDisplay(WaylandWindowApi *self, struct wl_display **display)
+{
+	*display = self->waylandGlobals->display;
+	return WAYLAND_WINDOW_API_OK;
+}
+
 i32 waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface)
 {
 	*surface = self->waylandGlobals->surface;

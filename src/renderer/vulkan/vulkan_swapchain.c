@@ -13,17 +13,7 @@
 
 #include <pch.h>
 
-static struct {
-	u32 width, height;
-
-	VkSwapchainKHR swapchain;
-	VkFormat imageFormat;
-	VkColorSpaceKHR colorSpace;
-
-	u32 imagesCount;
-	VkImage* images;
-	VkImageView* imageViews;
-} sSwapchain = { 0 };
+Swapchain gSwapchain = { 0 };
 
 static VkFormat sPickImageFormat()
 {
@@ -62,20 +52,20 @@ static i32 sRecreateSwapchain(bool force)
 	u32 newWidth = surfaceCapabilities.currentExtent.width;
 	u32 newHeight = surfaceCapabilities.currentExtent.height;
 
-	if (newWidth == sSwapchain.width && newHeight == sSwapchain.height && !force)
+	if (newWidth == gSwapchain.width && newHeight == gSwapchain.height && !force)
 		return true;
 
-	sSwapchain.width = newWidth;
-	sSwapchain.height = newHeight;
+	gSwapchain.width = newWidth;
+	gSwapchain.height = newHeight;
 
 	/* FIXME: vkGetPhysicalDeviceSurfaceFormatsKHR, etc..? */
 	VkSwapchainCreateInfoKHR swapchainCreateInfo = {
 		.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
 		.surface = gVulkanCore.surface.surface,
-		.imageFormat = sSwapchain.imageFormat,
-		.imageColorSpace = sSwapchain.colorSpace,
+		.imageFormat = gSwapchain.imageFormat,
+		.imageColorSpace = gSwapchain.colorSpace,
 		.presentMode = VK_PRESENT_MODE_FIFO_KHR,
-		.oldSwapchain = sSwapchain.swapchain,
+		.oldSwapchain = gSwapchain.swapchain,
 		.imageExtent = {
 			// FIXME: don't hardcode
 			.width = 800,
@@ -90,53 +80,53 @@ static i32 sRecreateSwapchain(bool force)
 		.preTransform = surfaceCapabilities.currentTransform,
 		.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
 	};
-	PVK_VERIFY(vkCreateSwapchainKHR(gVulkanCore.device, &swapchainCreateInfo, NULL, &sSwapchain.swapchain));
+	PVK_VERIFY(vkCreateSwapchainKHR(gVulkanCore.device, &swapchainCreateInfo, NULL, &gSwapchain.swapchain));
 
-	PVK_VERIFY(vkGetSwapchainImagesKHR(gVulkanCore.device, sSwapchain.swapchain, &sSwapchain.imagesCount, NULL));
-	sSwapchain.images = calloc(sSwapchain.imagesCount, sizeof(VkImage));
+	PVK_VERIFY(vkGetSwapchainImagesKHR(gVulkanCore.device, gSwapchain.swapchain, &gSwapchain.imagesCount, NULL));
+	gSwapchain.images = calloc(gSwapchain.imagesCount, sizeof(VkImage));
 	PVK_VERIFY(
-			vkGetSwapchainImagesKHR(gVulkanCore.device, sSwapchain.swapchain, &sSwapchain.imagesCount, sSwapchain.images));
+			vkGetSwapchainImagesKHR(gVulkanCore.device, gSwapchain.swapchain, &gSwapchain.imagesCount, gSwapchain.images));
 
-	sSwapchain.imageViews = calloc(sSwapchain.imagesCount, sizeof(VkImageView));
-	for (u32 i = 0; i < sSwapchain.imagesCount; ++i) {
+	gSwapchain.imageViews = calloc(gSwapchain.imagesCount, sizeof(VkImageView));
+	for (u32 i = 0; i < gSwapchain.imagesCount; ++i) {
 		VkImageViewCreateInfo imageViewCreateInfo = {
 			.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
 			.viewType = VK_IMAGE_VIEW_TYPE_2D,
-			.format = sSwapchain.imageFormat,
-			.image = sSwapchain.images[i],
+			.format = gSwapchain.imageFormat,
+			.image = gSwapchain.images[i],
 			.subresourceRange = {
 				.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
 				.levelCount = 1,
 				.layerCount = 1,
 			},
 		};
-		PVK_VERIFY(vkCreateImageView(gVulkanCore.device, &imageViewCreateInfo, NULL, sSwapchain.imageViews + i));
+		PVK_VERIFY(vkCreateImageView(gVulkanCore.device, &imageViewCreateInfo, NULL, gSwapchain.imageViews + i));
 	}
 	return 0;
 }
 
 i32 vulkanCreateSwapchain(void)
 {
-	sSwapchain.imageFormat = sPickImageFormat();
-	sSwapchain.colorSpace = sPickColorSpace();
+	gSwapchain.imageFormat = sPickImageFormat();
+	gSwapchain.colorSpace = sPickColorSpace();
 	return sRecreateSwapchain(true);
 }
 
 i32 vulkanAcquireNextImage(VkImage* image, VkSemaphore semaphore)
 {
 	u32 index = 0;
-	PVK_VERIFY(vkAcquireNextImageKHR(gVulkanCore.device, sSwapchain.swapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &index));
-	*image = sSwapchain.images[index];
+	PVK_VERIFY(vkAcquireNextImageKHR(gVulkanCore.device, gSwapchain.swapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &index));
+	*image = gSwapchain.images[index];
 	return 0;
 }
 
 i32 vulkanDestroySwapchain(void)
 {
-	for (u32 i = 0; i < sSwapchain.imagesCount; ++i) {
-		vkDestroyImageView(gVulkanCore.device, sSwapchain.imageViews[i], NULL);
+	for (u32 i = 0; i < gSwapchain.imagesCount; ++i) {
+		vkDestroyImageView(gVulkanCore.device, gSwapchain.imageViews[i], NULL);
 	}
-	vkDestroySwapchainKHR(gVulkanCore.device, sSwapchain.swapchain, NULL);
-	free(sSwapchain.images);
+	vkDestroySwapchainKHR(gVulkanCore.device, gSwapchain.swapchain, NULL);
+	free(gSwapchain.images);
 	return 0;
 }
 

@@ -14,6 +14,20 @@
 
 #include <pch.h>
 
+typedef struct {
+	u32 width, height;
+
+	VkSwapchainKHR swapchain;
+	VkFormat imageFormat;
+	VkColorSpaceKHR colorSpace;
+
+	u32 imagesCount;
+	VkImage* images;
+	VkImageView* imageViews;
+} Swapchain;
+
+extern Swapchain gSwapchain;
+
 i32 vulkanCreateSwapchain(void);
 i32 vulkanAcquireNextImage(VkImage* image, VkSemaphore semaphore);
 i32 vulkanDestroySwapchain(void);

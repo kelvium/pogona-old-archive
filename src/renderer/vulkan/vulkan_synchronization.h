@@ -13,7 +13,7 @@
 #include "vulkan.h"
 
 i32 vulkanCreateSemaphore(VkSemaphore* semaphore);
-i32 vulkanCreateFence(VkFence* fence);
+i32 vulkanCreateFence(VkFence* fence, bool signaled);
 
 VkImageMemoryBarrier2 vulkanCreateImageBarrier(VkImage image, VkPipelineStageFlags2 srcStageMask,
 		VkAccessFlags2 srcAccessMask, VkImageLayout oldLayout, VkPipelineStageFlags2 dstStageMask,

@@ -20,9 +20,12 @@ i32 vulkanCreateSemaphore(VkSemaphore* semaphore)
 	return 0;
 }
 
-i32 vulkanCreateFence(VkFence* fence)
+i32 vulkanCreateFence(VkFence* fence, bool signaled)
 {
-	VkFenceCreateInfo fenceCreateInfo = { .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO };
+	VkFenceCreateInfo fenceCreateInfo = {
+		.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO,
+		.flags = signaled ? VK_FENCE_CREATE_SIGNALED_BIT : 0,
+	};
 	PVK_VERIFY(vkCreateFence(gVulkanCore.device, &fenceCreateInfo, NULL, fence));
 	return 0;
 }

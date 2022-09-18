@@ -35,6 +35,7 @@ typedef struct {
 		u32 presentModesCount;
 		VkPresentModeKHR* presentModes;
 	} surface;
+	VkRenderPass renderPass;
 } VulkanCore;
 
 extern VulkanCore gVulkanCore;

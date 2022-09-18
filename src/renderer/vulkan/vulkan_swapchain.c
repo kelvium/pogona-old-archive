@@ -85,7 +85,11 @@ static i32 sRecreateSwapchain(bool force)
 	gSwapchain.images = calloc(gSwapchain.imagesCount, sizeof(VkImage));
 	PVK_VERIFY(
 			vkGetSwapchainImagesKHR(gVulkanCore.device, gSwapchain.swapchain, &gSwapchain.imagesCount, gSwapchain.images));
+	return 0;
+}
 
+i32 vulkanSwapchainInitImageViews()
+{
 	gSwapchain.imageViews = calloc(gSwapchain.imagesCount, sizeof(VkImageView));
 	for (u32 i = 0; i < gSwapchain.imagesCount; ++i) {
 		VkImageViewCreateInfo imageViewCreateInfo = {
@@ -104,6 +108,25 @@ static i32 sRecreateSwapchain(bool force)
 	return 0;
 }
 
+i32 vulkanSwapchainInitFramebuffers(void)
+{
+	gSwapchain.framebuffers = calloc(gSwapchain.imagesCount, sizeof(VkFramebuffer));
+	for (u32 i = 0; i < gSwapchain.imagesCount; ++i) {
+		VkFramebufferCreateInfo framebufferCreateInfo = {
+			.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
+			.renderPass = gVulkanCore.renderPass,
+			.pAttachments = &gSwapchain.imageViews[i],
+			.attachmentCount = 1,
+			/* FIXME: don't hardcode */
+			.width = 800,
+			.height = 600,
+			.layers = 1,
+		};
+		PVK_VERIFY(vkCreateFramebuffer(gVulkanCore.device, &framebufferCreateInfo, NULL, gSwapchain.framebuffers + i));
+	}
+	return 0;
+}
+
 i32 vulkanCreateSwapchain(void)
 {
 	gSwapchain.imageFormat = sPickImageFormat();
@@ -114,7 +137,8 @@ i32 vulkanCreateSwapchain(void)
 i32 vulkanAcquireNextImage(VkImage* image, VkSemaphore semaphore)
 {
 	u32 index = 0;
-	PVK_VERIFY(vkAcquireNextImageKHR(gVulkanCore.device, gSwapchain.swapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &index));
+	PVK_VERIFY(
+			vkAcquireNextImageKHR(gVulkanCore.device, gSwapchain.swapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &index));
 	*image = gSwapchain.images[index];
 	return 0;
 }
@@ -122,9 +146,12 @@ i32 vulkanAcquireNextImage(VkImage* image, VkSemaphore semaphore)
 i32 vulkanDestroySwapchain(void)
 {
 	for (u32 i = 0; i < gSwapchain.imagesCount; ++i) {
+		/* at this point these are created by vulkanSwapchainInitXXX functions, so we can delete them here */
+		vkDestroyFramebuffer(gVulkanCore.device, gSwapchain.framebuffers[i], NULL);
 		vkDestroyImageView(gVulkanCore.device, gSwapchain.imageViews[i], NULL);
 	}
 	vkDestroySwapchainKHR(gVulkanCore.device, gSwapchain.swapchain, NULL);
+	free(gSwapchain.framebuffers);
 	free(gSwapchain.imageViews);
 	free(gSwapchain.images);
 	return 0;

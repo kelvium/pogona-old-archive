@@ -24,6 +24,7 @@ typedef struct {
 	u32 imagesCount;
 	VkImage* images;
 	VkImageView* imageViews;
+	VkFramebuffer* framebuffers;
 } Swapchain;
 
 extern Swapchain gSwapchain;
@@ -31,5 +32,8 @@ extern Swapchain gSwapchain;
 i32 vulkanCreateSwapchain(void);
 i32 vulkanAcquireNextImage(VkImage* image, VkSemaphore semaphore);
 i32 vulkanDestroySwapchain(void);
+
+i32 vulkanSwapchainInitImageViews(void);
+i32 vulkanSwapchainInitFramebuffers(void);
 
 #endif

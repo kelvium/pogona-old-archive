@@ -269,6 +269,16 @@ i32 vulkanInit(Window* window)
 		LOGGER_ERROR("could not create a render pass\n");
 		return -1;
 	}
+
+	if (vulkanSwapchainInitImageViews() < 0) {
+		LOGGER_ERROR("could not create image views\n");
+		return -1;
+	}
+
+	if (vulkanSwapchainInitFramebuffers() < 0) {
+		LOGGER_ERROR("could not create framebuffers\n");
+		return -1;
+	}
 	return 0;
 }
 

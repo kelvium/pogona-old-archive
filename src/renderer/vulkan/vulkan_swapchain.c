@@ -58,7 +58,6 @@ static i32 sRecreateSwapchain(bool force)
 	gSwapchain.width = newWidth;
 	gSwapchain.height = newHeight;
 
-	/* FIXME: vkGetPhysicalDeviceSurfaceFormatsKHR, etc..? */
 	VkSwapchainCreateInfoKHR swapchainCreateInfo = {
 		.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
 		.surface = gVulkanCore.surface.surface,

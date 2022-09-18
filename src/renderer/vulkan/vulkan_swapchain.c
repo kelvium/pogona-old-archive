@@ -125,6 +125,7 @@ i32 vulkanDestroySwapchain(void)
 		vkDestroyImageView(gVulkanCore.device, gSwapchain.imageViews[i], NULL);
 	}
 	vkDestroySwapchainKHR(gVulkanCore.device, gSwapchain.swapchain, NULL);
+	free(gSwapchain.imageViews);
 	free(gSwapchain.images);
 	return 0;
 }

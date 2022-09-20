@@ -34,6 +34,8 @@ src_pogona = [
 	'src/renderer/vulkan/vulkan_swapchain.c',
 	'src/renderer/vulkan/vulkan_synchronization.c',
 	'src/renderer/vulkan/vulkan_render_pass.c',
+	'src/renderer/vulkan/vulkan_shader.c',
+	'src/renderer/vulkan/vulkan_pipeline.c',
 ]
 
 pch_pogona = [

@@ -44,7 +44,7 @@ static i32 sCreateWaylandSurface(WaylandWindowApi* api, VkSurfaceKHR* surface)
 	// get present modes
 	PVK_VERIFY(vkGetPhysicalDeviceSurfacePresentModesKHR(gVulkanCore.physicalDevice.physicalDevice,
 			gVulkanCore.surface.surface, &gVulkanCore.surface.presentModesCount, NULL));
-	gVulkanCore.surface.presentModes = calloc(gVulkanCore.surface.surfaceFormatsCount, sizeof(VkPresentModeKHR));
+	gVulkanCore.surface.presentModes = calloc(gVulkanCore.surface.presentModesCount, sizeof(VkPresentModeKHR));
 	PVK_VERIFY(vkGetPhysicalDeviceSurfacePresentModesKHR(gVulkanCore.physicalDevice.physicalDevice,
 			gVulkanCore.surface.surface, &gVulkanCore.surface.presentModesCount, gVulkanCore.surface.presentModes));
 	return 0;

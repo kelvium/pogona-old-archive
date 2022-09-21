@@ -31,6 +31,7 @@
 	Vec2##type vec2##type##Sub(Vec2##type, Vec2##type); \
 	Vec2##type vec2##type##Mul(Vec2##type, Vec2##type); \
 	Vec2##type vec2##type##Div(Vec2##type, Vec2##type); \
+	Vec2##type vec2##type##Pow(Vec2##type, Vec2##type); \
 	Vec2##type vec2##type##Sqrt(Vec2##type);            \
 	bool vec2##type##Equ(Vec2##type, Vec2##type);       \
 	Vec2##type vec2##type##S(type x);                   \
@@ -39,6 +40,7 @@
 	Vec3##type vec3##type##Sub(Vec3##type, Vec3##type); \
 	Vec3##type vec3##type##Mul(Vec3##type, Vec3##type); \
 	Vec3##type vec3##type##Div(Vec3##type, Vec3##type); \
+	Vec3##type vec3##type##Pow(Vec3##type, Vec3##type); \
 	Vec3##type vec3##type##Sqrt(Vec3##type);            \
 	bool vec3##type##Equ(Vec3##type, Vec3##type);       \
 	Vec3##type vec3##type##S(type x);                   \
@@ -47,6 +49,7 @@
 	Vec4##type vec4##type##Sub(Vec4##type, Vec4##type); \
 	Vec4##type vec4##type##Mul(Vec4##type, Vec4##type); \
 	Vec4##type vec4##type##Div(Vec4##type, Vec4##type); \
+	Vec4##type vec4##type##Pow(Vec4##type, Vec4##type); \
 	Vec4##type vec4##type##Sqrt(Vec4##type);            \
 	bool vec4##type##Equ(Vec4##type, Vec4##type);       \
 	Vec4##type vec4##type##S(type x)

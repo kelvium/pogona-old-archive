@@ -196,5 +196,36 @@ IMPL_TYPE(bool);
 IMPL_TYPE_SQRT(f32, sqrtf);
 IMPL_TYPE_SQRT(f64, sqrt);
 
+#define IMPL_TYPE_POW(type, pow)                         \
+	Vec2##type vec2##type##Pow(Vec2##type x, Vec2##type y) \
+	{                                                      \
+		return (Vec2##type) {                                \
+			.x = pow(x.x, y.x),                                \
+			.y = pow(x.y, y.y),                                \
+		};                                                   \
+	}                                                      \
+                                                         \
+	Vec3##type vec3##type##Pow(Vec3##type x, Vec3##type y) \
+	{                                                      \
+		return (Vec3##type) {                                \
+			.x = pow(x.x, y.x),                                \
+			.y = pow(x.y, y.y),                                \
+			.z = pow(x.z, y.z),                                \
+		};                                                   \
+	}                                                      \
+	Vec4##type vec4##type##Pow(Vec4##type x, Vec4##type y) \
+	{                                                      \
+		return (Vec4##type) {                                \
+			.x = pow(x.x, y.x),                                \
+			.y = pow(x.y, y.y),                                \
+			.z = pow(x.z, y.z),                                \
+			.w = pow(x.w, y.w),                                \
+		};                                                   \
+	}
+
+IMPL_TYPE_POW(f32, powf);
+IMPL_TYPE_POW(f64, pow);
+
+#undef IMPL_TYPE_POW
 #undef IMPL_TYPE_SQRT
 #undef IMPL_TYPE

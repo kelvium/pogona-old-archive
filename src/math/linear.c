@@ -36,7 +36,7 @@
 	{                                                                                                             \
 		return (name##2##type) {                                                                                    \
 			.x = x.x / y.x,                                                                                           \
-			.y = y.x / y.y,                                                                                           \
+			.y = x.y / y.y,                                                                                           \
 		};                                                                                                          \
 	}                                                                                                             \
                                                                                                                 \
@@ -83,7 +83,7 @@
 	{                                                                                                             \
 		return (name##3##type) {                                                                                    \
 			.x = x.x / y.x,                                                                                           \
-			.y = y.x / y.y,                                                                                           \
+			.y = x.y / y.y,                                                                                           \
 			.z = x.z / y.z,                                                                                           \
 		};                                                                                                          \
 	}                                                                                                             \
@@ -131,7 +131,7 @@
 	{                                                                                                             \
 		return (name##4##type) {                                                                                    \
 			.x = x.x / y.x,                                                                                           \
-			.y = y.x / y.y,                                                                                           \
+			.y = x.y / y.y,                                                                                           \
 			.z = x.z / y.z,                                                                                           \
 			.w = x.w / y.w,                                                                                           \
 		};                                                                                                          \

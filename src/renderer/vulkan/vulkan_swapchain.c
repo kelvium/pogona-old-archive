@@ -55,8 +55,8 @@ static i32 sRecreateSwapchain(bool force)
 	if (newWidth == gSwapchain.width && newHeight == gSwapchain.height && !force)
 		return true;
 
-	gSwapchain.width = newWidth;
-	gSwapchain.height = newHeight;
+	gSwapchain.width = 800;
+	gSwapchain.height = 600;
 
 	VkSwapchainCreateInfoKHR swapchainCreateInfo = {
 		.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,

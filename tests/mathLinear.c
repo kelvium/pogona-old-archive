@@ -21,13 +21,19 @@
 	assert(vec3##type##Equ(vec3##type##Mul(vec3##type##S(value##type), vec3##type##S(value##type)),                     \
 			vec3##type##S(value##type* value##type)));                                                                      \
 	assert(vec4##type##Equ(vec4##type##Mul(vec4##type##S(value##type), vec4##type##S(value##type)),                     \
-			vec4##type##S(value##type* value##type)));
-
-/* TODO: division tests */
+			vec4##type##S(value##type* value##type)));                                                                      \
+                                                                                                                      \
+	assert(vec2##type##Equ(vec2##type##Div(vec2##type##S(value##type), vec2##type##S(value##type)),                     \
+			vec2##type##S(value##type / value##type)));                                                                     \
+	assert(vec3##type##Equ(vec3##type##Div(vec3##type##S(value##type), vec3##type##S(value##type)),                     \
+			vec3##type##S(value##type / value##type)));                                                                     \
+	assert(vec4##type##Equ(vec4##type##Div(vec4##type##S(value##type), vec4##type##S(value##type)),                     \
+			vec4##type##S(value##type / value##type)));
 
 int main(void)
 {
 	srand(time(NULL));
+
 	TEST(u8);
 	TEST(u16);
 	TEST(u32);

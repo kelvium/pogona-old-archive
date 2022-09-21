@@ -10,7 +10,6 @@
 
 #ifdef POGONA_WAYLAND_SUPPORT
 
-#include <pogona/types.h>
 #include <pogona/window.h>
 #include <wayland-client.h>
 
@@ -19,13 +18,13 @@
 typedef struct WaylandGlobals WaylandGlobals;
 
 typedef struct {
-	usize width, height;
+	Vec2u32 resolution;
 	char title[WAYLAND_WINDOW_API_TITLE_LENGTH]; /* the last byte is for NUL */
 
 	WaylandGlobals* waylandGlobals;
 } WaylandWindowApi;
 
-i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title);
+i32 waylandWindowApiCreate(WaylandWindowApi* self, Vec2u32 resolution, const char* title);
 i32 waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize);
 i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title);
 i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag);

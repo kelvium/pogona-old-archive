@@ -23,10 +23,10 @@ i32 vulkanCreateRenderPass(VkRenderPass* renderPass)
 	attachmentDescriptions[0].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 	attachmentDescriptions[0].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 	attachmentDescriptions[0].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	attachmentDescriptions[0].initialLayout = VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL;
-	attachmentDescriptions[0].finalLayout = VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL;
+	attachmentDescriptions[0].initialLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+	attachmentDescriptions[0].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
-	VkAttachmentReference colorAttachments[1] = { { 0, VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL } };
+	VkAttachmentReference colorAttachments[1] = { { 0, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR } };
 	VkSubpassDescription subpassDescriptions[1] = {
 		{
 				.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS,

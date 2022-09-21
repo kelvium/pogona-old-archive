@@ -7,7 +7,7 @@
 #pragma once
 
 #include <config.h>
-#include <pogona/types.h>
+#include <pogona/math/linear.h>
 
 typedef void* WindowApi;
 
@@ -28,7 +28,7 @@ typedef struct {
 	WindowApiType apiType;
 } Window;
 
-i32 windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title);
+i32 windowCreate(Window* self, WindowApiType apiType, Vec2u32 resolution, const char* title);
 i32 windowGetApiType(Window* self, WindowApiType* apiType);
 i32 windowGetTitle(Window* self, char* title, usize titleSize);
 i32 windowSetTitle(Window* self, const char* title);

@@ -31,7 +31,7 @@ static WindowApiType sDetermineApiType()
 	return WINDOW_API_TYPE_WAYLAND;
 }
 
-i32 windowCreate(Window* self, WindowApiType apiType, usize width, usize height, const char* title)
+i32 windowCreate(Window* self, WindowApiType apiType, Vec2u32 resolution, const char* title)
 {
 	self->apiType = apiType;
 	if (apiType == WINDOW_API_TYPE_ANY) {
@@ -43,7 +43,7 @@ i32 windowCreate(Window* self, WindowApiType apiType, usize width, usize height,
 	case WINDOW_API_TYPE_WAYLAND: {
 		self->api = calloc(1, sizeof(WaylandWindowApi));
 
-		i32 error = waylandWindowApiCreate((WaylandWindowApi*) self->api, width, height, title);
+		i32 error = waylandWindowApiCreate((WaylandWindowApi*) self->api, resolution, title);
 		if (error < 0)
 			return -1;
 		break;

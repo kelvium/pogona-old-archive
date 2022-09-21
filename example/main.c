@@ -13,7 +13,7 @@ int main(void)
 	loggerSetLevel(LOGGER_DEBUG);
 
 	Window window;
-	error = windowCreate(&window, WINDOW_API_TYPE_ANY, 800, 600, "Window");
+	error = windowCreate(&window, WINDOW_API_TYPE_ANY, (Vec2u32) { .x = 800, .y = 600 }, "Window");
 	if (error < 0) {
 		LOGGER_FATAL("could not create window\n");
 		return 1;

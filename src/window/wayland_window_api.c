@@ -71,10 +71,9 @@ static void sXdgToplevelClose(void* data, struct xdg_toplevel* xdgToplevel)
 	((WaylandGlobals*) data)->running = false;
 }
 
-i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, const char* title)
+i32 waylandWindowApiCreate(WaylandWindowApi* self, Vec2u32 resolution, const char* title)
 {
-	self->width = width;
-	self->height = height;
+	self->resolution = resolution;
 	strncpy(self->title, title, WAYLAND_WINDOW_API_TITLE_LENGTH);
 	self->waylandGlobals = calloc(1, sizeof(WaylandGlobals));
 
@@ -137,8 +136,8 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, usize width, usize height, co
 	xdg_toplevel_add_listener(self->waylandGlobals->xdgToplevel, &sXdgToplevelListener, (void*) self->waylandGlobals);
 
 	// set xdg_toplevel properties
-	xdg_toplevel_set_min_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
-	xdg_toplevel_set_max_size(self->waylandGlobals->xdgToplevel, self->width, self->height);
+	xdg_toplevel_set_min_size(self->waylandGlobals->xdgToplevel, self->resolution.x, self->resolution.y);
+	xdg_toplevel_set_max_size(self->waylandGlobals->xdgToplevel, self->resolution.x, self->resolution.y);
 	xdg_toplevel_set_title(self->waylandGlobals->xdgToplevel, self->title);
 
 	// roundtrip again

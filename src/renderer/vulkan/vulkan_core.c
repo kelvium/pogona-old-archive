@@ -9,9 +9,11 @@
 #ifdef POGONA_VULKAN_SUPPORT
 
 #include "vulkan_core.h"
+#include "vulkan_pipeline.h"
+#include "vulkan_render_pass.h"
+#include "vulkan_shader.h"
 #include "vulkan_surface.h"
 #include "vulkan_swapchain.h"
-#include "vulkan_render_pass.h"
 
 #include <pch.h>
 #include <pogona/vector.h>
@@ -279,11 +281,51 @@ i32 vulkanInit(Window* window)
 		LOGGER_ERROR("could not create framebuffers\n");
 		return -1;
 	}
+
+	if (vulkanCreatePipelineLayout(&gVulkanCore.pipeline.layout) < 0) {
+		LOGGER_ERROR("could not create pipeline layout\n");
+		return -1;
+	}
+
+	VulkanShaderData vertexShaderData = { 0 };
+	if (vulkanShaderDataRead(&vertexShaderData, "shader.vert.spv") < 0) {
+		LOGGER_ERROR("could not read vertex shader data\n");
+		return -1;
+	}
+
+	if (vulkanCreateShaderModule(&gVulkanCore.vertexShader, &vertexShaderData) < 0) {
+		LOGGER_ERROR("could not create vertex shader module\n");
+		return -1;
+	}
+	vulkanShaderDataDestroy(&vertexShaderData);
+
+	VulkanShaderData fragmentShaderData = { 0 };
+	if (vulkanShaderDataRead(&fragmentShaderData, "shader.frag.spv") < 0) {
+		LOGGER_ERROR("could not read fragment shader data\n");
+		return -1;
+	}
+
+	if (vulkanCreateShaderModule(&gVulkanCore.fragmentShader, &fragmentShaderData) < 0) {
+		LOGGER_ERROR("could not create fragment shader module\n");
+		return -1;
+	}
+	vulkanShaderDataDestroy(&fragmentShaderData);
+
+	if (vulkanCreateGraphicsPipeline(&gVulkanCore.pipeline.pipeline, gVulkanCore.pipeline.layout,
+					gVulkanCore.pipeline.cache, gVulkanCore.vertexShader, gVulkanCore.fragmentShader)
+			< 0) {
+		LOGGER_ERROR("could not create graphics pipeline\n");
+		return 0;
+	}
 	return 0;
 }
 
 i32 vulkanFini()
 {
+	vkDestroyPipeline(gVulkanCore.device, gVulkanCore.pipeline.pipeline, NULL);
+	vkDestroyShaderModule(gVulkanCore.device, gVulkanCore.fragmentShader, NULL);
+	vkDestroyShaderModule(gVulkanCore.device, gVulkanCore.vertexShader, NULL);
+	vkDestroyPipelineLayout(gVulkanCore.device, gVulkanCore.pipeline.layout, NULL);
 	vkDestroyRenderPass(gVulkanCore.device, gVulkanCore.renderPass, NULL);
 	vulkanDestroySwapchain();
 	vulkanDestroySurface();

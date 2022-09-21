@@ -36,6 +36,14 @@ typedef struct {
 		VkPresentModeKHR* presentModes;
 	} surface;
 	VkRenderPass renderPass;
+	struct {
+		VkPipeline pipeline;
+		VkPipelineLayout layout;
+		VkPipelineCache cache;
+	} pipeline;
+	/* FIXME: MOVE THESE OUT */
+	VkShaderModule vertexShader;
+	VkShaderModule fragmentShader;
 } VulkanCore;
 
 extern VulkanCore gVulkanCore;

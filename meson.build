@@ -27,6 +27,7 @@ src_pogona = [
 	'src/logger.c',
 	'src/window/window.c',
 	'src/window/wayland_window_api.c',
+	'src/math/linear.c',
 	'src/renderer/renderer.c',
 	'src/renderer/vulkan_renderer_api.c',
 	'src/renderer/vulkan/instance.c',

@@ -38,5 +38,10 @@ int main(void)
 	TEST(u16);
 	TEST(u32);
 	TEST(u64);
+
+	TEST(f32);
+	TEST(f64);
+
+	TEST(bool);
 	return 0;
 }

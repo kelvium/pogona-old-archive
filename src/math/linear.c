@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
+#include <math.h>
 #include <pch.h>
 #include <pogona/math/linear.h>
 
@@ -167,4 +168,36 @@ IMPL_TYPE(Vec, vec, f64);
 
 IMPL_TYPE(Vec, vec, bool);
 
+#define IMPL_TYPE_SQRT(name, fname, type, sqrt)       \
+	name##2##type fname##2##type##Sqrt(name##2##type x) \
+	{                                                   \
+		return (name##2##type) {                          \
+			.x = sqrt(x.x),                                 \
+			.y = sqrt(x.y),                                 \
+		};                                                \
+	}                                                   \
+                                                      \
+	name##3##type fname##3##type##Sqrt(name##3##type x) \
+	{                                                   \
+		return (name##3##type) {                          \
+			.x = sqrt(x.x),                                 \
+			.y = sqrt(x.y),                                 \
+			.z = sqrt(x.z),                                 \
+		};                                                \
+	}                                                   \
+                                                      \
+	name##4##type fname##4##type##Sqrt(name##4##type x) \
+	{                                                   \
+		return (name##4##type) {                          \
+			.x = sqrt(x.x),                                 \
+			.y = sqrt(x.y),                                 \
+			.z = sqrt(x.z),                                 \
+			.w = sqrt(x.w),                                 \
+		};                                                \
+	}
+
+IMPL_TYPE_SQRT(Vec, vec, f32, sqrtf);
+IMPL_TYPE_SQRT(Vec, vec, f64, sqrt);
+
+#undef IMPL_TYPE_SQRT
 #undef IMPL_TYPE

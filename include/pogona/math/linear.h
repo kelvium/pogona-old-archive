@@ -37,6 +37,7 @@
 	name##2##type fname##2##type##Sub(name##2##type, name##2##type); \
 	name##2##type fname##2##type##Mul(name##2##type, name##2##type); \
 	name##2##type fname##2##type##Div(name##2##type, name##2##type); \
+	name##2##type fname##2##type##Sqrt(name##2##type);               \
 	bool fname##2##type##Equ(name##2##type, name##2##type);          \
 	name##2##type fname##2##type##S(type x);                         \
                                                                    \
@@ -44,6 +45,7 @@
 	name##3##type fname##3##type##Sub(name##3##type, name##3##type); \
 	name##3##type fname##3##type##Mul(name##3##type, name##3##type); \
 	name##3##type fname##3##type##Div(name##3##type, name##3##type); \
+	name##3##type fname##3##type##Sqrt(name##3##type);               \
 	bool fname##3##type##Equ(name##3##type, name##3##type);          \
 	name##3##type fname##3##type##S(type x);                         \
                                                                    \
@@ -51,6 +53,7 @@
 	name##4##type fname##4##type##Sub(name##4##type, name##4##type); \
 	name##4##type fname##4##type##Mul(name##4##type, name##4##type); \
 	name##4##type fname##4##type##Div(name##4##type, name##4##type); \
+	name##4##type fname##4##type##Sqrt(name##4##type);               \
 	bool fname##4##type##Equ(name##4##type, name##4##type);          \
 	name##4##type fname##4##type##S(type x)
 

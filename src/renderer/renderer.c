@@ -47,8 +47,7 @@ i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window)
 	switch (self->apiType) {
 #ifdef POGONA_VULKAN_SUPPORT
 	case RENDERER_API_TYPE_VULKAN: {
-		self->api = calloc(1, sizeof(VulkanRendererApi));
-		i32 error = vulkanRendererApiCreate(self->api, self->window);
+		i32 error = vulkanRendererApiCreate(self->window);
 		if (error < 0) {
 			LOGGER_ERROR("could not create a renderer api\n");
 			return -1;
@@ -69,7 +68,7 @@ i32 rendererDraw(Renderer* self)
 	switch (self->apiType) {
 #ifdef POGONA_VULKAN_SUPPORT
 	case RENDERER_API_TYPE_VULKAN: {
-		i32 error = vulkanRendererApiDraw(self->api);
+		i32 error = vulkanRendererApiDraw();
 		if (error < 0) {
 			LOGGER_ERROR("could not draw with vulkan\n");
 			return -1;
@@ -88,7 +87,7 @@ i32 rendererDestroy(Renderer* self)
 	switch (self->apiType) {
 #ifdef POGONA_VULKAN_SUPPORT
 	case RENDERER_API_TYPE_VULKAN: {
-		i32 error = vulkanRendererApiDestroy((VulkanRendererApi*) self->api);
+		i32 error = vulkanRendererApiDestroy();
 		if (error < 0) {
 			LOGGER_ERROR("could not destroy renderer api\n");
 			return -1;
@@ -101,6 +100,5 @@ i32 rendererDestroy(Renderer* self)
 		return -1;
 	}
 	}
-	free(self->api);
 	return 0;
 }

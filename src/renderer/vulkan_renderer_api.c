@@ -9,6 +9,7 @@
 #ifdef POGONA_VULKAN_SUPPORT
 
 #include "vulkan/vulkan_core.h"
+#include "vulkan/vulkan_render.h"
 #include "vulkan/vulkan_swapchain.h"
 #include "vulkan/vulkan_synchronization.h"
 #include "vulkan_renderer_api.h"
@@ -16,13 +17,15 @@
 #include <pch.h>
 #include <pogona/logger.h>
 
+VulkanRender gVulkanRender = { 0 };
+
 static VkSemaphore sImageAvailableSemaphore = NULL;
 static VkSemaphore sRenderFinishedSemaphore = NULL;
 static VkFence sInFlightFence = NULL;
 
-i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
+i32 vulkanRendererApiCreate(Window* window)
 {
-	self->window = window;
+	gVulkanRender.window = window;
 
 	volkInitialize();
 	if (vulkanInit(window) < 0) {
@@ -36,7 +39,7 @@ i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 	return 0;
 }
 
-i32 vulkanRendererApiDraw(VulkanRendererApi* self)
+i32 vulkanRendererApiDraw(void)
 {
 	PVK_VERIFY(vkWaitForFences(gVulkanCore.device, 1, &sInFlightFence, VK_TRUE, UINT64_MAX));
 	PVK_VERIFY(vkResetFences(gVulkanCore.device, 1, &sInFlightFence));
@@ -111,10 +114,8 @@ i32 vulkanRendererApiDraw(VulkanRendererApi* self)
 	return 0;
 }
 
-i32 vulkanRendererApiDestroy(VulkanRendererApi* self)
+i32 vulkanRendererApiDestroy(void)
 {
-	(void) self;
-
 	vkDestroyFence(gVulkanCore.device, sInFlightFence, NULL);
 	vkDestroySemaphore(gVulkanCore.device, sRenderFinishedSemaphore, NULL);
 	vkDestroySemaphore(gVulkanCore.device, sImageAvailableSemaphore, NULL);

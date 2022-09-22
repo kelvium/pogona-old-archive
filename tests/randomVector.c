@@ -12,7 +12,7 @@
 #define CHECK(x)                \
 	do {                          \
 		i32 error = (x);    \
-		assert(error == VECTOR_OK); \
+		assert(error == 0); \
 	} while (0)
 
 int main(void)

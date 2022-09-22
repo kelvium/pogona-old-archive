@@ -10,8 +10,11 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include "../vulkan_renderer_api.h"
+#include "vulkan.h"
 
-i32 vulkanCreateInstance(VulkanRendererApi* self);
+#include <pogona/window.h>
+
+i32 vulkanCreateSurface(Window* window, VkSurfaceKHR* surface);
+i32 vulkanDestroySurface(void);
 
 #endif

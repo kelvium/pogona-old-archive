@@ -18,12 +18,6 @@
 
 typedef struct BaseVector BaseVector;
 
-typedef enum {
-	VECTOR_OK = 0,
-	VECTOR_TOO_SMALL = -1,
-	VECTOR_REALLOC_FAILED = -2,
-} VectorError;
-
 i32 vectorInitImpl(BaseVector* vector, usize typeSize);
 i32 vectorPushImpl(BaseVector* vector, void* data);
 i32 vectorPopImpl(BaseVector* vector);

@@ -10,12 +10,15 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include "vulkan/vulkan.h"
+#include "vulkan.h"
 
 #include <pogona/window.h>
 
-i32 vulkanRendererApiCreate(Window* window);
-i32 vulkanRendererApiDraw();
-i32 vulkanRendererApiDestroy();
+/* All fields of this struct should be initialized by the renderer api */
+typedef struct {
+	Window* window;
+} VulkanRender;
+
+extern VulkanRender gVulkanRender;
 
 #endif

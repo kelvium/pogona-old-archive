@@ -23,16 +23,16 @@ i32 vectorInitImpl(BaseVector* vector, usize typeSize)
 	vector->size = 0;
 	vector->typeSize = typeSize;
 	vector->data = calloc(VECTOR_START_CAPACITY, typeSize);
-	return VECTOR_OK;
+	return 0;
 }
 
 i32 vectorPushImpl(BaseVector* vector, void* data)
 {
-	i32 error = VECTOR_OK;
+	i32 error = 0;
 
 	if (vector->size >= vector->capacity) {
 		error = VECTOR_RESIZE(vector, vector->capacity + VECTOR_RESIZE_BY);
-		if (error != VECTOR_OK)
+		if (error < 0)
 			return error;
 	}
 
@@ -46,10 +46,10 @@ i32 vectorPopImpl(BaseVector* vector)
 	// TODO: implement shrinking after a lot of pops so we don't lose precious
 	// memory
 
-	i32 error = VECTOR_OK;
+	i32 error = 0;
 
 	if (vector->size < 1) {
-		error = VECTOR_TOO_SMALL;
+		error = -1;
 		return error;
 	}
 
@@ -62,24 +62,24 @@ i32 vectorResizeImpl(BaseVector* vector, usize newSize)
 {
 	void* reallocated = realloc(vector->data, newSize * vector->typeSize);
 	if (!reallocated)
-		return VECTOR_REALLOC_FAILED;
+		return -1;
 
 	if (newSize < vector->size)
 		vector->size = newSize;
 	vector->capacity = newSize;
 	vector->data = reallocated;
-	return VECTOR_OK;
+	return 0;
 }
 
 i32 vectorShrinkToFitImpl(BaseVector* vector)
 {
 	usize requiredCapacity = vector->size * vector->typeSize;
 	if (requiredCapacity == vector->capacity)
-		return VECTOR_OK;
+		return 0;
 
 	void* reallocated = realloc(vector->data, requiredCapacity);
 	if (!reallocated)
-		return VECTOR_REALLOC_FAILED;
+		return -1;
 
 	vector->capacity = requiredCapacity;
 	if (requiredCapacity == 0) /* avoid division by zero */
@@ -87,11 +87,11 @@ i32 vectorShrinkToFitImpl(BaseVector* vector)
 	else
 		vector->size = 0;
 	vector->data = reallocated;
-	return VECTOR_OK;
+	return 0;
 }
 
 i32 vectorFreeImpl(BaseVector* vector)
 {
 	free(vector->data);
-	return VECTOR_OK;
+	return 0;
 }

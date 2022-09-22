@@ -25,18 +25,9 @@ const char* rendererApiTypeToString(RendererApiType apiType);
 
 typedef struct {
 	Window* window;
-	RendererApi api;
 	RendererApiType apiType;
 } Renderer;
 
-typedef enum {
-	RENDERER_OK = 0,
-	RENDERER_NO_API_AVAILABLE = -1,
-	RENDERER_COULD_NOT_CREATE_API = -2,
-	RENDERER_COULD_NOT_DESTROY_API = -3,
-} RendererError;
-
-const char* rendererErrorToString(RendererError error);
-
 i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
+i32 rendererDraw(Renderer* self);
 i32 rendererDestroy(Renderer* self);

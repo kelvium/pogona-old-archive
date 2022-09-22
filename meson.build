@@ -30,9 +30,13 @@ src_pogona = [
 	'src/math/linear.c',
 	'src/renderer/renderer.c',
 	'src/renderer/vulkan_renderer_api.c',
-	'src/renderer/vulkan/instance.c',
-	'src/renderer/vulkan/physical_device.c',
-	'src/renderer/vulkan/device.c',
+	'src/renderer/vulkan/vulkan_core.c',
+	'src/renderer/vulkan/vulkan_surface.c',
+	'src/renderer/vulkan/vulkan_swapchain.c',
+	'src/renderer/vulkan/vulkan_synchronization.c',
+	'src/renderer/vulkan/vulkan_render_pass.c',
+	'src/renderer/vulkan/vulkan_shader.c',
+	'src/renderer/vulkan/vulkan_pipeline.c',
 ]
 
 pch_pogona = [
@@ -66,7 +70,13 @@ if dep_wayland_client.found()
 endif
 
 if get_option('vulkan_support').enabled()
-	subproject_volk = cmake.subproject('volk')
+	options = cmake.subproject_options()
+	# FIXME: this is not cross-platform!!! (even with if uncommented)
+	#if get_option('wayland_support').enabled()
+		options.add_cmake_defines({'VOLK_STATIC_DEFINES': 'VK_USE_PLATFORM_WAYLAND_KHR'})
+	#endif
+
+	subproject_volk = cmake.subproject('volk', options: options)
 	dep_volk = subproject_volk.dependency('volk')
 	if dep_volk.found()
 		deps_pogona += dep_volk
@@ -83,9 +93,25 @@ lib_pogona = static_library(
 	include_directories: inc_pogona,
 )
 
+glslang_validator = find_program('glslangValidator')
+custom_targets_example = []
+shaders = [
+	'example/shader.vert.glsl',
+	'example/shader.frag.glsl',
+]
+foreach shader : shaders
+	custom_targets_example += custom_target(
+		'shader @0@'.format(shader),
+		command : [glslang_validator, '-V', '@INPUT@', '-o', '@OUTPUT@'],
+		input : shader,
+		output : '@BASENAME@.spv'
+	)
+endforeach
+
 exe_example = executable(
 	'example',
 	['example/main.c'],
+	custom_targets_example,
 	link_with: lib_pogona,
 	dependencies: dep_volk,
 	include_directories: [include_directories('include')],

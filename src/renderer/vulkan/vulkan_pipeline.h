@@ -13,6 +13,7 @@
 #include "vulkan.h"
 
 i32 vulkanCreatePipelineLayout(VkPipelineLayout* pipelineLayout);
+i32 vulkanCreatePipelineCache(VkPipelineCache* pipelineCache);
 i32 vulkanCreateGraphicsPipeline(VkPipeline* pipeline, VkPipelineLayout pipelineLayout, VkPipelineCache pipelineCache,
 		VkShaderModule vertexShader, VkShaderModule fragmentShader);
 

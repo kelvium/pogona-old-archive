@@ -287,6 +287,11 @@ i32 vulkanInit(Window* window)
 		return -1;
 	}
 
+	if (vulkanCreatePipelineCache(&gVulkanCore.pipeline.cache) < 0) {
+		LOGGER_ERROR("could not create pipeline cache\n");
+		return -1;
+	}
+
 	VulkanShaderData vertexShaderData = { 0 };
 	if (vulkanShaderDataRead(&vertexShaderData, "shader.vert.spv") < 0) {
 		LOGGER_ERROR("could not read vertex shader data\n");
@@ -325,6 +330,7 @@ i32 vulkanFini()
 	vkDestroyPipeline(gVulkanCore.device, gVulkanCore.pipeline.pipeline, NULL);
 	vkDestroyShaderModule(gVulkanCore.device, gVulkanCore.fragmentShader, NULL);
 	vkDestroyShaderModule(gVulkanCore.device, gVulkanCore.vertexShader, NULL);
+	vkDestroyPipelineCache(gVulkanCore.device, gVulkanCore.pipeline.cache, NULL);
 	vkDestroyPipelineLayout(gVulkanCore.device, gVulkanCore.pipeline.layout, NULL);
 	vkDestroyRenderPass(gVulkanCore.device, gVulkanCore.renderPass, NULL);
 	vulkanDestroySwapchain();

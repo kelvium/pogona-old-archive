@@ -20,6 +20,13 @@ i32 vulkanCreatePipelineLayout(VkPipelineLayout* pipelineLayout)
 	return 0;
 }
 
+i32 vulkanCreatePipelineCache(VkPipelineCache *pipelineCache)
+{
+	VkPipelineCacheCreateInfo pipelineCacheCreateInfo = { .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO };
+	PVK_VERIFY(vkCreatePipelineCache(gVulkanCore.device, &pipelineCacheCreateInfo, NULL, pipelineCache));
+	return 0;
+}
+
 i32 vulkanCreateGraphicsPipeline(VkPipeline* pipeline, VkPipelineLayout pipelineLayout, VkPipelineCache pipelineCache,
 		VkShaderModule vertexShader, VkShaderModule fragmentShader)
 {

@@ -104,6 +104,8 @@ i32 vulkanRendererApiDraw(VulkanRendererApi* self)
 		.swapchainCount = 1,
 		.pSwapchains = &gSwapchain.swapchain,
 		.pImageIndices = &imageIndex,
+		.waitSemaphoreCount = 1,
+		.pWaitSemaphores = &sRenderFinishedSemaphore,
 	};
 	PVK_VERIFY(vkQueuePresentKHR(gVulkanCore.queue, &presentInfo));
 	return 0;

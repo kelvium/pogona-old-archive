@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define CHECK(x)                \
-	do {                          \
+#define CHECK(x)        \
+	do {                  \
 		i32 error = (x);    \
 		assert(error == 0); \
 	} while (0)

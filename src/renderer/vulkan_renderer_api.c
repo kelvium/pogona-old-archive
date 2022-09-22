@@ -9,12 +9,15 @@
 #ifdef POGONA_VULKAN_SUPPORT
 
 #include "vulkan/vulkan_core.h"
+#include "vulkan/vulkan_render.h"
 #include "vulkan/vulkan_swapchain.h"
 #include "vulkan/vulkan_synchronization.h"
 #include "vulkan_renderer_api.h"
 
 #include <pch.h>
 #include <pogona/logger.h>
+
+VulkanRender gVulkanRender = { 0 };
 
 static VkSemaphore sImageAvailableSemaphore = NULL;
 static VkSemaphore sRenderFinishedSemaphore = NULL;
@@ -23,6 +26,7 @@ static VkFence sInFlightFence = NULL;
 i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window)
 {
 	self->window = window;
+	gVulkanRender.window = window;
 
 	volkInitialize();
 	if (vulkanInit(window) < 0) {

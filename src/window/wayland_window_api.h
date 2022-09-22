@@ -28,6 +28,7 @@ i32 waylandWindowApiCreate(WaylandWindowApi* self, Vec2u32 resolution, const cha
 i32 waylandWindowApiGetTitle(WaylandWindowApi* self, char* title, usize titleSize);
 i32 waylandWindowApiSetTitle(WaylandWindowApi* self, const char* title);
 i32 waylandWindowApiIsClosed(WaylandWindowApi* self, bool* flag);
+i32 waylandWindowApiPollEvents(WaylandWindowApi* self);
 i32 waylandWindowApiGetDisplay(WaylandWindowApi* self, struct wl_display** display);
 i32 waylandWindowApiGetSurface(WaylandWindowApi* self, struct wl_surface** surface);
 i32 waylandWindowApiDestroy(WaylandWindowApi* self);

@@ -27,8 +27,10 @@ int main(void)
 	}
 
 	bool isClosed = false;
-	while (!(isClosed = windowIsClosed(&window, &isClosed))) {
-		LOGGER_DEBUG("FRAME\n");
+	while (!isClosed) {
+		rendererDraw(&renderer);
+		windowPollEvents(&window);
+		windowIsClosed(&window, &isClosed);
 	}
 
 	error = rendererDestroy(&renderer);

@@ -25,9 +25,9 @@ const char* rendererApiTypeToString(RendererApiType apiType);
 
 typedef struct {
 	Window* window;
-	RendererApi api;
 	RendererApiType apiType;
 } Renderer;
 
 i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
+i32 rendererDraw(Renderer* self);
 i32 rendererDestroy(Renderer* self);

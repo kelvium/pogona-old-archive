@@ -10,9 +10,8 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include "../vulkan_renderer_api.h"
-#include "physical_device.h"
+#include "vulkan.h"
 
-i32 vulkanCreateDevice(VulkanRendererApi* self);
+i32 vulkanCreateRenderPass(VkRenderPass* renderPass);
 
 #endif

@@ -9,7 +9,6 @@
 int main(void)
 {
 	i32 error;
-	loggerInit();
 	loggerSetLevel(LOGGER_DEBUG);
 
 	Window window;

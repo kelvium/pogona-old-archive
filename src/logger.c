@@ -21,18 +21,13 @@ static const char* sLevelStrings[] = { "TRACE", "DEBUG", "INFO", "WARNING", "ERR
 
 static const char* sLevelColours[] = { "\x1b[94m", "\x1b[36m", "\x1b[32m", "\x1b[33m", "\x1b[31m", "\x1b[35m" };
 
-void loggerInit()
-{
-	{
-		time_t rawTime = time(NULL);
-		sLogger.time = localtime(&rawTime);
-	}
-}
-
 void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine, const char* fmt, ...)
 {
 	if (level < sLogger.level)
 		return;
+
+	time_t rawTime = time(NULL);
+	sLogger.time = localtime(&rawTime);
 
 	va_list ap;
 	va_start(ap, fmt);

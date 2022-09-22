@@ -14,12 +14,8 @@
 
 #include <pogona/window.h>
 
-typedef struct {
-	Window* window;
-} VulkanRendererApi;
-
-i32 vulkanRendererApiCreate(VulkanRendererApi* self, Window* window);
-i32 vulkanRendererApiDraw(VulkanRendererApi* self);
-i32 vulkanRendererApiDestroy(VulkanRendererApi* self);
+i32 vulkanRendererApiCreate(Window* window);
+i32 vulkanRendererApiDraw();
+i32 vulkanRendererApiDestroy();
 
 #endif

@@ -25,7 +25,6 @@ const char* rendererApiTypeToString(RendererApiType apiType);
 
 typedef struct {
 	Window* window;
-	RendererApi api;
 	RendererApiType apiType;
 } Renderer;
 

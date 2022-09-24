@@ -91,6 +91,7 @@ lib_pogona = static_library(
 	dependencies: deps_pogona,
 	c_pch: pch_pogona,
 	include_directories: inc_pogona,
+	install: true,
 )
 
 glslang_validator = find_program('glslangValidator')
@@ -104,7 +105,9 @@ foreach shader : shaders
 		'shader @0@'.format(shader),
 		command : [glslang_validator, '-V', '@INPUT@', '-o', '@OUTPUT@'],
 		input : shader,
-		output : '@BASENAME@.spv'
+		output : '@BASENAME@.spv',
+		install : true,
+		install_dir: 'lib/pogona',
 	)
 endforeach
 
@@ -115,6 +118,8 @@ exe_example = executable(
 	link_with: lib_pogona,
 	dependencies: dep_volk,
 	include_directories: [include_directories('include')],
+	install: true,
+	install_dir: 'lib/pogona',
 )
 
 configure_file(output: 'config.h', configuration: config_data)

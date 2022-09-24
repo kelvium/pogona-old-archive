@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <config.h>
 #include <pogona/math/linear.h>
 
 typedef void* WindowApi;

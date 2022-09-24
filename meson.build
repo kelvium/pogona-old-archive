@@ -1,9 +1,9 @@
 project(
 	'pogona',
 	'c',
-	version: '0.1.0-dev',
-	license: 'BSD-2-Clause',
-	default_options: [
+	version : '0.1.0-dev',
+	license : 'BSD-2-Clause',
+	default_options  : [
 		'c_std=c11',
 		'warning_level=2',
 	],
@@ -57,7 +57,7 @@ endif
 
 custom_targets_pogona = []
 
-dep_wayland_client = dependency('wayland-client', required: get_option('wayland_support'))
+dep_wayland_client = dependency('wayland-client', required : get_option('wayland_support'))
 if dep_wayland_client.found()
 	deps_pogona += dep_wayland_client
 	config_data.set('POGONA_WAYLAND_SUPPORT', true)
@@ -71,12 +71,12 @@ endif
 
 if get_option('vulkan_support').enabled()
 	options = cmake.subproject_options()
-	# FIXME: this is not cross-platform!!! (even with if uncommented)
+	# FIXME : this is not cross-platform!!! (even with if uncommented)
 	#if get_option('wayland_support').enabled()
-		options.add_cmake_defines({'VOLK_STATIC_DEFINES': 'VK_USE_PLATFORM_WAYLAND_KHR'})
+		options.add_cmake_defines({'VOLK_STATIC_DEFINES' : 'VK_USE_PLATFORM_WAYLAND_KHR'})
 	#endif
 
-	subproject_volk = cmake.subproject('volk', options: options)
+	subproject_volk = cmake.subproject('volk', options : options)
 	dep_volk = subproject_volk.dependency('volk')
 	if dep_volk.found()
 		deps_pogona += dep_volk
@@ -88,10 +88,10 @@ lib_pogona = static_library(
 	'pogona',
 	src_pogona,
 	custom_targets_pogona,
-	dependencies: deps_pogona,
-	c_pch: pch_pogona,
-	include_directories: inc_pogona,
-	install: true,
+	dependencies : deps_pogona,
+	c_pch : pch_pogona,
+	include_directories : inc_pogona,
+	install : true,
 )
 
 glslang_validator = find_program('glslangValidator')
@@ -100,14 +100,14 @@ shaders = [
 	'example/shader.vert.glsl',
 	'example/shader.frag.glsl',
 ]
-foreach shader : shaders
+foreach shader  : shaders
 	custom_targets_example += custom_target(
 		'shader @0@'.format(shader),
 		command : [glslang_validator, '-V', '@INPUT@', '-o', '@OUTPUT@'],
 		input : shader,
 		output : '@BASENAME@.spv',
 		install : true,
-		install_dir: 'lib/pogona',
+		install_dir : 'lib/pogona',
 	)
 endforeach
 
@@ -115,13 +115,13 @@ exe_example = executable(
 	'example',
 	['example/main.c'],
 	custom_targets_example,
-	link_with: lib_pogona,
-	dependencies: dep_volk,
-	include_directories: [include_directories('include')],
-	install: true,
-	install_dir: 'lib/pogona',
+	link_with : lib_pogona,
+	dependencies : dep_volk,
+	include_directories : [include_directories('include')],
+	install : true,
+	install_dir : 'lib/pogona',
 )
 
-configure_file(output: 'config.h', configuration: config_data)
+configure_file(output : 'config.h', configuration : config_data)
 
 subdir('tests')

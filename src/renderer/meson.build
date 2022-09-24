@@ -1,17 +1,17 @@
 src_pogona += [
-	'src/renderer/renderer.c',
+	'renderer/renderer.c',
 ]
 
 if get_option('vulkan_support').enabled()
 	src_pogona += [
-		'src/renderer/vulkan_renderer_api.c',
-		'src/renderer/vulkan/vulkan_core.c',
-		'src/renderer/vulkan/vulkan_surface.c',
-		'src/renderer/vulkan/vulkan_swapchain.c',
-		'src/renderer/vulkan/vulkan_synchronization.c',
-		'src/renderer/vulkan/vulkan_render_pass.c',
-		'src/renderer/vulkan/vulkan_shader.c',
-		'src/renderer/vulkan/vulkan_pipeline.c',
+		'renderer/vulkan_renderer_api.c',
+		'renderer/vulkan/vulkan_core.c',
+		'renderer/vulkan/vulkan_surface.c',
+		'renderer/vulkan/vulkan_swapchain.c',
+		'renderer/vulkan/vulkan_synchronization.c',
+		'renderer/vulkan/vulkan_render_pass.c',
+		'renderer/vulkan/vulkan_shader.c',
+		'renderer/vulkan/vulkan_pipeline.c',
 	]
 
 	options = cmake.subproject_options()

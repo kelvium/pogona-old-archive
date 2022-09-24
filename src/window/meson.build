@@ -1,6 +1,6 @@
 src_pogona += [
-	'src/window/window.c',
-	'src/window/wayland_window_api.c',
+	'window/window.c',
+	'window/wayland_window_api.c',
 ]
 
 dep_wayland_client = dependency('wayland-client', required : get_option('wayland_support'))

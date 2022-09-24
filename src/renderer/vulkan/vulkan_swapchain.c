@@ -8,7 +8,7 @@
 
 #ifdef POGONA_VULKAN_SUPPORT
 
-#include "src/renderer/vulkan/vulkan_core.h"
+#include "vulkan_core.h"
 #include "vulkan_swapchain.h"
 
 #include <pch.h>

@@ -1,3 +1,6 @@
-option('wayland_support', type: 'feature', value: 'auto')
+option('wayland_support', type : 'feature', value : 'auto')
 
-option('vulkan_support', type: 'feature', value: 'enabled')
+option('vulkan_support', type : 'feature', value : 'enabled')
+
+option('example', type : 'boolean', value : true)
+option('tests', type : 'boolean', value : true)

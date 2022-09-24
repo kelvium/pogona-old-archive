@@ -23,5 +23,10 @@ endif
 
 subdir('src')
 
-subdir('example')
-subdir('tests')
+if get_option('example')
+	subdir('example')
+endif
+
+if get_option('tests')
+	subdir('tests')
+endif

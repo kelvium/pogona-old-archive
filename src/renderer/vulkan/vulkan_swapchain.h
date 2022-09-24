@@ -30,7 +30,7 @@ typedef struct {
 extern Swapchain gSwapchain;
 
 i32 vulkanCreateSwapchain(void);
-i32 vulkanAcquireNextImage(VkImage* image, u32* imageIndex, VkSemaphore semaphore);
+i32 vulkanAcquireNextImage(u32* imageIndex, VkSemaphore semaphore);
 i32 vulkanDestroySwapchain(void);
 
 i32 vulkanSwapchainInitImageViews(void);

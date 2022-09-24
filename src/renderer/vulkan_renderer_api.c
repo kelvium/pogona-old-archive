@@ -44,9 +44,8 @@ i32 vulkanRendererApiDraw(void)
 	PVK_VERIFY(vkWaitForFences(gVulkanCore.device, 1, &sInFlightFence, VK_TRUE, UINT64_MAX));
 	PVK_VERIFY(vkResetFences(gVulkanCore.device, 1, &sInFlightFence));
 
-	VkImage image;
 	u32 imageIndex;
-	PVK_VERIFY(vulkanAcquireNextImage(&image, &imageIndex, sImageAvailableSemaphore) >= 0);
+	PVK_VERIFY(vulkanAcquireNextImage(&imageIndex, sImageAvailableSemaphore) >= 0);
 
 	vkResetCommandBuffer(gVulkanCore.commandBuffer, 0);
 

@@ -134,11 +134,10 @@ i32 vulkanCreateSwapchain(void)
 	return sRecreateSwapchain(true);
 }
 
-i32 vulkanAcquireNextImage(VkImage* image, u32* imageIndex, VkSemaphore semaphore)
+i32 vulkanAcquireNextImage(u32* imageIndex, VkSemaphore semaphore)
 {
-	PVK_VERIFY(
-			vkAcquireNextImageKHR(gVulkanCore.device, gSwapchain.swapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, imageIndex));
-	*image = gSwapchain.images[*imageIndex];
+	PVK_VERIFY(vkAcquireNextImageKHR(
+			gVulkanCore.device, gSwapchain.swapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, imageIndex));
 	return 0;
 }
 

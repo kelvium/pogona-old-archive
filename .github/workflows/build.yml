@@ -35,7 +35,7 @@ jobs:
         with:
           action: build
           directory: .build
-          setup-options: --prefix=/usr
+          setup-options: --prefix=/usr -Dbuildtype=release -Doptimization=2
           meson-version: 0.63.2
 
       - name: Install built data
@@ -82,7 +82,7 @@ jobs:
         with:
           action: build
           directory: .build
-          setup-options: --prefix=/usr --native-file=./llvm.ini
+          setup-options: --prefix=/usr --native-file=./llvm.ini -Dbuildtype=release -Doptimization=2
           meson-version: 0.63.2
 
       - name: Install built data

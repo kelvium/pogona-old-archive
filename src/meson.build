@@ -26,6 +26,11 @@ custom_targets_pogona = []
 subdir('window')
 subdir('renderer')
 
+# HACK: we shouldn't do this, but it fixes CI (and any other GCC build)..
+if cc.get_id() == 'gcc'
+	pch_pogona = []
+endif
+
 lib_pogona = static_library(
 	'pogona',
 	src_pogona,

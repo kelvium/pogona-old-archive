@@ -1,3 +1,6 @@
 [submodule "subprojects/volk"]
 	path = subprojects/volk
 	url = https://github.com/zeux/volk.git
+[submodule "subprojects/vulkan-headers"]
+	path = subprojects/vulkan-headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers.git

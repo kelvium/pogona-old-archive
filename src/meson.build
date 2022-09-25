@@ -17,9 +17,8 @@ inc_pogona = [
 deps_pogona = []
 
 cc = meson.get_compiler('c')
-if host_machine.system() != 'windows'
-	deps_pogona += cc.find_library('m')
-endif
+deps_pogona += cc.find_library('m', required : false)
+deps_pogona += cc.find_library('dl', required : false)
 
 custom_targets_pogona = []
 

@@ -21,6 +21,15 @@ if get_option('vulkan_support').enabled()
 		options.add_cmake_defines({'VOLK_STATIC_DEFINES' : 'VK_USE_PLATFORM_WAYLAND_KHR'})
 	#endif
 
+	subproject_vulkan_headers = cmake.subproject('vulkan-headers')
+	dep_vulkan_headers = subproject_vulkan_headers.dependency('Vulkan-Headers')
+	if dep_vulkan_headers.found()
+		deps_pogona += dep_vulkan_headers
+	endif
+
+	# Not the best way, but at least it works...
+	options.append_compile_args('c', '-I../subprojects/vulkan-headers/include')
+
 	subproject_volk = cmake.subproject('volk', options : options)
 	dep_volk = subproject_volk.dependency('volk')
 	if dep_volk.found()

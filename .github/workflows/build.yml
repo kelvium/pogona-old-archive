@@ -1,0 +1,100 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  linux-glibc-gcc-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup python for meson
+        uses: actions/setup-python@v1
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ github.job }}-${{ matrix.os }}
+
+      - name: Install required packages
+        run: |
+          sudo apt update
+          sudo apt install libwayland-dev wayland-protocols glslang-tools gcc
+
+      - name: Setup & build with meson
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: build
+          directory: .build
+          setup-options: --prefix=/usr -Dbuildtype=release -Doptimization=2
+          meson-version: 0.63.2
+
+      - name: Install built data
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: install
+          directory: .build
+          options: --destdir=.install
+          meson-version: 0.63.2
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: pogona-linux-glibc-gcc
+          path: .build/.install
+
+  linux-glibc-llvm-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup python for meson
+        uses: actions/setup-python@v1
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ github.job }}-${{ matrix.os }}
+
+      - name: Install required packages
+        run: |
+          sudo apt update
+          sudo apt install curl libwayland-dev wayland-protocols glslang-tools llvm-dev clang lld
+
+      - name: Download LLVM toolchain
+        run: |
+          curl -O https://gist.githubusercontent.com/Kelvium/994175bb11210a02817dc41054d5d73f/raw/6bc2b78357eeb049d30d077b13ab222634554784/llvm.ini
+
+      - name: Setup & build with meson
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: build
+          directory: .build
+          setup-options: --prefix=/usr --native-file=./llvm.ini -Dbuildtype=release -Doptimization=2
+          meson-version: 0.63.2
+
+      - name: Install built data
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: install
+          directory: .build
+          options: --destdir=.install
+          meson-version: 0.63.2
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: pogona-linux-glibc-llvm
+          path: .build/.install

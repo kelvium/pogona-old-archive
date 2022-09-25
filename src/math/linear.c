@@ -163,8 +163,6 @@ IMPL_TYPE(i64);
 IMPL_TYPE(f32);
 IMPL_TYPE(f64);
 
-IMPL_TYPE(bool);
-
 #define IMPL_TYPE_SQRT(type, sqrt)          \
 	Vec2##type vec2##type##Sqrt(Vec2##type x) \
 	{                                         \

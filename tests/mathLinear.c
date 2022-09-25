@@ -41,7 +41,5 @@ int main(void)
 
 	TEST(f32);
 	TEST(f64);
-
-	TEST(bool);
 	return 0;
 }

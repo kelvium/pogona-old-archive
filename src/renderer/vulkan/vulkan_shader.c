@@ -28,10 +28,11 @@ i32 vulkanShaderDataRead(VulkanShaderData* shaderData, const char* shaderPath)
 	shaderData->data = malloc(shaderData->dataSize);
 	/* TODO: on linux: maybe mmap() instead of reading the whole file? */
 	/* is it efficient to pass nmemb=1 and size=dataSize ? */
-	usize bytesRead = fread(shaderData->data, shaderData->dataSize, 1, file);
-	if (bytesRead < 0) {
+	fread(shaderData->data, shaderData->dataSize, 1, file);
+	if (ferror(file) != 0 || feof(file) != 0) {
 		LOGGER_ERROR("could not read shader `%s` data\n", shaderPath);
-		return -1;
+		fclose(file);
+		return 1;
 	}
 
 	fclose(file);

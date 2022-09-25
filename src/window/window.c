@@ -61,6 +61,7 @@ i32 windowGetApiType(Window* self, WindowApiType* apiType)
 #ifdef POGONA_WAYLAND_SUPPORT
 	case WINDOW_API_TYPE_WAYLAND:
 		*apiType = self->apiType;
+		break;
 #endif
 	default:
 		return -1;

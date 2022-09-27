@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <pogona/math/linear.h>
 
 typedef void* WindowApi;
@@ -34,3 +38,7 @@ i32 windowSetTitle(Window* self, const char* title);
 i32 windowIsClosed(Window* self, bool* flag);
 i32 windowPollEvents(Window* self);
 i32 windowDestroy(Window* self);
+
+#ifdef __cplusplus
+}
+#endif

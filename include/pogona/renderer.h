@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <pogona/types.h>
 #include <pogona/window.h>
 
@@ -31,3 +35,7 @@ typedef struct {
 i32 rendererCreate(Renderer* self, RendererApiType apiType, Window* window);
 i32 rendererDraw(Renderer* self);
 i32 rendererDestroy(Renderer* self);
+
+#ifdef __cplusplus
+}
+#endif

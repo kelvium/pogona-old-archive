@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <pogona/types.h>
 
 #define DEFINE_TYPE(type)                             \
@@ -68,3 +72,7 @@ DEFINE_TYPE(f32);
 DEFINE_TYPE(f64);
 
 #undef DEFINE_TYPE
+
+#ifdef __cplusplus
+}
+#endif

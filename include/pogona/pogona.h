@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* for use only in applications */
 
 #include <pogona/logger.h>
@@ -14,3 +18,7 @@
 #include <pogona/types.h>
 #include <pogona/vector.h>
 #include <pogona/window.h>
+
+#ifdef __cplusplus
+}
+#endif

@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <pogona/types.h>
 
 #define VECTOR(T)   \
@@ -50,3 +54,7 @@ typedef VECTOR(isize) ISizeVector;
 
 typedef VECTOR(void*) VoidVector;
 typedef VECTOR(const char*) StringVector;
+
+#ifdef __cplusplus
+}
+#endif

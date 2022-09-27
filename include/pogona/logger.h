@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <pogona/types.h>
 
 typedef enum {
@@ -28,3 +32,7 @@ void loggerLog(LoggerLevel level, const char* sourceFile, usize sourceLine, cons
 #define LOGGER_WARN(...) loggerLog(LOGGER_WARNING, __FILE__, __LINE__, __VA_ARGS__)
 #define LOGGER_ERROR(...) loggerLog(LOGGER_ERROR, __FILE__, __LINE__, __VA_ARGS__)
 #define LOGGER_FATAL(...) loggerLog(LOGGER_FATAL, __FILE__, __LINE__, __VA_ARGS__)
+
+#ifdef __cplusplus
+}
+#endif

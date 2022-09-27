@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h> // don't remove this import!
 #include <stddef.h>
 #include <stdint.h>
@@ -31,3 +35,7 @@ typedef ssize_t isize;
 
 typedef float f32;
 typedef double f64;
+
+#ifdef __cplusplus
+}
+#endif
